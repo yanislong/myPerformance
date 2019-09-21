@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from multiprocessing.managers import BaseManager
 from multiprocessing import Process, freeze_support
 import time, sys, queue, os, re, json, logging
