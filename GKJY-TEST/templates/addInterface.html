@@ -1,0 +1,23 @@
+<html>
+<head>
+<style type="text/css">
+    table { border-collapse:collapse; font:12px }
+    th { background: #f4f4f4; cursor: pointer }
+    th,td { padding:5px; border:black solid 1px; white-space:nowrap }
+    th.sorted.ascending:after { content: "  \2191" }
+    th.sorted.descending:after { content: " \2193" }
+    th.no-sort,th.no-sort:hover { background: #f4f4f4; cursor: not-allowed }
+</style>
+</head>
+<body>
+<a href="/interface">Interface List</a>
+<form action="/addInterface" method="post">
+接口名称：<input name="iname" />
+接口地址：<input name="iaddr" />
+请求头：<input name="iheader" />
+请求参数：<input name="iparam" />
+请求方法：<input name="ioption" />
+<button>submit</button>
+</form>
+</body>
+</html>

@@ -4,7 +4,8 @@
 from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect
 from werkzeug import secure_filename
-import os
+from lhlmysql.lhlsql import lhlSql
+import os, json
 import pymysql
 from decimal import Decimal
 
@@ -51,67 +52,20 @@ def qianyun():
     if request.method == "GET":
         get_inter = request.args.get("interface")
         get_id = request.args.get("id")
-        get_page = request.args.get("page")
-    else:
-        get_inter = ""
-        get_id = ""
-        get_page = 1
-    con = pymysql.connect('10.0.118.163','root','root','portaltest')
-    sql_time = []
-    cursor = con.cursor()
-    try:
-        get_page = int(get_page)
-    except:
-        get_page = 1
-    sql = "select * from qianyun where content like '%{0}%' and id like '%{1}%' limit {2},20".format(get_inter,get_id,(get_page-1)*20)
-    cursor.execute(sql)
-    seldata = cursor.fetchall()
-    sql2 = "select count(*) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql2)
-    total = cursor.fetchall()
-    if not total:
-        total = 1.0
-    print(total)
-    totalPage = str(round(int(total[0][0]) / int(20),0))[:-2]
-    sql_dns_time = "select sum(dns_time) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql_dns_time)
-    dns_time = cursor.fetchall()
-    #sql_time.append(dns_time[0][0])
-    sql_conn_time = "select sum(conn_time) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql_conn_time)
-    conn_time = cursor.fetchall()
-    try:
-        sql_time.append(round(conn_time[0][0]/total[0][0],8))
-    except:
-        sql_time.append(1)
-    sql_startData_time = "select sum(startData_time) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql_startData_time)
-    startData_time = cursor.fetchall()
-    try:
-        sql_time.append(round(startData_time[0][0]/total[0][0],8))
-    except:
-        sql_time.append(1)
-    sql_total_time = "select sum(total_time) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql_total_time)
-    total_time = cursor.fetchall()
-    try:
-        sql_time.append(round((total_time[0][0]/total[0][0]),8))
-    except:
-        sql_time.append(1)
-    sql_updata = "select sum(updata) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql_updata)
-    updata = cursor.fetchall()
-    sql_time.append(updata[0][0])
-    sql_downdata = "select sum(downdata) from qianyun where content like '%{0}%' and id like '%{1}%'".format(get_inter,get_id)
-    cursor.execute(sql_downdata)
-    downdata = cursor.fetchall()
-    sql_time.append(downdata[0][0])
-    sql_name = "select distinct content from qianyun"
-    cursor.execute(sql_name)
-    inter_name = cursor.fetchall()
-    cursor.close()
-    con.close()
-    return render_template('qianyunGET.html', result=(seldata,total,sql_time,totalPage,inter_name,get_page))
+        try:
+            get_page = int(request.args.get("page"))
+        except:
+            get_page = 1
+        if get_page >= 1:
+            temp_page = (get_page - 1) * 10
+        else:
+            temp_page = 0
+        mydata = lhlSql()
+        webbodydata = mydata.getTimeInfo(temp_page)
+        webtotalnumber = mydata.getTotalNumber()
+        webtotalpage = int(webtotalnumber / 20)
+        return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage))
+    return None
 
 @app.route('/qianyunPOST')
 def qianyunpost():
@@ -180,7 +134,45 @@ def qianyunpost():
     con.close()
     return render_template('qianyunPOST.html', result=(seldata,total,sql_time,totalPage,inter_name,get_page))
 
+@app.route('/addInterface', methods=['GET','POST'])
+def qianyun3():
+    if request.method == "POST":
+        try:
+            #get_name = request.get_data()
+            get_name = request.form['iname']
+            get_addr = request.form['iaddr']
+            get_header = request.form['iheader']
+            get_param = request.form['iparam']
+            get_option = request.form['ioption']
+        except TypeError:
+            get_addr = ""
+            get_header = ""
+            get_parama = ""
+            get_name = ""
+            get_option = ""
+        finally:
+            mydata = lhlSql()
+            mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option)
+    return render_template('addInterface.html')
 
+@app.route('/interface', methods=['GET','POST'])
+def qianyun4():
+    if request.method == "GET":
+        try:
+            get_page = int(request.args.get("page"))
+        except:
+            get_page = 1
+    if get_page >= 1:
+        temp_page = (get_page - 1) * 10
+    else:
+        temp_page = 0
+    mydata = lhlSql()
+    webbodydata = mydata.getInterfaceList(temp_page)
+    webtotalnumber = mydata.getTotalInterfaceNumber()
+    webtotalpage = int(webtotalnumber / 20) + 1
+    return render_template('interface.html', result=(webbodydata,webtotalnumber,webtotalpage))
+
+@app.route('/get')
 def allowed_file(filename):
     return "." in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
@@ -227,11 +219,3 @@ def deal_request():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port="8888")
-    '''
-    con = pymysql.connect('127.0.0.1','root','root','portaltest')
-    cursor = con.cursor
-    sql = "select * from qianyun"
-    seldata = con.execute(sql)
-    cursor.close()
-    con.close()
-    '''

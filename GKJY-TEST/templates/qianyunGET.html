@@ -15,21 +15,10 @@
 <body>
 <center><h1>骞云接口性能监测 (GET)</h1></center>
 <a href="qianyunPOST">骞云POST</a>
-<!--<form action="/qianyunPOST" method="get" display="inline">
-<button display="inline">骞云GET</button>
-</form>
-<form action="/qianyunPOST" method="get" display="inline">
-<button display="inline">骞云POST</button>
-</form>-->
 <p>执行策略：并发50个接口，每次请求间隔60+S iterative: 100</p>
 <div class="tb1">
 <form action="/qianyunGET" method="get">
 接口名称:<input list="namelist" value="" name="interface" />
-<datalist id="namelist">
-{% for i in result[4] %}  
-<option>{{i[0]}}</option>
-{% endfor %}
-</datalist>
 id:<input value='' name="id" />
 page:<input value='{{result[5]}}' name="page" />
 <input type="submit" value="search" />
@@ -53,13 +42,6 @@ page:<input value='{{result[5]}}' name="page" />
 <th>下载总和</th><th>code</th><th>生成时间</th>
 <th>接口名称</th>
 </tr>
- <tr>
-<th>id</th><!--<th>DNS解析用时</th>-->
-<th>{{result[2][0]}}</th><th>{{result[2][1]}}</th>
-<th>{{result[2][2]}}</th><th>{{result[2][3]}} KB</th>
-<th>{{result[2][4]}} KB</th><th></th><th></th>
-<th></th>
-</tr>
 </tfoot>
 <tbody>
 {% for i in result[0] %}  
@@ -72,8 +54,8 @@ page:<input value='{{result[5]}}' name="page" />
 {% endfor %} 
 </tbody>
 </table>
-<p>total: {{result[1][0][0]}}</p>
-<p>totalPage: {{result[3]}}</p>
+<p>total: {{result[1]}}</p>
+<p>totalPage: {{result[2]}}</p>
 </div>
 </body>
 </html>
