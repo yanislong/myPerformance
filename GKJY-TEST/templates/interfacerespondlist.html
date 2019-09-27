@@ -17,18 +17,18 @@
 <table>
 <thead>
 <tr>
-<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th style="width: 120%">请求参数</th><th width="180%">请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
+<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th style="width: 120%">请求参数</th><th width="180%">请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
+<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
 </tr>
 </tfoot>
 <tbody>
 {% for i in result[0] %}
 <tr>
-<td style="width: 20px">{{i[0]}}</td><td style="width: 100px">{{i[1]}}</td><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}" style="width: 120%">{{i[3]}}</td><td width="180" title="{{i[4]}}">{{i[4]}}</td><td style="width: 30px">{{i[5]}}</td><td style="width: 70px">{{i[6]}}</td><td style="width: 160px">{{i[7]}}</td>
+<td style="width: 20px">{{i[0]}}</td><td title="{{i[1]}}" style="width: 100px">{{i[1]}}</td><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}">{{i[3]}}</td><td title="{{i[4]}}">{{i[4]}}</td><td style="width: 30px">{{i[5]}}</td><td style="width: 70px">{{i[6]}}</td><td style="width: 160px">{{i[7]}}</td>
 </tr>
 {% endfor %}
 </tbody>
