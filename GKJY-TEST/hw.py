@@ -4,7 +4,7 @@
 from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect
 from werkzeug import secure_filename
-from lhlmysql.lhlsql import lhlSql
+from run_test.lhlmysql.lhlsql import lhlSql
 import os, json
 import pymysql
 from decimal import Decimal
@@ -155,7 +155,7 @@ def qianyun3():
             mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option)
     return render_template('addInterface.html')
 
-@app.route('/interface', methods=['GET','POST'])
+@app.route('/interfaceList', methods=['GET','POST'])
 def qianyun4():
     if request.method == "GET":
         try:
@@ -170,7 +170,24 @@ def qianyun4():
     webbodydata = mydata.getInterfaceList(temp_page)
     webtotalnumber = mydata.getTotalInterfaceNumber()
     webtotalpage = int(webtotalnumber / 20) + 1
-    return render_template('interface.html', result=(webbodydata,webtotalnumber,webtotalpage))
+    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage))
+
+@app.route('/interfaceRespondList', methods=['GET','POST'])
+def qianyun5():
+    if request.method == "GET":
+        try:
+            get_page = int(request.args.get("page"))
+        except:
+            get_page = 1
+    if get_page >= 1:
+        temp_page = (get_page - 1) * 10
+    else:
+        temp_page = 0
+    mydata = lhlSql()
+    webbodydata = mydata.getInterfaceRespondList(temp_page)
+    webtotalnumber = mydata.getTotalInterfaceRespondNumber()
+    webtotalpage = int(webtotalnumber / 20) + 1
+    return render_template('interfacerespondlist.html', result=(webbodydata,webtotalnumber,webtotalpage))
 
 @app.route('/get')
 def allowed_file(filename):

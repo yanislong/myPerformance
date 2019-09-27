@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>接口执行结果</title>
+<style type="text/css">
+    table, th, td {table-layout: fixed; border: 2px solid blue; border-collapse: collapse; width: 100%; padding: 5px; }
+    td { white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
+</style>
+</head>
+<body>
+<center><h2>接口执行结果</h2></center>
+<a href="/interfaceList">Interface list</a>
+<form action="/interfaceRespondList" method="get">
+当前页数：<input name="page" />
+<button>go</button>
+<form>
+<p>total: {{result[1]}} | totalpage: {{result[2]}}</p>
+<table>
+<thead>
+<tr>
+<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th style="width: 120%">请求参数</th><th width="180%">请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th style="width: 120%">请求参数</th><th width="180%">请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
+</tr>
+</tfoot>
+<tbody>
+{% for i in result[0] %}
+<tr>
+<td style="width: 20px">{{i[0]}}</td><td style="width: 100px">{{i[1]}}</td><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}" style="width: 120%">{{i[3]}}</td><td width="180" title="{{i[4]}}">{{i[4]}}</td><td style="width: 30px">{{i[5]}}</td><td style="width: 70px">{{i[6]}}</td><td style="width: 160px">{{i[7]}}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</body>
+</html>
