@@ -9,20 +9,22 @@
 <body>
 <center><h2>接口列表</h2></center>
 <a href="/addInterface">add Interface</a>||<a href="/interfaceRespondList">Interface Respond</a>
+<hr />
 <form action="/interfaceList" method="get">
 当前页数：<input name="page" />
 <button>go</button>
 <form>
-<p>total: {{result[1]}} | totalpage: {{result[2]}}</p>
+<p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
+<hr />
 <table>
 <thead>
 <tr>
-<th style="width: 20%">id </th>><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width: 50%">录入时间</th>
+<th style="width: 20%">id </th><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width: 50%">录入时间</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 20%">id </th>><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width: 50%">录入时间</th>
+<th style="width: 20%">id </th><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width: 50%">录入时间</th>
 </tr>
 </tfoot>
 <tbody>

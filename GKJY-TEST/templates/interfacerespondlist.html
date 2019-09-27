@@ -8,21 +8,23 @@
 </head>
 <body>
 <center><h2>接口执行结果</h2></center>
+<hr />
 <a href="/interfaceList">Interface list</a>
 <form action="/interfaceRespondList" method="get">
 当前页数：<input name="page" />
 <button>go</button>
 <form>
-<p>total: {{result[1]}} | totalpage: {{result[2]}}</p>
+<p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
+<hr />
 <table>
 <thead>
 <tr>
-<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
+<th style="width: 20px">id </th><th style="width: 100px">接口名称 </th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 20px">id </th>><th style="width: 100px">接口名称 </th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
+<th style="width: 20px">id </th><th style="width: 100px">接口名称 </th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th style="width: 160px">执行时间</th>
 </tr>
 </tfoot>
 <tbody>
