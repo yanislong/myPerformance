@@ -11,10 +11,16 @@
 <a href="/addInterface">add Interface</a>||<a href="/interfaceRespondList">Interface Respond</a>
 <hr />
 <form action="/interfaceList" method="get">
+接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
+<datalist id="namelist">
+{% for i in result[3] %}
+<option>{{i[0]}}</option>
+{% endfor %}
+</datalist>
 当前页数：<input name="page" />
 <button>go</button>
-<form>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
+</form>
 <hr />
 <table>
 <thead>

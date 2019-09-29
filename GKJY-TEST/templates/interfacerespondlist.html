@@ -8,13 +8,19 @@
 </head>
 <body>
 <center><h2>接口执行结果</h2></center>
-<hr />
 <a href="/interfaceList">Interface list</a>
+<hr />
 <form action="/interfaceRespondList" method="get">
+接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
+<datalist id="namelist">
+{% for i in result[3] %}
+<option>{{i[0]}}</option>
+{% endfor %}
+</datalist>
 当前页数：<input name="page" />
 <button>go</button>
-<form>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
+</form>
 <hr />
 <table>
 <thead>

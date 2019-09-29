@@ -51,21 +51,95 @@ def logout():
 def qianyun():
     if request.method == "GET":
         get_inter = request.args.get("interface")
-        get_id = request.args.get("id")
         try:
             get_page = int(request.args.get("page"))
         except:
             get_page = 1
         if get_page >= 1:
-            temp_page = (get_page - 1) * 10
+            get_page = (get_page - 1) * 10
         else:
-            temp_page = 0
+            get_page = 0
+        if get_inter == None:
+            get_inter = ""
         mydata = lhlSql()
-        webbodydata = mydata.getTimeInfo(temp_page)
-        webtotalnumber = mydata.getTotalNumber()
+        webbodydata = mydata.getTimeInfo(get_inter, get_page)
+        webavgdata = mydata.getTimeList(get_inter)
+        webnamedata = mydata.getInterfaceName()
+        webtotalnumber = mydata.getTotalNumber(get_inter)
+        temp = []
+        temp2 = []
+        for i in webavgdata[0]:
+            num = round(Decimal(i/webtotalnumber),6)
+            temp.append(num)
+        temp2.append((temp))
         webtotalpage = int(webtotalnumber / 20)
-        return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage))
+        return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
     return None
+
+@app.route('/addInterface', methods=['GET','POST'])
+def qianyun3():
+    if request.method == "POST":
+        try:
+            #get_name = request.get_data()
+            get_name = request.form['iname']
+            get_addr = request.form['iaddr']
+            get_header = request.form['iheader']
+            get_param = request.form['iparam']
+            get_option = request.form['ioption']
+        except TypeError:
+            get_addr = ""
+            get_header = ""
+            get_parama = ""
+            get_name = ""
+            get_option = ""
+        finally:
+            mydata = lhlSql()
+            mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option)
+    return render_template('addInterface.html')
+
+@app.route('/interfaceList', methods=['GET','POST'])
+def qianyun4():
+    if request.method == "GET":
+        get_inter = request.args.get("interface")
+        try:
+            get_page = int(request.args.get("page"))
+        except:
+            get_page = 1
+    if get_page >= 1:
+        temp_page = (get_page - 1) * 10
+    else:
+        temp_page = 0
+    if get_inter == None:
+        get_inter = ""
+    mydata = lhlSql()
+    webbodydata = mydata.getInterfaceList(get_inter, temp_page)
+    webtotalnumber = mydata.getTotalInterfaceNumber(get_inter)
+    webnamedata = mydata.getInterfaceInfoName()
+    webtotalpage = int(webtotalnumber / 20) + 1
+    intername = mydata.getInterfaceInfoName()
+    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedata))
+
+@app.route('/interfaceRespondList', methods=['GET','POST'])
+def qianyun5():
+    if request.method == "GET":
+        get_inter = request.args.get("interface")
+        try:
+            get_page = int(request.args.get("page"))
+        except:
+            get_page = 1
+    if get_page >= 1:
+        temp_page = (get_page - 1) * 10
+    else:
+        temp_page = 0
+    if get_inter == None:
+        get_inter = ""
+    mydata = lhlSql()
+    webbodydata = mydata.getInterfaceRespondList(get_inter, temp_page)
+    webtotalnumber = mydata.getTotalInterfaceRespondNumber(get_inter)
+    webnamedata = mydata.getInterfaceRespondName()
+    webtotalpage = int(webtotalnumber / 20) + 1
+    intername = mydata.getInterfaceRespondName()
+    return render_template('interfacerespondlist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata))
 
 @app.route('/qianyunPOST')
 def qianyunpost():
@@ -77,7 +151,7 @@ def qianyunpost():
         get_inter = ""
         get_id = ""
         get_page = 1
-    con = pymysql.connect('10.0.118.163','root','root','portaltest')
+    con = pymysql.connect('10.0.114.44','root','root','portaltest')
     sql_time = []
     cursor = con.cursor()
     try:
@@ -134,64 +208,8 @@ def qianyunpost():
     con.close()
     return render_template('qianyunPOST.html', result=(seldata,total,sql_time,totalPage,inter_name,get_page))
 
-@app.route('/addInterface', methods=['GET','POST'])
-def qianyun3():
-    if request.method == "POST":
-        try:
-            #get_name = request.get_data()
-            get_name = request.form['iname']
-            get_addr = request.form['iaddr']
-            get_header = request.form['iheader']
-            get_param = request.form['iparam']
-            get_option = request.form['ioption']
-        except TypeError:
-            get_addr = ""
-            get_header = ""
-            get_parama = ""
-            get_name = ""
-            get_option = ""
-        finally:
-            mydata = lhlSql()
-            mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option)
-    return render_template('addInterface.html')
-
-@app.route('/interfaceList', methods=['GET','POST'])
-def qianyun4():
-    if request.method == "GET":
-        try:
-            get_page = int(request.args.get("page"))
-        except:
-            get_page = 1
-    if get_page >= 1:
-        temp_page = (get_page - 1) * 10
-    else:
-        temp_page = 0
-    mydata = lhlSql()
-    webbodydata = mydata.getInterfaceList(temp_page)
-    webtotalnumber = mydata.getTotalInterfaceNumber()
-    webtotalpage = int(webtotalnumber / 20) + 1
-    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage))
-
-@app.route('/interfaceRespondList', methods=['GET','POST'])
-def qianyun5():
-    if request.method == "GET":
-        try:
-            get_page = int(request.args.get("page"))
-        except:
-            get_page = 1
-    if get_page >= 1:
-        temp_page = (get_page - 1) * 10
-    else:
-        temp_page = 0
-    mydata = lhlSql()
-    webbodydata = mydata.getInterfaceRespondList(temp_page)
-    webtotalnumber = mydata.getTotalInterfaceRespondNumber()
-    webtotalpage = int(webtotalnumber / 20) + 1
-    return render_template('interfacerespondlist.html', result=(webbodydata,webtotalnumber,webtotalpage))
-
-@app.route('/get')
-def allowed_file(filename):
     return "." in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 @app.route('/get')
 def get_h():
