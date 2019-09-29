@@ -4,7 +4,7 @@ import xlrd
 
 
 def read():
-    wb = xlrd.open_workbook(filename='qianyun0926.xlsx')
+    wb = xlrd.open_workbook(filename='../qianyun0926.xlsx')
     print(wb.sheet_names())
     s1 = wb.sheet_by_index(0)
     for i in range(s1.nrows):
