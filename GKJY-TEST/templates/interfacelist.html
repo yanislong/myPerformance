@@ -8,7 +8,11 @@
 </head>
 <body>
 <center><h2>接口列表</h2></center>
-<a href="/addInterface">add Interface</a>||<a href="/interfaceRespondList">Interface Respond</a>
+<a href="/addInterface">add Interface</a> || <a href="/interfaceRespondList">Interface Respond</a> || 
+<form  enctype='multipart/form-data' action="/uploadfile" method="post" style="display:inline">
+<input type="file" name="myf" />
+<button>上传接口用例(excel)</button>
+</form>
 <hr />
 <form action="/interfaceList" method="get">
 接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
@@ -17,7 +21,7 @@
 <option>{{i[0]}}</option>
 {% endfor %}
 </datalist>
-当前页数：<input name="page" />
+当前页数：<input name="page" value="" />
 <button>go</button>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
 </form>

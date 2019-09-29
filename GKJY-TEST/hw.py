@@ -10,8 +10,8 @@ import pymysql
 from decimal import Decimal
 
 
-UPLOAD_FOLDER = "/tmp/www"
-ALLOWED_EXTENSIONS = set(['json', 'txt','jpeg'])
+UPLOAD_FOLDER = "./excel/"
+ALLOWED_EXTENSIONS = set(['json', 'txt','jpeg','xlsx','xls'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -99,12 +99,11 @@ def qianyun3():
 
 @app.route('/interfaceList', methods=['GET','POST'])
 def qianyun4():
-    if request.method == "GET":
-        get_inter = request.args.get("interface")
-        try:
-            get_page = int(request.args.get("page"))
-        except:
-            get_page = 1
+    get_inter = request.args.get("interface")
+    try:
+        get_page = int(request.args.get("page"))
+    except:
+        get_page = 1
     if get_page >= 1:
         temp_page = (get_page - 1) * 10
     else:
@@ -208,20 +207,12 @@ def qianyunpost():
     con.close()
     return render_template('qianyunPOST.html', result=(seldata,total,sql_time,totalPage,inter_name,get_page))
 
+def allowed_file(filename):
     return "." in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-@app.route('/get')
-def get_h():
-    return render_template('get.html')
 
 @app.route('/post')
 def post_h():
     return render_template('post.html')
-
-@app.route('/upload')
-def upload():
-    return render_template('upload.html')
 
 @app.route('/passwd/<int:age>')
 def get_p(age):
@@ -233,11 +224,12 @@ def get_p(age):
 @app.route('/uploadfile', methods=['POST'])
 def upload_file():
     f = request.files['myf']
+    print(f)
     if f and allowed_file(f.filename):
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
-        return render_template('upload.html')
+        return render_template('interfacelist.html', result=())
     else:
-        return render_template('error.html')
+        return render_template('error.html', result=())
 
 @app.route('/upload/<filename>')
 def uploaded_file(filename):
