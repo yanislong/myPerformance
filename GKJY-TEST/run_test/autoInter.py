@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, json
+import sys, json, re
 import requests
 
 from lhlmysql.lhlsql import lhlSql
@@ -21,14 +21,14 @@ class lhl:
         s = requests.session()
         self.gheader['Cookie'] = header
         self.gheader['Authorization'] = header 
+        if not self.__analysisUrl(url):
+            return None
         try:
             res = s.get(url, headers=self.gheader, params=param)
-        except requests.exceptions.MissingSchema:
-            print('请求的Url地址有误')
-            return None
         except requests.exceptions.ConnectionError:
             print("请求URL无法连接")
             return None
+        print(res.status_code)
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
         result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code}
         return result
@@ -73,6 +73,18 @@ class lhl:
         result = {'body': res.text, 'respondTime': res.elapsed.total_seconds(), 'code': res.status_code}
         return result
 
+    def __analysisUrl(self,myurl):
+        """url规则: 只有字母和数字[0-9a-zA-Z]、一些特殊符号"$-_.+!*'(),"[不包括双引号]、
+        以及某些保留字，才可以不经过编码直接用于URL。"""
+        l1 = re.compile('^https?:/{2}[0-9a-zA-Z$-_.+!*$]+')
+        l2 = l1.findall(myurl)
+        l3 = re.match('^https?:/{2}[0-9a-zA-Z$-_.+!*$:/]+$', myurl)
+        if l3:
+            return True
+        else: 
+            print("url格式有误")
+            return None
+
     def runTest(self,hd):
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
@@ -98,5 +110,7 @@ class lhl:
 if __name__ == "__main__":
     hd = "cc7bce88-a9b2-434c-837b-ec9166717eb0"
     a = lhl()
-    a.runTest(hd)
+    #print(dir(a))
+    #a._lhl__analysisUrl("http://www.baidu.com:9090/123/abc")
+    a.respondGet("http://www.baidu.coxx")
     pass
