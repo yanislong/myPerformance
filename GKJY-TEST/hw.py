@@ -10,7 +10,7 @@ import pymysql
 from decimal import Decimal
 
 
-UPLOAD_FOLDER = "./excel/"
+UPLOAD_FOLDER = "./run_test/excel/"
 ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz'])
 
 app = Flask(__name__)
@@ -87,15 +87,17 @@ def qianyun3():
             get_header = request.form['iheader']
             get_param = request.form['iparam']
             get_option = request.form['ioption']
+            get_author = request.form['author']
         except TypeError:
             get_addr = ""
             get_header = ""
             get_parama = ""
             get_name = ""
             get_option = ""
+            get_author = ""
         finally:
             mydata = lhlSql()
-            mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option)
+            mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option,author)
     return render_template('addInterface.html')
 
 @app.route('/interfaceList', methods=['GET','POST'])
@@ -117,7 +119,19 @@ def qianyun4():
     webnamedata = mydata.getInterfaceInfoName()
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceInfoName()
+    print(webbodydata)
     return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedata))
+
+@app.route('/delinterface', methods=['GET','POST'])
+def delinter():
+    if request.method == "GET":
+        get_id = request.args.get("iid")
+        if get_id == "" or get_id == None:
+            return qianyun4()
+        else:
+            mydata = lhlSql()
+            mydata.DelInterface(get_id)
+            return qianyun4()
 
 @app.route('/interfaceRespondList', methods=['GET','POST'])
 def qianyun5():

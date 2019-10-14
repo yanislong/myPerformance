@@ -3,11 +3,15 @@
 import pymysql
 
 import time
+import sys
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+
+import config
 
 class lhlSql:
     
     def __init__(self):
-        self.con = pymysql.connect('10.0.115.163','root','root','portaltest')
+        self.con = pymysql.connect(config.mysql_host,'root','root','portaltest')
 
     def getTimeInfo(self, iname, num=0):
         """根据iname, num参数，查询20条接口响应的时间信息"""
@@ -69,7 +73,7 @@ class lhlSql:
     def getInterfaceList(self, iname, num=0):
         """查询interfaceInfo表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option, inputtime from interfaceInfo where intername like '%{0}%' limit {1},20".format(iname, num)
+        sql = "select id, intername, interaddr, header, param, option, inputtime, author from interfaceInfo where intername like '%{0}%' limit {1},20".format(iname, num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
@@ -87,17 +91,17 @@ class lhlSql:
     def getAllInterface(self):
         """查询interfaceInfo表中所有数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option from interfaceInfo"
+        sql = "select id, intername, interaddr, header, param, option, author from interfaceInfo"
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
         return result
 
-    def insertInterface(self, iname, iaddr, iheader, iparam, ioption):
+    def insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor):
         """向interfaceInfo表中插入数据"""
         cursor = self.con.cursor()
         tt = time.strftime("%Y/%m/%d %H:%M:%S")
-        sql = "insert into interfaceInfo(intername,interaddr,header,param,option,inputtime) value('{0}','{1}','{2}','{3}','{4}','{5}')".format(iname,iaddr,iheader,iparam,ioption,tt)
+        sql = "insert into interfaceInfo(intername,interaddr,header,param,option,author,inputtime) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt)
         cursor.execute(sql)
         self.con.commit()
         cursor.close()
@@ -130,6 +134,15 @@ class lhlSql:
         num = cursor.fetchall()[0][0]
         cursor.close()
         return num
+
+    def DelInterface(self, iid): 
+        """通过id删除表中数据"""
+        cursor = self.con.cursor()
+        sql = "delete from interfaceInfo where id={0}".format(iid)
+        cursor.execute(sql)
+        self.con.commit()
+        cursor.close()
+        return None
 
     def __del__(self):
         pass

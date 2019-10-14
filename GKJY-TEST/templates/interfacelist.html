@@ -8,7 +8,7 @@
 </head>
 <body>
 <center><h2>接口列表</h2></center>
-<a href="/addInterface">add Interface</a> || <a href="/interfaceRespondList">Interface Respond</a> || 
+<a href="/">index</a> || <a href="/addInterface">add Interface</a> || <a href="/interfaceRespondList">Interface Respond</a> || 
 <form  enctype='multipart/form-data' action="/uploadfile" method="post" style="display:inline">
 <input type="file" name="myf" />
 <button>上传接口用例(excel)</button>
@@ -29,21 +29,25 @@
 <table>
 <thead>
 <tr>
-<th style="width: 20%">id </th><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width: 50%">录入时间</th>
+<th style="width: 20%">id </th><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width:70px">开发者</th><th style="width: 50%">录入时间</th><th style="width:50px">选择</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 20%">id </th><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width: 50%">录入时间</th>
+<th style="width: 20%">id </th><th style="width: 30%">接口名称 </th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 30%">请求方法</th><th style="width:70px">开发者</th><th style="width: 50%">录入时间</th><th style="width:50px">选择</th>
 </tr>
 </tfoot>
 <tbody>
+<form action="/delinterface" method="get">
 {% for i in result[0] %}
 <tr>
-<td style="width: 20%">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 30%">{{i[5]}}</td><td style="width: 50%">{{i[6]}}</td>
+<td style="width: 20%">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 30%">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><td style="width: 50%">{{i[6]}}</td><td style="width:50px"><input type="radio" name="iid" id="myid" value="{{i[0]}}"/></td>
 </tr>
 {% endfor %}
 </tbody>
+<button>删除</button>
+</form>
 </table>
 </body>
+<script>function txt(){ var message=confirm('确认删除?')}</script>
 </html>
