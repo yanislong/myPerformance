@@ -11,11 +11,11 @@ from decimal import Decimal
 
 
 UPLOAD_FOLDER = "./excel/"
-ALLOWED_EXTENSIONS = set(['json', 'txt','jpeg','xlsx','xls'])
+ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 * 1024
 app.secret_key = os.urandom(12)
 
 @app.route('/')
@@ -25,10 +25,11 @@ def hw():
 #    resp.set_cookie('username', 'the username')
 #    username = request.cookies.get('username')
 #    return redirect(url_for('index'))
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
-    app.logger.debug('this is logger')
-    return 'Your are not Logged in'
+#    if 'username' in session:
+#        return 'Logged in as %s' % escape(session['username'])
+#    app.logger.debug('this is logger')
+#    return 'Your are not Logged in'
+    return render_template("index.html",relset=())
 
 @app.route('/login', methods=['GET','POST'])
 def login():
