@@ -9,6 +9,9 @@
 <body>
 <center><h2>接口列表</h2></center>
 <a href="/">index</a> || <a href="/addInterface">add Interface</a> || <a href="/interfaceRespondList">Interface Respond</a> || 
+<form  action="/runtest" method="post" style="display:inline">
+<button>对列表接口执行测试</button> || 
+</form>
 <form  enctype='multipart/form-data' action="/uploadfile" method="post" style="display:inline">
 <input type="file" name="myf" />
 <button>上传接口用例(excel)</button>
@@ -18,6 +21,12 @@
 接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
 <datalist id="namelist">
 {% for i in result[3] %}
+<option>{{i[0]}}</option>
+{% endfor %}
+</datalist>
+开发者:<input list="namelist2" value="" name="author" autocomplete="off" />
+<datalist id="namelist2">
+{% for i in result[5] %}
 <option>{{i[0]}}</option>
 {% endfor %}
 </datalist>

@@ -8,6 +8,7 @@ from run_test.lhlmysql.lhlsql import lhlSql
 import os, json
 import pymysql
 from decimal import Decimal
+from run_test import autoInter
 
 
 UPLOAD_FOLDER = "./run_test/excel/"
@@ -77,6 +78,8 @@ def qianyun():
         return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
     return None
 
+    
+
 @app.route('/addInterface', methods=['GET','POST'])
 def qianyun3():
     if request.method == "POST":
@@ -103,6 +106,7 @@ def qianyun3():
 @app.route('/interfaceList', methods=['GET','POST'])
 def qianyun4():
     get_inter = request.args.get("interface")
+    get_author = request.args.get("author")
     try:
         get_page = int(request.args.get("page"))
     except:
@@ -113,14 +117,23 @@ def qianyun4():
         temp_page = 0
     if get_inter == None:
         get_inter = ""
+    if get_author == None:
+        get_auhtor = ""
     mydata = lhlSql()
-    webbodydata = mydata.getInterfaceList(get_inter, temp_page)
-    webtotalnumber = mydata.getTotalInterfaceNumber(get_inter)
+    webbodydata = mydata.getInterfaceList(get_inter, get_author, temp_page)
+    webtotalnumber = mydata.getTotalInterfaceNumber(get_inter, get_author)
     webnamedata = mydata.getInterfaceInfoName()
+    webnamedataauthor = mydata.getInterfaceAuthor()
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceInfoName()
     print(webbodydata)
-    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedata))
+    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedataauthor))
+
+@app.route('/runtest', methods=['GET','POST'])
+def runtest():
+    tt = autoInter.lhl()
+    tt.runTest('a')
+    return qianyun4()
 
 @app.route('/delinterface', methods=['GET','POST'])
 def delinter():

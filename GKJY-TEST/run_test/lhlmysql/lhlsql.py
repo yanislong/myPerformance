@@ -61,6 +61,15 @@ class lhlSql:
         cursor.close()
         return Name
     
+    def getInterfaceAuthor(self):
+        """查询interfaceInfo表中接口开发者的名字"""
+        cursor = self.con.cursor()
+        sql = "select distinct author from interfaceInfo"
+        cursor.execute(sql)
+        Name = cursor.fetchall()
+        cursor.close()
+        return Name
+    
     def getInterfaceRespondName(self):
         """查询interfaceRespond表中接口的名字"""
         cursor = self.con.cursor()
@@ -70,10 +79,10 @@ class lhlSql:
         cursor.close()
         return Name
 
-    def getInterfaceList(self, iname, num=0):
+    def getInterfaceList(self, iname, iauthor, num=0):
         """查询interfaceInfo表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option, inputtime, author from interfaceInfo where intername like '%{0}%' limit {1},20".format(iname, num)
+        sql = "select id, intername, interaddr, header, param, option, inputtime, author from interfaceInfo where intername like '%{0}%' and author like '%{1}%' limit {2},20".format(iname, iauthor, num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
@@ -117,10 +126,10 @@ class lhlSql:
         cursor.close()
         return None
 
-    def getTotalInterfaceNumber(self, iname): 
+    def getTotalInterfaceNumber(self, iname, iauthor): 
         """获取interfaceInfo表中总条数"""
         cursor = self.con.cursor()
-        sql = "select count(*) from interfaceInfo where intername like '%{0}%'".format(iname)
+        sql = "select count(*) from interfaceInfo where intername like '%{0}%' and author like '%{1}%'".format(iname,iauthor)
         cursor.execute(sql)
         num = cursor.fetchall()[0][0]
         cursor.close()

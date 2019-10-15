@@ -2,6 +2,7 @@
 
 import sys, json, re
 import requests
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test')
 
 from lhlmysql.lhlsql import lhlSql
 
@@ -10,6 +11,7 @@ class lhl:
     def __init__(self):
         self.pheader = {}
         self.gheader = {}
+        self.timeout = 12
         self.pheader['Content-Type'] = "application/json"
         pass
 
@@ -24,7 +26,7 @@ class lhl:
         if not self.__analysisUrl(url):
             return None
         try:
-            res = s.get(url, headers=self.gheader, params=param)
+            res = s.get(url, headers=self.gheader, params=param, timeout=self.timeout)
         except requests.exceptions.ConnectionError:
             print("请求URL无法连接")
             return None
@@ -41,8 +43,22 @@ class lhl:
         s = requests.session()
         self.pheader['Cookie'] = header
         self.pheader['Authorization'] = header 
+        print(data)
+        if not isinstance(data,dict):
+            self.pheader['Content-Type'] = "application/x-www-form-urlencoded"
+            try:
+                res = s.post(url, headers=self.pheader, data=data, timeout=self.timeout)
+                self.pheader['Content-Type'] = "application/json"
+            except requests.exceptions.MissingSchema:
+                print('请求的Url地址有误')
+                return None
+            except requests.exceptions.ConnectionError:
+                print("请求URL无法连接")
+                return None
+            result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code}
+            return result
         try:
-            res = s.post(url, headers=self.pheader, data=data)
+            res = s.post(url, headers=self.pheader, data=data, timeout=self.timeout)
         except requests.exceptions.MissingSchema:
             print('请求的Url地址有误')
             return None
@@ -62,7 +78,7 @@ class lhl:
         self.pheader['Cookie'] = header
         self.pheader['Authorization'] = header 
         try:
-            res = s.get(url, headers=self.pheader, data=data)
+            res = s.get(url, headers=self.pheader, data=data, timeout=self.timeout)
         except requests.exceptions.MissingSchema:
             print('请求的Url地址有误')
             return None
@@ -76,9 +92,9 @@ class lhl:
     def __analysisUrl(self,myurl):
         """url规则: 只有字母和数字[0-9a-zA-Z]、一些特殊符号"$-_.+!*'(),"[不包括双引号]、
         以及某些保留字，才可以不经过编码直接用于URL。"""
-        l1 = re.compile('^https?:/{2}[0-9a-zA-Z$-_.+!*$]+')
+        l1 = re.compile('^https?:/{2}[0-9a-zA-Z$-_.+!*$&?]+$')
         l2 = l1.findall(myurl)
-        l3 = re.match('^https?:/{2}[0-9a-zA-Z$-_.+!*$:/]+$', myurl)
+        l3 = re.match('^https?:/{2}[0-9a-zA-Z$-_.+!*$:/]+', myurl)
         if l3:
             return True
         else: 
@@ -89,19 +105,22 @@ class lhl:
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
         for i in mydata:
-            print(i[1])
+            print(i)
             if i[5].lower() == "get":
                 resGet = self.respondGet(i[2],hd,i[4])
-                if isinstance(resGet,dict):
+                if resGet:
                     sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5))
+                continue
             if i[5].lower() == "post":
                 resPost = self.respondPost(i[2],hd,i[4])
-                if isinstance(resPost,dict):
+                if resPost:
                     sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5))
+                continue
             if i[5].lower() == "put":
                 resPut = self.respondPut(i[2],hd,i[4])
-                if isinstance(resPut,dict):
+                if resPut:
                     sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5))
+                continue
             else:
                 print("请求方式或参数有误不存在")
         return None
@@ -112,5 +131,5 @@ if __name__ == "__main__":
     a = lhl()
     #print(dir(a))
     #a._lhl__analysisUrl("http://www.baidu.com:9090/123/abc")
-    a.respondGet("http://www.baidu.coxx")
+    a.runTest(hd)
     pass
