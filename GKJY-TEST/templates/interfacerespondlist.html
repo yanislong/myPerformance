@@ -17,8 +17,13 @@
 <option>{{i[0]}}</option>
 {% endfor %}
 </datalist>
-当前页数：<input name="page" />
-<button>go</button>
+当前页数：<input name="page" value="" />
+执行结果：<input list="reslist" name="result" autocomplete="off" value="" />
+<datalist id="reslist">
+<option>True</option>
+<option>False</option>
+</datalist>
+<button>GO</button>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
 </form>
 <hr />

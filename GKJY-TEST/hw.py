@@ -118,7 +118,7 @@ def qianyun4():
     except:
         get_page = 1
     if get_page >= 1:
-        temp_page = (get_page - 1) * 10
+        temp_page = (get_page - 1) * 20
     else:
         temp_page = 0
     if get_inter == None:
@@ -156,18 +156,19 @@ def delinter():
 def qianyun5():
     if request.method == "GET":
         get_inter = request.args.get("interface")
+        get_result = request.args.get("result")
         try:
             get_page = int(request.args.get("page"))
         except:
             get_page = 1
     if get_page >= 1:
-        temp_page = (get_page - 1) * 10
+        temp_page = (get_page - 1) * 20
     else:
         temp_page = 0
     if get_inter == None:
         get_inter = ""
     mydata = lhlSql()
-    webbodydata = mydata.getInterfaceRespondList(get_inter, temp_page)
+    webbodydata = mydata.getInterfaceRespondList(get_inter, get_result, temp_page)
     webtotalnumber = mydata.getTotalInterfaceRespondNumber(get_inter)
     webnamedata = mydata.getInterfaceRespondName()
     webtotalpage = int(webtotalnumber / 20) + 1
