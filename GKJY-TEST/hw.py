@@ -49,6 +49,12 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+@app.route('/collvalue')
+def coll():
+    mydata = lhlSql()
+    res = mydata.getCollValue()
+    return render_template('collvalue.html', result=(res,))
+
 @app.route('/qianyunGET')
 def qianyun():
     if request.method == "GET":

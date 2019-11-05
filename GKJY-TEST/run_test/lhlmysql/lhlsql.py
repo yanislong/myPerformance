@@ -82,7 +82,7 @@ class lhlSql:
     def getInterfaceList(self, iname, iauthor, num=0):
         """查询interfaceInfo表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option, inputtime, author from interfaceInfo where intername like '%{0}%' and author like '%{1}%' limit {2},20".format(iname, iauthor, num)
+        sql = "select id, intername, interaddr, header, param, option, inputtime, author, descp, expected from interfaceInfo where intername like '%{0}%' and author like '%{1}%' limit {2},20".format(iname, iauthor, num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
@@ -91,7 +91,7 @@ class lhlSql:
     def getInterfaceRespondList(self, iname, num=0):
         """查询interfaceRespondList表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime from interfaceRespond where intername like '%{0}%' limit {1},20".format(iname,num)
+        sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime, descp, result from interfaceRespond where intername like '%{0}%' limit {1},20".format(iname,abs((num-1))*20)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
@@ -100,27 +100,36 @@ class lhlSql:
     def getAllInterface(self):
         """查询interfaceInfo表中所有数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option, author from interfaceInfo"
+        sql = "select id, intername, interaddr, header, param, option, author, descp, expected from interfaceInfo"
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
         return result
 
-    def insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor):
+    def getCollValue(self):
+        """查询CollValue表中所有数据"""
+        cursor = self.con.cursor()
+        sql = "select id, code, value from collvaule"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected):
         """向interfaceInfo表中插入数据"""
         cursor = self.con.cursor()
         tt = time.strftime("%Y/%m/%d %H:%M:%S")
-        sql = "insert into interfaceInfo(intername,interaddr,header,param,option,author,inputtime) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt)
+        sql = "insert into interfaceInfo(intername,interaddr,header,param,option,author,inputtime, descp, expected) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt,descp,expected)
         cursor.execute(sql)
         self.con.commit()
         cursor.close()
         return None
 
-    def insertInterfaceRespond(self, iname, iaddr, irequestparam, irespondbody, icode, irespondtime):
+    def insertInterfaceRespond(self, iname, iaddr, irequestparam, irespondbody, icode, irespondtime, descp, result):
         """向interfaceRespond表中插入数据"""
         cursor = self.con.cursor()
         tt = time.strftime("%Y/%m/%d %H:%M:%S")
-        sql = "insert into interfaceRespond(intername,interaddr,requestparam,respondbody,code,respondtime,inputtime) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}')".format(iname,pymysql.escape_string(iaddr),pymysql.escape_string(irequestparam),pymysql.escape_string(irespondbody),icode,irespondtime,tt)
+        sql = "insert into interfaceRespond(intername,interaddr,requestparam,respondbody,code,respondtime,inputtime,descp, result) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')".format(iname,pymysql.escape_string(iaddr),pymysql.escape_string(irequestparam),pymysql.escape_string(irespondbody),icode,irespondtime,tt,descp,result)
         cursor.execute(sql)
         self.con.commit()
         cursor.close()

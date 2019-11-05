@@ -2,7 +2,6 @@
 
 import xlrd
 
-
 def read():
     wb = xlrd.open_workbook(filename='./excel/interfacedata.xlsx')
     print(wb.sheet_names())

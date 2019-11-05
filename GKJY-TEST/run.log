@@ -1,5 +1,76 @@
+nohup: ignoring input
  * Serving Flask app "hw" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: on
+ * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 104-623-974
+127.0.0.1 - - [21/Oct/2019 18:11:27] "GET /interfaceList HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/root/prod/myenv/lib/python3.7/site-packages/pymysql/connections.py", line 583, in connect
+    **kwargs)
+  File "/usr/lib/python3.7/socket.py", line 727, in create_connection
+    raise err
+  File "/usr/lib/python3.7/socket.py", line 716, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 2463, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 2449, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 1866, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/prod/myenv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/root/lhl/myPerformance/GKJY-TEST/hw.py", line 122, in qianyun4
+    mydata = lhlSql()
+  File "/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql/lhlsql.py", line 14, in __init__
+    self.con = pymysql.connect(config.mysql_host,'root','root','portaltest')
+  File "/root/prod/myenv/lib/python3.7/site-packages/pymysql/__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+  File "/root/prod/myenv/lib/python3.7/site-packages/pymysql/connections.py", line 325, in __init__
+    self.connect()
+  File "/root/prod/myenv/lib/python3.7/site-packages/pymysql/connections.py", line 630, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on '127.0.0.1' ([Errno 111] Connection refused)")
+127.0.0.1 - - [21/Oct/2019 18:11:27] "GET /interfaceList?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:11:27] "GET /interfaceList?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:11:27] "GET /interfaceList?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:11:27] "GET /interfaceList?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:11:27] "GET /interfaceList?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:11:57] "GET /interfaceList HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:12:02] "GET /interfaceRespondList HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:12:06] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [21/Oct/2019 18:12:07] "GET /interfaceList HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 15:45:15] "GET / HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 15:45:15] "GET /favicon.ico HTTP/1.1" 404 -
+192.168.239.1 - - [22/Oct/2019 15:45:19] "GET /interfaceList HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 15:45:35] "GET /interfaceRespondList HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 15:47:44] "GET / HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 15:47:46] "GET /qianyunGET HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 15:47:54] "GET / HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 17:22:05] "GET /interfaceRespondList HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 17:22:26] "GET /interfaceRespondList?interface=&page=2 HTTP/1.1" 200 -
+192.168.239.1 - - [22/Oct/2019 17:23:00] "GET /interfaceRespondList?interface=&page=1 HTTP/1.1" 200 -
+192.168.239.1 - - [24/Oct/2019 09:09:43] "GET /interfaceList HTTP/1.1" 200 -
+192.168.239.1 - - [24/Oct/2019 09:09:52] "GET /interfaceList?interface=登录&author=&page= HTTP/1.1" 200 -
+192.168.239.1 - - [24/Oct/2019 09:10:03] "GET /interfaceList?interface=&author=&page= HTTP/1.1" 200 -

@@ -11,7 +11,7 @@ def readInter():
     mydata = lhlSql()
     for i in range(1,s1.nrows):
         row = s1.row_values(i)
-        mydata.insertInterface(row[0],row[2],row[1],row[4],row[3],row[5])
+        mydata.insertInterface(row[0],row[3],row[2],row[5],row[4],row[6],row[1],str(int(row[7])))
         print(row)
 
 if __name__ == "__main__":
