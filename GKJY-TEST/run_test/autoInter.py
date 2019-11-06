@@ -13,17 +13,17 @@ class lhl:
         self.getheader = {}
         self.timeout = 12
         self.pheader['Content-Type'] = "application/json"
-        self.getheader['Content-Type'] = "application/x-www-form"
+        self.getheader['Content-Type'] = "application/x-www-form-urlencoded"
         pass
 
-    def respondGet(self, url, header="", param=""):
+    def respondGet(self, result_code, url, header="", param=""):
         """
         请求时需要3个参数，完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
         s = requests.session()
-        self.gheader['Cookie'] = header
-        self.gheader['Authorization'] = header 
+        self.getheader['Cookie'] = header
+        self.getheader['Authorization'] = header 
         if not self.__analysisUrl(url):
             return None
         try:
@@ -32,8 +32,15 @@ class lhl:
             print("请求URL无法连接")
             return None
         print(res.status_code)
+        if result_code:
+            if str(res.json()['code']) == str(result_code.strip()):
+                result = 'True'
+            else:
+                result = 'False'
+        else:
+            result = "None"
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
-        result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code}
+        result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
         return result
    
     def respondPost(self, result_code, url, header="", data={}):
@@ -101,9 +108,9 @@ class lhl:
         for i in mydata:
             print(i)
             if i[5].lower() == "get":
-                resGet = self.respondGet(i[2].strip(),hd,i[4])
+                resGet = self.respondGet(i[8],i[2].strip(),hd,i[4])
                 if resGet:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7])
+                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
                 resPost = self.respondPost(i[8],i[2].strip(),hd,i[4])
