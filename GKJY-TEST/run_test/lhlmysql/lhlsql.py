@@ -88,10 +88,10 @@ class lhlSql:
         cursor.close()
         return inter
 
-    def getInterfaceRespondList(self, iname, result, num=0):
+    def getInterfaceRespondList(self, iname, result, mid, num=0):
         """查询interfaceRespondList表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime, descp, result from interfaceRespond where intername like '%{0}%' and result like '%{1}%' limit {2},20".format(iname,result,num)
+        sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime, descp, result from interfaceRespond where intername like '%{0}%' and result like '%{1}%' and id like '%{2}%' limit {3},20".format(iname,result,mid,num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
@@ -165,5 +165,34 @@ class lhlSql:
     def __del__(self):
         pass
 
+class portalSql:
+    
+    def __init__(self):
+        self.con = pymysql.connect(config.portal_host,'root','Test~107443','j_portal')
+
+    def delUser(self,myname=""):
+        """根据手机号，email, 账号删除用户"""
+        cursor = self.con.cursor()
+        sql = "select id from user where binary account='{0}' or email='{0}' or mobile_phone='{0}'".format(myname)
+        cursor.execute(sql)
+        try:
+            tmpid = cursor.fetchall()[0][0]
+        except IndexError:
+            return None
+#        print(tmpid)
+        sql1 = "delete from user where id='{0}'".format(tmpid)
+        cursor.execute(sql1)
+        self.con.commit()
+        sql2 = "delete from user_detail where user_id='{0}'".format(tmpid)
+        cursor.execute(sql2)
+        self.con.commit()
+        sql3 = "delete from user_role where user_id='{0}'".format(tmpid)
+        cursor.execute(sql3)
+        self.con.commit()
+        cursor.close()
+        return None
+
 if __name__ == "__main__":
     a = lhlSql()
+    b = portalSql()
+    b.delUser()

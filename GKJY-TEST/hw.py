@@ -157,6 +157,7 @@ def qianyun5():
     if request.method == "GET":
         get_inter = request.args.get("interface")
         get_result = request.args.get("result")
+        get_id = request.args.get("myid")
         try:
             get_page = int(request.args.get("page"))
         except:
@@ -167,8 +168,10 @@ def qianyun5():
         temp_page = 0
     if get_inter == None:
         get_inter = ""
+    if get_id == None:
+        get_id = ""
     mydata = lhlSql()
-    webbodydata = mydata.getInterfaceRespondList(get_inter, get_result, temp_page)
+    webbodydata = mydata.getInterfaceRespondList(get_inter, get_result, get_id, temp_page)
     webtotalnumber = mydata.getTotalInterfaceRespondNumber(get_inter)
     webnamedata = mydata.getInterfaceRespondName()
     webtotalpage = int(webtotalnumber / 20) + 1

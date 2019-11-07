@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>接口执行结果</title>
 <style type="text/css">
     table, th, td {table-layout: fixed; border: 2px solid blue; border-collapse: collapse; width: 100%; padding: 5px; }
@@ -12,6 +13,7 @@
 <a href="/">index</a> || <a href="/interfaceList">Interface list</a>
 <hr />
 <form action="/interfaceRespondList" method="get">
+ID：<input name="myid" value="" />
 接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
 <datalist id="namelist">
 {% for i in result[3] %}
@@ -23,6 +25,8 @@
 <datalist id="reslist">
 <option>True</option>
 <option>False</option>
+<option>Success</option>
+<option>Faile</option>
 </datalist>
 <button>GO</button>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
@@ -31,12 +35,12 @@
 <table>
 <thead>
 <tr>
-<th style="width: 30px">id </th><th style="width: 100px">模块</th><th>接口描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th>执行结果</th><th style="width: 160px">执行时间</th>
+<th style="width: 30px">id </th><th style="width: 100px">模块</th><th>接口请求描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th>执行结果</th><th style="width: 160px">执行时间</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 30px">id </th><th style="width: 100px">模块</th><th>接口描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th>执行结果</th><th style="width: 160px">执行时间</th>
+<th style="width: 30px">id </th><th style="width: 100px">模块</th><th>接口请求描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th>执行结果</th><th style="width: 160px">执行时间</th>
 </tr>
 </tfoot>
 <tbody>

@@ -34,9 +34,9 @@ class lhl:
         print(res.status_code)
         if result_code:
             if str(res.json()['code']) == str(result_code.strip()):
-                result = 'True'
+                result = 'Success'
             else:
-                result = 'False'
+                result = 'Faile'
         else:
             result = "None"
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
@@ -62,9 +62,9 @@ class lhl:
        # print(res.text,res.elapsed.total_seconds(),res.status_code)
         if result_code:
             if str(res.json()['code']) == str(result_code.strip()):
-                result = 'True'
+                result = 'Success'
             else:
-                result = 'False'
+                result = 'Faile'
         else:
             result = "None"
         result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
