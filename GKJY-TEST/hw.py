@@ -5,14 +5,16 @@ from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect
 from werkzeug import secure_filename
 from run_test.lhlmysql.lhlsql import lhlSql
-import os, json
-import pymysql
+import os, json, sys, pymysql, subprocess
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
+import myrule
+
 from decimal import Decimal
 from run_test import autoInter
 
-
 UPLOAD_FOLDER = "./run_test/excel/"
 ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz'])
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -21,33 +23,7 @@ app.secret_key = os.urandom(12)
 
 @app.route('/')
 def hw():
-#    resp = make_response(render_template('get.html'))
-#    resp = make_response(render_template('index.html'))
-#    resp.set_cookie('username', 'the username')
-#    username = request.cookies.get('username')
-#    return redirect(url_for('index'))
-#    if 'username' in session:
-#        return 'Logged in as %s' % escape(session['username'])
-#    app.logger.debug('this is logger')
-#    return 'Your are not Logged in'
-    return render_template("index.html",relset=())
-
-@app.route('/login', methods=['GET','POST'])
-def login():
-    if request.method == "POST":
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return """
-    <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-    """
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('index'))
+    return render_template("index.html", relset=())
 
 @app.route('/collvalue')
 def coll():
@@ -55,36 +31,13 @@ def coll():
     res = mydata.getCollValue()
     return render_template('collvalue.html', result=(res,))
 
-@app.route('/qianyunGET')
-def qianyun():
-    if request.method == "GET":
-        get_inter = request.args.get("interface")
-        try:
-            get_page = int(request.args.get("page"))
-        except:
-            get_page = 1
-        if get_page >= 1:
-            get_page = (get_page - 1) * 10
-        else:
-            get_page = 0
-        if get_inter == None:
-            get_inter = ""
-        mydata = lhlSql()
-        webbodydata = mydata.getTimeInfo(get_inter, get_page)
-        webavgdata = mydata.getTimeList(get_inter)
-        webnamedata = mydata.getInterfaceName()
-        webtotalnumber = mydata.getTotalNumber(get_inter)
-        temp = []
-        temp2 = []
-        for i in webavgdata[0]:
-            num = round(Decimal(i/webtotalnumber),6)
-            temp.append(num)
-        temp2.append((temp))
-        webtotalpage = int(webtotalnumber / 20)
-        return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
-    return None
+@app.route('/rule')
+def rule():
+    return render_template('rule.html', result=(myrule.rule,))
 
-    
+@app.route('/integrate')
+def integr():
+    return render_template('integrate.html', result=(myrule.rule,))
 
 @app.route('/addInterface', methods=['GET','POST'])
 def qianyun3():
@@ -109,8 +62,14 @@ def qianyun3():
             mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option,author)
     return render_template('addInterface.html')
 
+@app.route('/runtest', methods=['GET','POST'])
+def runtest():
+    subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/autoInter.py', shell=True)
+    return qianyun4()
+
 @app.route('/interfaceList', methods=['GET','POST'])
 def qianyun4():
+    kong = None
     get_inter = request.args.get("interface")
     get_author = request.args.get("author")
     try:
@@ -121,10 +80,10 @@ def qianyun4():
         temp_page = (get_page - 1) * 20
     else:
         temp_page = 0
-    if get_inter == None:
+    if isinstance(get_inter,type(kong)):
         get_inter = ""
-    if get_author == None:
-        get_auhtor = ""
+    if isinstance(get_author,type(kong)):
+        get_author = ""
     mydata = lhlSql()
     webbodydata = mydata.getInterfaceList(get_inter, get_author, temp_page)
     webtotalnumber = mydata.getTotalInterfaceNumber(get_inter, get_author)
@@ -132,14 +91,8 @@ def qianyun4():
     webnamedataauthor = mydata.getInterfaceAuthor()
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceInfoName()
-    print(webbodydata)
+#    print(webbodydata)
     return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedataauthor))
-
-@app.route('/runtest', methods=['GET','POST'])
-def runtest():
-    tt = autoInter.lhl()
-    tt.runTest('a')
-    return qianyun4()
 
 @app.route('/delinterface', methods=['GET','POST'])
 def delinter():
@@ -154,6 +107,7 @@ def delinter():
 
 @app.route('/interfaceRespondList', methods=['GET','POST'])
 def qianyun5():
+    kong = None
     if request.method == "GET":
         get_inter = request.args.get("interface")
         get_result = request.args.get("result")
@@ -166,13 +120,15 @@ def qianyun5():
         temp_page = (get_page - 1) * 20
     else:
         temp_page = 0
-    if get_inter == None:
+    if isinstance(get_inter,type(kong)):
         get_inter = ""
-    if get_id == None:
+    if isinstance(get_id,type(kong)):
         get_id = ""
+    if isinstance(get_result,type(kong)):
+        get_result = ""
     mydata = lhlSql()
     webbodydata = mydata.getInterfaceRespondList(get_inter, get_result, get_id, temp_page)
-    webtotalnumber = mydata.getTotalInterfaceRespondNumber(get_inter)
+    webtotalnumber = mydata.getTotalInterfaceRespondNumber(get_inter,get_result)
     webnamedata = mydata.getInterfaceRespondName()
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceRespondName()
@@ -248,9 +204,6 @@ def qianyunpost():
 def allowed_file(filename):
     return "." in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/post')
-def post_h():
-    return render_template('post.html')
 
 @app.route('/passwd/<int:age>')
 def get_p(age):
@@ -265,7 +218,10 @@ def upload_file():
     print(f)
     if f and allowed_file(f.filename):
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
-        return render_template('interfacelist.html', result=())
+        subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/importInter.py', shell=True)
+        print("a" * 10)
+        return qianyun4()
+        #return render_template('interfacelist.html', result=())
     else:
         return render_template('error.html', result=())
 
@@ -281,6 +237,53 @@ def deal_request():
     elif request.method == "POST":
         post_q = request.form["q"]
         return render_template('result.html', result=post_q)
+
+
+@app.route('/qianyunGET')
+def qianyun():
+    if request.method == "GET":
+        get_inter = request.args.get("interface")
+        try:
+            get_page = int(request.args.get("page"))
+        except:
+            get_page = 1
+        if get_page >= 1:
+            get_page = (get_page - 1) * 10
+        else:
+            get_page = 0
+        if get_inter == None:
+            get_inter = ""
+        mydata = lhlSql()
+        webbodydata = mydata.getTimeInfo(get_inter, get_page)
+        webavgdata = mydata.getTimeList(get_inter)
+        webnamedata = mydata.getInterfaceName()
+        webtotalnumber = mydata.getTotalNumber(get_inter)
+        temp = []
+        temp2 = []
+        for i in webavgdata[0]:
+            num = round(Decimal(i/webtotalnumber),6)
+            temp.append(num)
+        temp2.append((temp))
+        webtotalpage = int(webtotalnumber / 20)
+        return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
+    return None
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == "POST":
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+    return """
+    <form action="" method="post">
+            <p><input type=text name=username>
+            <p><input type=submit value=Login>
+        </form>
+    """
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port="8888")

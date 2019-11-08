@@ -9,27 +9,28 @@
 </style>
 </head>
 <body>
-<h1>前后端对接文档</h1>
+<h1>字段规则</h1>
 <a href="/">index</a> 
  || <a href="interfaceList">待请求接口列表</a>
  || <a href="interfaceRespondList">接口请求结果</a>
- || <a href="rule">字段规则</a>
+ || <a href="collvalue">前后端对接文档</a>
+ || <a href="integrate">接口集成测试</a>
 <hr />
 <table>
 <thead>
 <tr>
-<th>id</th><th>code</th><th>meaning</th>
+<th>字段名</th><th>规则描述</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th>id</th><th>code</th><th>meaning</th>
+<th>字段名</th><th>规则描述</th>
 </tr>
 </tfoot>
 <tbody>
-{% for i in result[0] %}
+{% for i,j in result[0].items() %}
 <tr>
-<th>{{i[0]}}</th><th>{{i[1]}}</th><th>{{i[2]}}</th>
+<th>{{i}}</th><th>{{j}}</th>
 </tr>
 {% endfor %}
 </tbody>

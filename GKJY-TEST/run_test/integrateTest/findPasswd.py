@@ -19,20 +19,27 @@ class userFind():
         self.portalsql = portalSql()
         self.postheader = {}
         self.postheader['Content-Type'] = "application/json"
+        self.url = config.userurl
         pass
 
     def phoneFind(self):
         """通过手机号修改密码"""
 
         mokuai = "找回密码"
-        mobile = ["16688888612"]
-        url = config.testurl + "/forget/info"
+        mobile = ["173444322202"]
+        account = ["lizongwu"]
+        url = self.url + "/forget/info"
         data = {}
-        for i in mobile:
-            acc = requests.post(config.testurl + "/forget/info?account=" + i)
-            print(acc.text)
-#            pho = requests.post(config.testurl + "/reg/exist/mobile?mobile=" + str(i[1]))
+        for i in account:
+#            acc = requests.post(config.userurl + "/forget/info?account=" + i)
+#            print(acc.text)
+#            uid = acc.json()['data']['id']
+#            htoken = acc.json()['data']['token']
+#            self.postheader['Authorization'] = htoken
+#            pho = requests.post(config.userurl + "/forget/code?id=" + str(uid), headers=self.postheader)
 #            print(pho.text)
+            isexists = requests.post(config.userurl + "/forget/code/isvalid?code=814495&id=" + str("10051"), headers=self.postheader)
+            print(isexists.text)
 #            code = requests.post(config.testurl + "/reg/sms/code?mobile=" + str(i[1]))
 #            print(code.text)
 #            data['mobilePhone'] = str(i[1])

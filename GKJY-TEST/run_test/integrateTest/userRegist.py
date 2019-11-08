@@ -23,6 +23,7 @@ class userregist():
         self.mobile = config.mobile
         self.noAccount = config.noAccount
         self.passwd = config.passwd
+        self.url = config.userurl
         pass
 
     def phoneRegist(self):
@@ -32,27 +33,33 @@ class userregist():
         mokuai = "用户注册"
         for ll in range(len(self.account)):
             tmp.append((self.account[ll],self.mobile[ll]))
-        url = config.testurl + "/reg/mobile/add"
+        url = self.url + "/reg/mobile/add"
         data = {}
         data['password'] = self.passwd
         for i in tmp:
-            acc = requests.post(config.testurl + "/reg/exist/account?account=" + str(i[0]))
-#            print(acc.text)
+            acc = requests.post(config.userurl + "/reg/exist/account?account=" + str(i[0]))
+            print(acc.text)
             if acc.json()['data'] == True:
                 self.portalsql.delUser(str(i[0]))
-            pho = requests.post(config.testurl + "/reg/exist/mobile?mobile=" + str(i[1]))
-#            print(pho.text)
+            pho = requests.post(config.userurl + "/reg/exist/mobile?mobile=" + str(i[1]))
+            print(pho.text)
             if pho.json()['data'] == True:
                 self.portalsql.delUser(str(i[1]))
-            code = requests.post(config.testurl + "/reg/sms/code?mobile=" + str(i[1]))
-#            print(code.text)
+            code = requests.post(config.userurl + "/reg/sms/code?mobile=" + str(i[1]))
+            print(code.text)
             tmp = code.json()['data']
             data['code'] = tmp
             data['account'] = str(i[0])
             data['mobilePhone'] = str(i[1])
-  #          print(data)
-            reg = requests.post(url, headers=self.postheader, data=json.dumps(data))
-            print(reg.text)
+            print(data)
+            for i in range(100000,999999):
+                data['code'] = i
+                reg = requests.post(url, headers=self.postheader, data=json.dumps(data))
+                print(reg.text)
+                if reg.json()['code'] == 200:
+                    print(i)
+                    print(reg.text)
+                    break
             if reg.json()['code'] == 200:
                result = "Success"
             else:
@@ -65,14 +72,14 @@ class userregist():
         """使用非法账户名进行注册"""
 
         mokuai = "用户注册"
-        url = config.testurl + "/reg/mobile/add"
+        url = self.url + "/reg/mobile/add"
         data = {}
         data['password'] = self.passwd
         for i in self.noAccount:
             data['account'] = i
             mobile = "1381234" + str(random.randint(1000,9999))
             data['mobilePhone'] = mobile
-            code = requests.post(config.testurl + "/reg/sms/code?mobile=" + mobile)
+            code = requests.post(url + "/reg/sms/code?mobile=" + mobile)
 #            print(code.text)
             tmp = code.json()['data']
             data['code'] = tmp
@@ -88,5 +95,5 @@ class userregist():
 
 if __name__ == "__main__":
     runtest = userregist()
-    #runtest.phoneRegist()
-    runtest.illegalAccountRegist()
+    runtest.phoneRegist()
+    #runtest.illegalAccountRegist()

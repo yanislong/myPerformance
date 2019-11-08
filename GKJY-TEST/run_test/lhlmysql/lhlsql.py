@@ -144,10 +144,10 @@ class lhlSql:
         cursor.close()
         return num
 
-    def getTotalInterfaceRespondNumber(self, iname): 
+    def getTotalInterfaceRespondNumber(self, iname, iresult): 
         """获取interfaceRespond表中总条数"""
         cursor = self.con.cursor()
-        sql = "select count(*) from interfaceRespond where intername like '%{0}%'".format(iname)
+        sql = "select count(*) from interfaceRespond where intername like '%{0}%' and result like '%{1}%'".format(iname,iresult)
         cursor.execute(sql)
         num = cursor.fetchall()[0][0]
         cursor.close()

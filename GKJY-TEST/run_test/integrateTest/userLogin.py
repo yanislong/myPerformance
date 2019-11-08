@@ -16,8 +16,9 @@ class userlogin():
         self.portalsql = portalSql()
         self.postheader = {}
         self.postheader['Content-Type'] = "application/json"
-        self.account = config.account
+        self.account = config.useaccount
         self.mobile = config.mobile
+        self.url = config.userurl
         pass
 
     '''
@@ -52,10 +53,10 @@ class userlogin():
         data = {}
         data['password'] = passwd
         data['rememberMe'] = True
-        url = config.testurl + "/login/account"
-        for j in self.account:
+        url = self.url + "/login/account"
+        for j in self.account.keys():
             data['account'] = j
-            res = requests.post(config.testurl + "/login/account", headers=self.postheader, data=json.dumps(data))
+            res = requests.post(url, headers=self.postheader, data=json.dumps(data))
             print(res.text)
             if res.json()['code'] == 200:
                result = "Success"
@@ -72,8 +73,8 @@ class userlogin():
         data = {}
         data['password'] = passwd
         data['rememberMe'] = True
-        url = config.testurl + "/login/account"
-        for j in self.account:
+        url = self.url + "/login/account"
+        for j in self.account.keys():
             data['account'] = j
             res = requests.post(url, headers=self.postheader, data=json.dumps(data))
             print(res.text)

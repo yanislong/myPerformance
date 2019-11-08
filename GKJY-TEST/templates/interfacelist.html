@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 <title>接口列表</title>
 <style type="text/css">
     table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff0000; border-collapse: collapse; width: 100%}
@@ -9,17 +10,17 @@
 </style>
 </head>
 <body>
-<center><h2>接口列表</h2></center>
-<a href="/">index</a> || <a href="/addInterface">add Interface</a> || <a href="/interfaceRespondList">Interface Respond</a> || 
-<form  action="/runtest" method="post" style="display:inline">
-<button>对列表接口执行测试</button> || 
-</form>
+<h1>待请求接口列表</h1>
+<a href="/">index</a>
+ || <a href="interfaceRespondList">接口请求结果</a>
+ || <a href="collvalue">前后端对接文档</a>
+ || <a href="rule">字段规则</a>
+<hr />
 <form  enctype='multipart/form-data' action="/uploadfile" method="post" style="display:inline">
-<input type="file" name="myf" />
+&nbsp || &nbsp<input type="file" name="myf" />
 <button>上传接口用例(excel)</button>
 </form>
-<hr />
-<form action="/interfaceList" method="get">
+<form action="/interfaceList" method="get" style="float:left">
 接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
 <datalist id="namelist">
 {% for i in result[3] %}
@@ -32,11 +33,14 @@
 <option>{{i[0]}}</option>
 {% endfor %}
 </datalist>
-当前页数：<input name="page" value="" />
-<button>go</button>
+跳转页数：<input name="page" value="" />
+<button>GO</button>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
 </form>
-<hr />
+<form method="get" action="/runtest" style="display:inline">
+<input type="hidden" name="execut" value="" />
+&nbsp&nbsp||&nbsp&nbsp <button>执行接口测试</button>
+</form>
 <table>
 <thead>
 <tr>
@@ -56,7 +60,7 @@
 </tr>
 {% endfor %}
 </tbody>
-<button>删除</button>
+&nbsp|| &nbsp<button>选择删除</button>
 </form>
 </table>
 </body>

@@ -6,17 +6,23 @@
 <link rel="icon" href="https://csdnimg.cn/public/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 <style>
-body {background-image: url("{{url_for('static', filename='image/back.jpg')}}"); background-repeat: no-repeat; background-size: 100% 100%;}
-body {filter: alpha(opacity=80); opacity: 0.8;}
 </style>
 </head>
 <body>
-<h1>国科晋云测试平台<h1>
+<h1>接口集成测试<h1>
 <a href="interfaceList">待请求接口列表</a>
 <a href="interfaceRespondList">接口请求结果</a>
 <a href="qianyunGET">第三方接口监控</a>
 <a href="collvalue">前后端对接文档</a>
 <a href="rule">字段规则</a>
 <a href=""></a>
+<hr />
+<form method="get" action="">
+<span>用户注册:</span><input type="checkbox" name="" />
+<span>用户登录:</span><input type="checkbox" name="" />
+<span>忘记密码:</span><input type="checkbox" name="" />
+<br />
+<button>执行</button>
+</form>
 </body>
 </html>
