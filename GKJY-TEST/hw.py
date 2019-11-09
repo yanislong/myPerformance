@@ -25,6 +25,10 @@ app.secret_key = os.urandom(12)
 def hw():
     return render_template("index.html", relset=())
 
+@app.route('/test')
+def test01():
+    return render_template("test.html", relset=())
+
 @app.route('/collvalue')
 def coll():
     mydata = lhlSql()
