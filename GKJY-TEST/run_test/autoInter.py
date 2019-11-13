@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
 import sys, json, re
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest')
 import requests
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test')
+import userLogin
 
 from lhlmysql.lhlsql import lhlSql
 
@@ -11,9 +13,12 @@ class lhl:
     def __init__(self):
         self.pheader = {}
         self.getheader = {}
+        self.session = userLogin.userlogin()
         self.timeout = 12
         self.pheader['Content-Type'] = "application/json"
+        self.pheader['Authorization'] = self.session.accountLogin() 
         self.getheader['Content-Type'] = "application/x-www-form-urlencoded"
+        self.getheader['Authorization'] = self.session.accountLogin() 
         pass
 
     def respondGet(self, result_code, url, header="", param=""):
@@ -23,7 +28,6 @@ class lhl:
         """
         s = requests.session()
         self.getheader['Cookie'] = header
-        self.getheader['Authorization'] = header 
         if not self.__analysisUrl(url):
             return None
         try:
@@ -50,7 +54,6 @@ class lhl:
         """
         s = requests.session()
         self.pheader['Cookie'] = header
-        self.pheader['Authorization'] = header 
         try:
             res = s.post(url, headers=self.pheader, data=data, timeout=self.timeout)
         except requests.exceptions.MissingSchema:
@@ -77,7 +80,6 @@ class lhl:
         """
         s = requests.session()
         self.pheader['Cookie'] = header
-        self.pheader['Authorization'] = header 
         try:
             res = s.get(url, headers=self.pheader, data=data, timeout=self.timeout)
         except requests.exceptions.MissingSchema:

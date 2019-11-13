@@ -62,8 +62,8 @@ class userlogin():
                result = "Success"
             else:
                result = "Faile"
-            self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.accountLogin.__doc__, result)
-        return None
+#            self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.accountLogin.__doc__, result)
+        return res.json()['data']
 
     def wpassLogin(self):
         """使用正确账号与错误密码进行登录"""
@@ -83,9 +83,9 @@ class userlogin():
             else:
                result = "Faile"
             self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.wpassLogin.__doc__, result)
-        return None
+        return res.json()['data']
 
 if __name__ == "__main__":
     runtest = userlogin()
     runtest.accountLogin()
-    runtest.wpassLogin()
+#    runtest.wpassLogin()
