@@ -167,7 +167,7 @@ class roleManag():
 
 if __name__ == "__main__":
     runtest = roleManag()
-#    runtest.addrole()
+    runtest.addrole()
 #    runtest.getallrole()
 #    runtest.checkrole()
 #    runtest.listrole()

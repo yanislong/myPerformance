@@ -4,6 +4,7 @@
 from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect
 from werkzeug import secure_filename
+from flask import jsonify
 from run_test.lhlmysql.lhlsql import lhlSql
 import os, json, sys, pymysql, subprocess
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
@@ -21,7 +22,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 * 1024
 app.secret_key = os.urandom(12)
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def hw():
     return render_template("index.html", relset=())
 
@@ -29,19 +30,32 @@ def hw():
 def test01():
     return render_template("test.html", relset=())
 
-@app.route('/collvalue')
+@app.route('/collvalue', methods=['GET'])
 def coll():
     mydata = lhlSql()
     res = mydata.getCollValue()
     return render_template('collvalue.html', result=(res,))
 
-@app.route('/rule')
+@app.route('/rule', methods=['GET'])
 def rule():
     return render_template('rule.html', result=(myrule.rule,))
 
-@app.route('/integrate')
+@app.route('/integrate', methods=["POST","GET"])
 def integr():
-    return render_template('integrate.html', result=(myrule.rule,))
+    if request.method == "POST":
+        try:
+            get_name = request.get_data()
+        except KeyError:
+            get_name = "hello world"
+        get_name = get_name.decode('utf-8')
+        get_name = get_name.split(',')
+        print(get_name)
+        for i in get_name:
+            p = subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/' + i + '.py', shell=True)
+            out,err=p.communicate(timeout=15)
+        return jsonify({"msg": {"out": out,"err": err}, "status": 0})
+    elif request.method == "GET":
+        return render_template('integrate.html', result=())
 
 @app.route('/addInterface', methods=['GET','POST'])
 def qianyun3():
@@ -272,17 +286,6 @@ def qianyun():
         return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
     return None
 
-@app.route('/login', methods=['GET','POST'])
-def login():
-    if request.method == "POST":
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return """
-    <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-    """
 
 @app.route('/logout')
 def logout():

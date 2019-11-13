@@ -6,6 +6,7 @@ import json
 import time
 import random
 import sys
+import threading
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql')
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
 
@@ -36,28 +37,28 @@ class userregist():
         url = self.url + "/reg/mobile/add"
         data = {}
         data['password'] = self.passwd
-        for i in tmp:
-            acc = requests.post(config.userurl + "/reg/exist/account?account=" + str(i[0]))
-            print(acc.text)
-            if acc.json()['data'] == True:
-                self.portalsql.delUser(str(i[0]))
-            pho = requests.post(config.userurl + "/reg/exist/mobile?mobile=" + str(i[1]))
-            print(pho.text)
-            if pho.json()['data'] == True:
-                self.portalsql.delUser(str(i[1]))
-            code = requests.post(config.userurl + "/reg/sms/code?mobile=" + str(i[1]))
-            print(code.text)
-            tmp = code.json()['data']
-            data['code'] = tmp
-            data['account'] = str(i[0])
-            data['mobilePhone'] = str(i[1])
-            print(data)
-            for i in range(100000,999999):
-                data['code'] = i
+        for i in [1]:
+#            acc = requests.post(config.userurl + "/reg/exist/account?account=" + str(i[0]))
+#            print(acc.text)
+#            if acc.json()['data'] == True:
+#                self.portalsql.delUser(str(i[0]))
+#            pho = requests.post(config.userurl + "/reg/exist/mobile?mobile=" + str(i[1]))
+#            print(pho.text)
+#            if pho.json()['data'] == True:
+#                self.portalsql.delUser(str(i[1]))
+#            code = requests.post(config.userurl + "/reg/sms/code?mobile=" + str(i[1]))
+#            print(code.text)
+#            tmp = code.json()['data']
+#            data['code'] = tmp
+            data['account'] = str(random.choice("abcdefghi")) + "13141032576"#str(i[0])
+            data['mobilePhone'] = "13141032576"#str(i[1])
+            for i in range(1):
+                data['code'] = 280339
+#                print(data)
                 reg = requests.post(url, headers=self.postheader, data=json.dumps(data))
                 print(reg.text)
                 if reg.json()['code'] == 200:
-                    print(i)
+#                    print(i)
                     print(reg.text)
                     break
             if reg.json()['code'] == 200:
@@ -65,7 +66,6 @@ class userregist():
             else:
                result = "Faile"
             self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), reg.text, reg.status_code, round(reg.elapsed.total_seconds(),5), self.phoneRegist.__doc__, result)
-            time.sleep(1)
         return None
 
     def illegalAccountRegist(self):
@@ -95,5 +95,8 @@ class userregist():
 
 if __name__ == "__main__":
     runtest = userregist()
-    runtest.phoneRegist()
+    #runtest.phoneRegist()
     #runtest.illegalAccountRegist()
+    for i in range(2):
+        t = threading.Thread(target=runtest.phoneRegist)
+        t.start()

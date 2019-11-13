@@ -62,7 +62,8 @@ class userlogin():
                result = "Success"
             else:
                result = "Faile"
-#            self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.accountLogin.__doc__, result)
+            if __name__ == "__main__":
+                self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.accountLogin.__doc__, result)
         return res.json()['data']
 
     def wpassLogin(self):
@@ -88,4 +89,4 @@ class userlogin():
 if __name__ == "__main__":
     runtest = userlogin()
     runtest.accountLogin()
-#    runtest.wpassLogin()
+    runtest.wpassLogin()

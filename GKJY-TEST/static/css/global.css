@@ -1,8 +1,8 @@
 h1 {text-align: center; color: red;}
-a {font-size: 22px; font-weight:bold; color: #963;}
+a {font-size: 22px; font-weight: bold; color: #963; display: inline-block; text-align: center;}
 body {background-image: url('../image/page.jpg'); background-size: 100% 100%}
 span {font-size: 16px; color:#933;}
 table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff0000; border-collapse: collapse; width: 100%}
 td {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff0000; border-collapse: collapse; }
-table tr:nth-child(even){background: #ccc;}
+table tr:nth-child(even){background: #eee8aa;}
 
