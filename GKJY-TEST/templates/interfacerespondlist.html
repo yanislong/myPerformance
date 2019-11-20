@@ -10,7 +10,6 @@
 </head>
 <body>
 <h1>接口执行结果</h1>
-
 <a href="/">index</a>
  || <a href="interfaceList">待请求接口列表</a>
  || <a href="integrate">接口集成测试</a>
@@ -51,7 +50,7 @@ ID：<input name="myid" value="" />
 <tbody>
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td title="{{i[1]}}" style="width: 100px">{{i[1]}}</td><th>{{i[8]}}</th><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}">{{i[3]}}</td><td title="{{i[4]}}">{{i[4]}}</td><td style="width: 30px">{{i[5]}}</td><td style="width: 70px">{{i[6]}}</td><td>{{i[9]}}</td><td style="width: 160px">{{i[7]}}</td>
+<td style="width: 40px">{{i[0]}}</td><td title="{{i[1]}}" style="width: 100px">{{i[1]}}</td><th>{{i[8]}}</th><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}">{{i[3]|safe}}</td><td title="{{i[4]}}">{{i[4]}}</td><td style="width: 30px">{{i[5]}}</td><td style="width: 70px">{{i[6]}}</td><td>{{i[9]}}</td><td style="width: 160px">{{i[7]}}</td>
 </tr>
 {% endfor %}
 </tbody>

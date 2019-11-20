@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
+import requests
 import sys, json, re
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest')
-import requests
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/user')
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test')
-import userLogin
 
+import userLogin
 from lhlmysql.lhlsql import lhlSql
 
 class lhl:
@@ -52,17 +53,30 @@ class lhl:
         请求时需要3个参数，完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
+        data = json.loads(data)
         s = requests.session()
-        self.pheader['Cookie'] = header
-        try:
-            res = s.post(url, headers=self.pheader, data=data, timeout=self.timeout)
-        except requests.exceptions.MissingSchema:
-            print('请求的Url地址有误')
-            return None
-        except requests.exceptions.ConnectionError:
-            print("请求URL无法连接")
-            return None
-       # print(res.text,res.elapsed.total_seconds(),res.status_code)
+        if header.strip() == "json":
+            try:
+                res = s.post(url, headers=self.pheader, data=data, timeout=self.timeout)
+            except requests.exceptions.MissingSchema:
+                print('请求的Url地址有误')
+                return None
+            except requests.exceptions.ConnectionError:
+                print("请求URL无法连接")
+                return None
+            print(res.url)
+            print(res.text,res.elapsed.total_seconds(),res.status_code)
+        else:
+            try:
+                res = s.post(url, headers=self.pheader, params=data, timeout=self.timeout)
+            except requests.exceptions.MissingSchema:
+                print('请求的Url地址有误')
+                return None
+            except requests.exceptions.ConnectionError:
+                print("请求URL无法连接")
+                return None
+            print(res.url)
+            print(res.text,res.elapsed.total_seconds(),res.status_code)
         if result_code:
             if str(res.json()['code']) == str(result_code.strip()):
                 result = 'Success'

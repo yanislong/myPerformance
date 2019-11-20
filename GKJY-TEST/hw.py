@@ -16,8 +16,16 @@ from run_test import autoInter
 UPLOAD_FOLDER = "./run_test/excel/"
 ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz'])
 
-
 app = Flask(__name__)
+
+def myfun():
+    return "abc"
+
+#jinja2模板调用导入函数
+app.jinja_env.globals.update(myfun=myfun)
+#jinja2模板调用导入包
+app.jinja_env.globals.update(json=json)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 * 1024
 app.secret_key = os.urandom(12)

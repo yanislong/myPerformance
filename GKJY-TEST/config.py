@@ -12,12 +12,14 @@ mysql_host = "127.0.0.1"
 #测试环境应用服务地址
 url = "http://11.2.77.3"
 userurl = url + "/portal-test/user"
+orderurl = url + "/portal-test/order"
+contracturl = url + "/portal-test/contract"
 
 #测试环境数据库
 portal_host = "192.168.15.21"
 
 #注册不删除用户
-useaccount = {'lizongwu':'17344432202','LIZONGWU':'335916781@qq.com'}
+useaccount = {'LIZONGWU':'17344432202'} #,'LIZONGWU':'335916781@qq.com'}
 
 #已注册账号手机号,长度要保持一直
 account = ["test123test","a12345","ab012345678901234567890123456789","LIXIAOFENG","kali001"]

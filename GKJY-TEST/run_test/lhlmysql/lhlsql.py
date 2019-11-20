@@ -91,7 +91,7 @@ class lhlSql:
     def getInterfaceRespondList(self, iname, result, mid, num=0):
         """查询interfaceRespondList表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime, descp, result from interfaceRespond where intername like '%{0}%' and result like '%{1}%' and id like '%{2}%' limit {3},20".format(iname,result,mid,num)
+        sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime, descp, result from interfaceRespond where intername like '%{0}%' and result like '%{1}%' and id like '%{2}%' order by id Desc limit {3},20".format(iname,result,mid,num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
