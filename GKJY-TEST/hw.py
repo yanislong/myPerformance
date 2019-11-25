@@ -2,12 +2,13 @@
 #-*-coding=utf-8-*-
 
 from flask import Flask, request, send_from_directory, url_for, session, escape
-from flask import render_template, make_response, abort, redirect
+from flask import render_template, make_response, abort, redirect, Response
 from werkzeug import secure_filename
 from flask import jsonify
 from run_test.lhlmysql.lhlsql import lhlSql
 import os, json, sys, pymysql, subprocess
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
+#sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
+sys.path.append('./run_test/excel')
 import myrule
 
 from decimal import Decimal
@@ -37,6 +38,33 @@ def hw():
 @app.route('/test')
 def test01():
     return render_template("test.html", relset=())
+
+@app.route('/downloadfile/', methods=['GET', 'POST'])
+def downloadfile():
+    if request.method == 'GET':
+        #fullfilename = request.args.get('filename')
+        fullfilename = '/root/lhl/myPerformance/GKJY-TEST/templates/interfacedata.xlsx'
+        fullfilenamelist = fullfilename.split('/')
+        filename = fullfilenamelist[-1]
+        filepath = fullfilename.replace('/%s'%filename, '')
+        #普通下载
+        # response = make_response(send_from_directory(filepath, filename, as_attachment=True))
+        # response.headers["Content-Disposition"] = "attachment; filename={}".format(filepath.encode().decode('latin-1'))
+        #return send_from_directory(filepath, filename, as_attachment=True)
+        #流式读取
+        def send_file():
+            store_path = fullfilename
+            with open(store_path, 'rb') as targetfile:
+                while 1:
+                    data = targetfile.read(20 * 1024 * 1024)   # 每次读取20M
+                    if not data:
+                        break
+                    yield data
+        
+        response = Response(send_file(), content_type='application/octet-stream')
+        response.headers["Content-disposition"] = 'attachment; filename=%s' % filename   # 如果不加上这行代码，导致下图的问题
+        return  response
+
 
 @app.route('/collvalue', methods=['GET'])
 def coll():

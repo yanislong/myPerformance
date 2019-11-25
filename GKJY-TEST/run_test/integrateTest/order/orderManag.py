@@ -324,7 +324,7 @@ class orderManag():
 
 if __name__ == "__main__":
     runtest = orderManag()
-#    runtest.addorder()
+    runtest.addorder()
 #    runtest.getorder()
 #    runtest.applyorder()
 #    runtest.orderinfo()

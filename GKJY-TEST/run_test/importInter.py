@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys, json
 import xlrd
 from lhlmysql.lhlsql import lhlSql
 
@@ -11,9 +12,9 @@ def readInter():
     for i in range(1,s1.nrows):
         row = s1.row_values(i)
         if row[7]:
-            mydata.insertInterface(row[0],row[3],row[2],row[5],row[4],row[6],row[1],str(int(row[7])))
+            mydata.insertInterface(row[0],row[3],row[2],json.dumps(json.loads(row[5])),row[4],row[6],row[1],str(int(row[7])))
         else:
-            mydata.insertInterface(row[0],row[3],row[2],row[5],row[4],row[6],row[1],'None')
+            mydata.insertInterface(row[0],row[3],row[2],json.dumps(json.loads(row[5])),row[4],row[6],row[1],'None')
         print(row)
 
 if __name__ == "__main__":

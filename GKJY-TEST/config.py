@@ -13,6 +13,7 @@ mysql_host = "127.0.0.1"
 url = "http://11.2.77.3"
 userurl = url + "/portal-test/user"
 orderurl = url + "/portal-test/order"
+joburl = url + "/portal-test/job"
 contracturl = url + "/portal-test/contract"
 
 #测试环境数据库

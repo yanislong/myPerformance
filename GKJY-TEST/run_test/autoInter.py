@@ -12,19 +12,21 @@ from lhlmysql.lhlsql import lhlSql
 class lhl:
     
     def __init__(self):
-        self.pheader = {}
         self.getheader = {}
-        self.session = userLogin.userlogin()
+        self.postheader_json = {}
+        self.postheader_www = {}
+        self.session = userLogin.userlogin().accountLogin()
         self.timeout = 12
-        self.pheader['Content-Type'] = "application/json"
-        self.pheader['Authorization'] = self.session.accountLogin() 
-        self.getheader['Content-Type'] = "application/x-www-form-urlencoded"
-        self.getheader['Authorization'] = self.session.accountLogin() 
+        self.getheader['Authorization'] = self.session
+        self.postheader_json['Authorization'] = self.session 
+        self.postheader_www['Authorization'] = self.session 
+        self.postheader_json['Content-Type'] = "application/json"
+        self.postheader_www['Content-Type'] = "application/x-www-form-urlencoded"
         pass
 
     def respondGet(self, result_code, url, header="", param=""):
         """
-        请求时需要3个参数，完整url，请求header,请求参数
+        请求时需要4个参数，预期的响应code, 完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
         s = requests.session()
@@ -43,21 +45,24 @@ class lhl:
             else:
                 result = 'Faile'
         else:
-            result = "None"
+            result = "Error"
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
-        result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
-        return result
+        rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
+        return rep
    
     def respondPost(self, result_code, url, header="", data={}):
         """
-        请求时需要3个参数，完整url，请求header,请求参数
+        请求时需要4个参数，预期的响应code, 完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
-        data = json.loads(data)
+        try:
+            data = json.loads(data)
+        except json.decoder.JSONDecodeError:
+            data = {}
         s = requests.session()
         if header.strip() == "json":
             try:
-                res = s.post(url, headers=self.pheader, data=data, timeout=self.timeout)
+                res = s.post(url, headers=self.postheader_json, data=json.dumps(data), timeout=self.timeout)
             except requests.exceptions.MissingSchema:
                 print('请求的Url地址有误')
                 return None
@@ -65,10 +70,11 @@ class lhl:
                 print("请求URL无法连接")
                 return None
             print(res.url)
+            print(data)
             print(res.text,res.elapsed.total_seconds(),res.status_code)
         else:
             try:
-                res = s.post(url, headers=self.pheader, params=data, timeout=self.timeout)
+                res = s.post(url, headers=self.postheader_www, data=data, timeout=self.timeout)
             except requests.exceptions.MissingSchema:
                 print('请求的Url地址有误')
                 return None
@@ -76,6 +82,7 @@ class lhl:
                 print("请求URL无法连接")
                 return None
             print(res.url)
+            print(data)
             print(res.text,res.elapsed.total_seconds(),res.status_code)
         if result_code:
             if str(res.json()['code']) == str(result_code.strip()):
@@ -84,12 +91,12 @@ class lhl:
                 result = 'Faile'
         else:
             result = "None"
-        result = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
-        return result
+        rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
+        return rep
 
     def respondPut(self, url, header="", data={}):
         """
-        请求时需要3个参数，完整url，请求header,请求参数
+        请求时需要3个参数，预期的响应code, 完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
         s = requests.session()
@@ -118,23 +125,25 @@ class lhl:
             print("url格式有误")
             return None
 
-    def runTest(self,hd):
+    def runTest(self):
+        aaa = ['用户登录', '账号密码登录（邮箱）', 'json', 'http://11.2.77.3/portal-test/user/login/account', 'post', '{\n "account": "Zhangemailuser01",\n "password": "Zhang@2019",\n "rememberMe": true\n}', '杨东升', 200.0]
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
-        for i in mydata:
+        #for i in mydata:
+        for i in aaa:
             print(i)
             if i[5].lower() == "get":
-                resGet = self.respondGet(i[8],i[2].strip(),hd,i[4])
+                resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])
                 if resGet:
                     sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
-                resPost = self.respondPost(i[8],i[2].strip(),hd,i[4])
+                resPost = self.respondPost(i[8],i[2].strip(),i[3],i[4])
                 if resPost:
                     sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
                 continue
             if i[5].lower() == "put":
-                resPut = self.respondPut(i[2].strip(),hd,i[4])
+                resPut = self.respondPut(i[2].strip(),i[3],i[4])
                 if resPut:
                     sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
                 continue
@@ -144,9 +153,7 @@ class lhl:
 
 
 if __name__ == "__main__":
-    hd = "cc7bce88-a9b2-434c-837b-ec9166717eb0"
     a = lhl()
-    #print(dir(a))
     #a._lhl__analysisUrl("http://www.baidu.com:9090/123/abc")
-    a.runTest(hd)
+    a.runTest()
     pass

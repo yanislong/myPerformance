@@ -11,7 +11,7 @@ from lhlsql import lhlSql, portalSql
 import config
 import userLogin
 
-class organManag():
+class HPC():
 
     def __init__(self):
         self.sqldata = lhlSql()
@@ -22,21 +22,16 @@ class organManag():
         self.postheader['Content-Type'] = "application/x-www-form-urlencoded;charset=UTF-8"
         self.postheader['Requested-With'] = "XMLHttpRequest"
         self.postheader['Authorization'] = self.session.accountLogin()
-        self.url = config.userurl
+        self.url = config.joburl
         pass
 
     def addaddress(self):
-        """添加邮寄地址"""
+        """高性能计算-作业-作业登录"""
 
-        mokuai = "组织管理"
+        mokuai = "高性能计算"
         param = {}
-        param['address'] = ""
-        param['detailedAddress'] = ""
-        param['mobile'] = ""
-        param['address'] = ""
-        param['orgName'] = ""
-        param['userName'] = ""
-        url = self.url + "/insertAddress"
+        param['userId'] = "1"
+        url = self.url + "/loginHpc"
         res = requests.post(url, headers=self.postheader, data=param)
         print(res.url)
         print(param)
