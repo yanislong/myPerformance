@@ -5,7 +5,10 @@ import xlrd
 from lhlmysql.lhlsql import lhlSql
 
 def readInter():
-    wb = xlrd.open_workbook(filename='/root/lhl/myPerformance/GKJY-TEST/run_test/excel/interfacedata.xlsx')
+    try:
+        wb = xlrd.open_workbook(filename='/root/lhl/myPerformance/GKJY-TEST/run_test/excel/interfacedata.xlsx')
+    except FileNotFoundError:
+        wb = xlrd.open_workbook(filename='/root/lhl/myPerformance/GKJY-TEST/run_test/excel/interfacedata.xls')
     print(wb.sheet_names())
     s1 = wb.sheet_by_index(0)
     mydata = lhlSql()

@@ -40,12 +40,17 @@ class lhl:
             return None
         print(res.status_code)
         if result_code:
-            if str(res.json()['code']) == str(result_code.strip()):
-                result = 'Success'
-            else:
-                result = 'Faile'
+            try:
+                if str(res.json()['code']) == str(result_code.strip()):
+                    result = 'Success'
+                else:
+                    result = 'Faile'
+            except json.decoder.JSONDecodeError:
+                result = "Error"
+            except KeyError:
+                result = "Error"
         else:
-            result = "Error"
+            result = "None"
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
         rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
         return rep
@@ -85,10 +90,15 @@ class lhl:
             print(data)
             print(res.text,res.elapsed.total_seconds(),res.status_code)
         if result_code:
-            if str(res.json()['code']) == str(result_code.strip()):
-                result = 'Success'
-            else:
-                result = 'Faile'
+            try:
+                if str(res.json()['code']) == str(result_code.strip()):
+                    result = 'Success'
+                else:
+                    result = 'Faile'
+            except json.decoder.JSONDecodeError:
+                result = "Error"
+            except KeyError:
+                result = "Error"
         else:
             result = "None"
         rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
@@ -126,11 +136,10 @@ class lhl:
             return None
 
     def runTest(self):
-        aaa = ['用户登录', '账号密码登录（邮箱）', 'json', 'http://11.2.77.3/portal-test/user/login/account', 'post', '{\n "account": "Zhangemailuser01",\n "password": "Zhang@2019",\n "rememberMe": true\n}', '杨东升', 200.0]
+    #    aaa = [(1455, '用户注册', 'http://11.2.77.3/portal-test/user/reg/email/add', 'json', '{"account": "Zhangemailuser01", "code": "1896", "email": "806622659@qq.com", "password": "Zhang@2019"}', 'post', '杨东升', '邮箱方式注册（验证码错误、失效）', '10601')]
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
-        #for i in mydata:
-        for i in aaa:
+        for i in mydata:
             print(i)
             if i[5].lower() == "get":
                 resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])

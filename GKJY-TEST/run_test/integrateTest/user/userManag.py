@@ -19,7 +19,7 @@ class userManag():
         self.postheader = {}
         self.postheader['Content-Type'] = "application/json"
         self.postheader['Authorization'] = self.session.accountLogin()
-        self.url = config.userurl
+        self.url = config.userurl + "/account/system"
         pass
 
     def adduser(self):
@@ -35,7 +35,7 @@ class userManag():
         param['name'] = "abc123"
         param['roleId'] = "16"
         for j in roleName:
-            url = self.url + "/account/add"
+            url = self.url + "/add"
             res = requests.post(url, headers=self.postheader, data=json.dumps(param))
             print(res.text)
             if res.json()['code'] == 200:
@@ -58,7 +58,7 @@ class userManag():
         param['name'] = "abc123"
         param['roleId'] = "16"
         for j in roleName:
-            url = self.url + "/account/add"
+            url = self.url + "/add"
             res = requests.post(url, headers=self.postheader, data=json.dumps(param))
             print(res.text)
             if res.json()['code'] != 200:
@@ -82,7 +82,7 @@ class userManag():
         param['roleId'] = "16"
         param['id'] = "10012"
         for j in roleName:
-            url = self.url + "/account/update"
+            url = self.url + "/update"
             res = requests.post(url, headers=self.postheader, data=json.dumps(param))
             print(res.text)
             if res.json()['code'] == 200:
@@ -106,7 +106,7 @@ class userManag():
         param['roleId'] = "14"
         param['id'] = "10012"
         for j in roleName:
-            url = self.url + "/account/update"
+            url = self.url + "/update"
             res = requests.post(url, headers=self.postheader, data=json.dumps(param))
             print(res.text)
             if res.json()['code'] != 200:
@@ -120,7 +120,7 @@ class userManag():
         """通过用户Id获取用户信息"""
 
         mokuai = "用户管理"
-        url = self.url + "/account/get"
+        url = self.url + "/get"
         mid = ["10012"] 
         param = {}
         for j in mid:
@@ -138,7 +138,7 @@ class userManag():
         """分页获取用户信息"""
 
         mokuai = "用户管理"
-        url = self.url + "/account/list"
+        url = self.url + "/list"
         mid = ["10012"] 
         param = {}
         param['account'] = "abc"
@@ -159,9 +159,9 @@ class userManag():
 
 if __name__ == "__main__":
     runtest = userManag()
-#    runtest.adduser()
+    runtest.adduser()
 #    runtest.wadduser()
-    runtest.updateuser()
+#    runtest.updateuser()
 #    runtest.wupdateuser()
 #    runtest.getuser()
 #    runtest.getpageuser()
