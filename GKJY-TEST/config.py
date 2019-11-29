@@ -3,8 +3,13 @@
 import time
 import hashlib
 
+#平台名称
+name = "国科晋云"
+
 #本地数据库
 mysql_host = "127.0.0.1"
+mysqluser = "root"
+mysqlpasswd = "root"
 
 #开发环境应用服务地址
 #develoturl = "http://11.2.77.1:8088"
@@ -17,7 +22,9 @@ joburl = url + "/portal-test/job"
 contracturl = url + "/portal-test/contract"
 
 #测试环境数据库
-portal_host = "192.168.15.21"
+mysqlportal_host = "192.168.15.21"
+mysqlportal_user = "root"
+mysqlportal_passwd = "Test~107443"
 
 #注册不删除用户
 useaccount = {'LIZONGWU':'17344432202'} #,'LIZONGWU':'335916781@qq.com'}

@@ -11,7 +11,7 @@ import config
 class lhlSql:
     
     def __init__(self):
-        self.con = pymysql.connect(config.mysql_host,'root','root','portaltest')
+        self.con = pymysql.connect(config.mysql_host, config.mysqluser, config.mysqlpasswd, 'portaltest')
 
     def getTimeInfo(self, iname, num=0):
         """根据iname, num参数，查询20条接口响应的时间信息"""
@@ -79,13 +79,14 @@ class lhlSql:
         cursor.close()
         return Name
 
-    def getInterfaceList(self, iname, iauthor, num=0):
+    def getInterfaceList(self, iname="", iauthor="", num=0):
         """查询interfaceInfo表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option, inputtime, author, descp, expected from interfaceInfo where intername like '%{0}%' and author like '%{1}%' limit {2},20".format(iname, iauthor, num)
+        sql = "select id, intername, interaddr, header, param, `option`, inputtime, author, descp, expected from interfaceInfo where intername like '%{0}%' and author like '%{1}%' limit {2},20".format(iname, iauthor, num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
+        print(inter)
         return inter
 
     def getInterfaceRespondList(self, iname, result, mid, num=0):
@@ -100,7 +101,7 @@ class lhlSql:
     def getAllInterface(self):
         """查询interfaceInfo表中所有数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, option, author, descp, expected from interfaceInfo"
+        sql = "select id, intername, interaddr, header, param, `option`, author, descp, expected from interfaceInfo"
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
@@ -119,7 +120,7 @@ class lhlSql:
         """向interfaceInfo表中插入数据"""
         cursor = self.con.cursor()
         tt = time.strftime("%Y/%m/%d %H:%M:%S")
-        sql = "insert into interfaceInfo(intername,interaddr,header,param,option,author,inputtime, descp, expected) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt,descp,expected)
+        sql = "insert into interfaceInfo(intername,interaddr,header,param,`option`,author,inputtime, descp, expected) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt,descp,expected)
         cursor.execute(sql)
         self.con.commit()
         cursor.close()
@@ -168,8 +169,11 @@ class lhlSql:
 class portalSql:
     
     def __init__(self):
-        self.con = pymysql.connect(config.portal_host,'root','Test~107443','j_portal')
-
+        try:
+            self.con = pymysql.connect(config.mysqlportal_host, config.mysqlportal_user, config.mysqlportal_passwd, 'j_portal')
+        except pymysql.err.OperationalError:
+            print('数据库无法连接')
+    
     def delUser(self,myname=""):
         """根据手机号，email, 账号删除用户"""
         cursor = self.con.cursor()
@@ -193,6 +197,7 @@ class portalSql:
         return None
 
 if __name__ == "__main__":
-    a = lhlSql()
+#    a = lhlSql()
+#    a.getInterfaceList()
     b = portalSql()
     b.delUser()

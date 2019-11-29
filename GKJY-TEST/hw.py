@@ -7,12 +7,16 @@ from werkzeug import secure_filename
 from flask import jsonify
 from run_test.lhlmysql.lhlsql import lhlSql
 import os, json, sys, pymysql, subprocess
-#sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
-sys.path.append('./run_test/excel')
-import myrule
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
+#sys.path.append('./run_test/excel')
+try:
+    import myrule
+except ModuleNotFoundError:
+    pass
 
 from decimal import Decimal
 from run_test import autoInter
+import config
 
 UPLOAD_FOLDER = "./run_test/excel/"
 ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz'])
@@ -33,7 +37,8 @@ app.secret_key = os.urandom(12)
 
 @app.route('/', methods=["GET"])
 def hw():
-    return render_template("index.html", relset=())
+    res = config.name
+    return render_template("index.html", result=(res,))
 
 @app.route('/test')
 def test01():
@@ -74,6 +79,10 @@ def coll():
 
 @app.route('/rule', methods=['GET'])
 def rule():
+    try:
+        print(myrule.rule)
+    except NameError:
+        return render_template('test.html', result=())
     return render_template('rule.html', result=(myrule.rule,))
 
 @app.route('/integrate', methods=["POST","GET"])

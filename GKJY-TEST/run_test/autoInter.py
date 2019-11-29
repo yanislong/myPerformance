@@ -15,7 +15,11 @@ class lhl:
         self.getheader = {}
         self.postheader_json = {}
         self.postheader_www = {}
-        self.session = userLogin.userlogin().accountLogin()
+        try:
+            self.session = userLogin.userlogin().accountLogin()
+        except requests.exceptions.ConnectionError:
+            self.session = ""
+            print('没有身份认证信息')
         self.timeout = 12
         self.getheader['Authorization'] = self.session
         self.postheader_json['Authorization'] = self.session 
@@ -34,11 +38,17 @@ class lhl:
         if not self.__analysisUrl(url):
             return None
         try:
+            param = json.loads(param)
+        except json.decoder.JSONDecodeError:
+            param = {}
+        try:
             res = s.get(url, headers=self.getheader, params=param, timeout=self.timeout)
         except requests.exceptions.ConnectionError:
             print("请求URL无法连接")
             return None
         print(res.status_code)
+        print(res.url)
+        print(res.text)
         if result_code:
             try:
                 if str(res.json()['code']) == str(result_code.strip()):
@@ -136,10 +146,11 @@ class lhl:
             return None
 
     def runTest(self):
-    #    aaa = [(1455, '用户注册', 'http://11.2.77.3/portal-test/user/reg/email/add', 'json', '{"account": "Zhangemailuser01", "code": "1896", "email": "806622659@qq.com", "password": "Zhang@2019"}', 'post', '杨东升', '邮箱方式注册（验证码错误、失效）', '10601')]
+        aaa = [(1722, '个人中心', 'http://10.0.115.18:7474/portal-test/user/person/get', '', '{"": ""}', 'get', '杨东升', '获取当前登录人信息\n（有效的token值）', '200')]
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
-        for i in mydata:
+        #for i in mydata:
+        for i in aaa:
             print(i)
             if i[5].lower() == "get":
                 resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])
