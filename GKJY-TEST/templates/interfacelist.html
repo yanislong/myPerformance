@@ -1,10 +1,11 @@
 <html>
 <head>
+<title>接口列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
+<script src="{{url_for('static',filename='js/tanceng.js')}}"></script>
 <!--<script src="{{url_for('static',filename='js/bundle.js')}}"></script>-->
 <!--<script async defer src="{{url_for('static',filename='js/test.js')}}"></script>-->
-<title>接口列表</title>
 <style type="text/css">
     table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; width: 100%}
     td {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; }
@@ -46,6 +47,35 @@
 <input type="hidden" name="execut" value="" />
 &nbsp&nbsp||&nbsp&nbsp <button>执行接口测试</button>
 </form>
+ || <input type="button" value="新增接口" onclick="Show();">
+<div id="shade" class="c1 hide"></div>
+<div id="modal" class="c2 hide">
+<form action="/addInterface" method="post">
+<p>模块：<input name="imode" /></p>
+<p>接口描述：<input name="idesc" /></p>
+<p>接口地址：<input name="iaddr" /></p>
+<p>请求头：<input list="headlist" value="" name="iheader" autocomplete="off" />
+<datalist id="headlist">
+<option>json</option>
+</datalist>
+</p>
+<p>请求参数：<textarea name="iparam"></textarea></p>
+<p>
+</datalist>
+请求方法:<input list="optionlist" value="" name="ioption" autocomplete="off" />
+<datalist id="optionlist">
+<option>get</option>
+<option>post</option>
+</datalist>
+</p>
+<p>开发者：<input name="iauthor" /></p>
+<p>预期结果：<input name="iresult" /></p>
+<p><button>确定</button></p>
+</form>
+<p>
+    <input type="button" value="取消" onclick="Hide();">
+</p>
+    </div>
 <table>
 <thead>
 <tr>

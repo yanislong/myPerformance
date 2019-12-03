@@ -105,25 +105,32 @@ def integr():
 @app.route('/addInterface', methods=['GET','POST'])
 def qianyun3():
     if request.method == "POST":
+        print(123)
         try:
             #get_name = request.get_data()
-            get_name = request.form['iname']
+            get_mode = request.form['imode']
+            get_desc = request.form['idesc']
             get_addr = request.form['iaddr']
             get_header = request.form['iheader']
             get_param = request.form['iparam']
             get_option = request.form['ioption']
-            get_author = request.form['author']
+            get_author = request.form['iauthor']
+            get_result = request.form['iresult']
         except TypeError:
+            get_mode = ""
+            get_desc = ""
             get_addr = ""
             get_header = ""
             get_parama = ""
-            get_name = ""
             get_option = ""
             get_author = ""
+            get_result = ""
         finally:
             mydata = lhlSql()
-            mydata.insertInterface(get_name,get_addr,get_header,get_param,get_option,author)
-    return render_template('addInterface.html')
+            mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result)
+#            insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected)
+#    return render_template('addInterface.html')
+    return qianyun4()
 
 @app.route('/runtest', methods=['GET','POST'])
 def runtest():

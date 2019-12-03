@@ -82,7 +82,7 @@ class lhlSql:
     def getInterfaceList(self, iname="", iauthor="", num=0):
         """查询interfaceInfo表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, `option`, inputtime, author, descp, expected from interfaceInfo where intername like '%{0}%' and author like '%{1}%' limit {2},20".format(iname, iauthor, num)
+        sql = "select id, intername, interaddr, header, param, `option`, inputtime, author, descp, expected from interfaceInfo where intername like '%{0}%' and author like '%{1}%' order by id Desc limit {2},20".format(iname, iauthor, num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
