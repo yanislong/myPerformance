@@ -27,7 +27,7 @@ mysqlportal_user = "root"
 mysqlportal_passwd = "Test~107443"
 
 #注册不删除用户
-useaccount = {'LIZONGWU':'17344432202'} #,'LIZONGWU':'335916781@qq.com'}
+useaccount = {'lizongwu':'17344432202'} #,'LIZONGWU':'335916781@qq.com'}
 
 #已注册账号手机号,长度要保持一直
 account = ["test123test","a12345","ab012345678901234567890123456789","LIXIAOFENG","kali001"]

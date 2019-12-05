@@ -79,24 +79,23 @@
 <table>
 <thead>
 <tr>
-<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:50px">选择</th>
+<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:50px">操作</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:50px">选择</th>
+<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:50px">操作</th>
 </tr>
 </tfoot>
 <tbody>
 <form action="/delinterface" method="get">
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 50px"><input type="radio" name="iid" id="myid" value="{{i[0]}}"/></td>
+<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 50px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button></td>
 </tr>
 {% endfor %}
-</tbody>
-&nbsp|| &nbsp<button>选择删除</button>
 </form>
+</tbody>
 </table>
 </body>
 <script>function txt(){ var message=confirm('确认删除?')}</script>

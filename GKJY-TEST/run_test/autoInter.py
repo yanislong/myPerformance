@@ -146,11 +146,10 @@ class lhl:
             return None
 
     def runTest(self):
-        aaa = [(1722, '个人中心', 'http://10.0.115.18:7474/portal-test/user/person/get', '', '{"": ""}', 'get', '杨东升', '获取当前登录人信息\n（有效的token值）', '200')]
+    #    aaa = [(1722, '个人中心', 'http://10.0.115.18:7474/portal-test/user/person/get', '', '{"": ""}', 'get', '杨东升', '获取当前登录人信息\n（有效的token值）', '200')]
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
-        #for i in mydata:
-        for i in aaa:
+        for i in mydata:
             print(i)
             if i[5].lower() == "get":
                 resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])
@@ -171,6 +170,29 @@ class lhl:
                 print("请求方式或参数有误不存在")
         return None
 
+    def oneTest(self,rid):
+        sqldata = lhlSql()
+        onedata = sqldata.getIdInterface(rid)
+        for i in onedata:
+            print(i)
+            if i[5].lower() == "get":
+                resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])
+                if resGet:
+                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
+                continue
+            if i[5].lower() == "post":
+                resPost = self.respondPost(i[8],i[2].strip(),i[3],i[4])
+                if resPost:
+                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
+                continue
+            if i[5].lower() == "put":
+                resPut = self.respondPut(i[2].strip(),i[3],i[4])
+                if resPut:
+                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
+                continue
+            else:
+                print("请求方式或参数有误不存在")
+        return None
 
 if __name__ == "__main__":
     a = lhl()

@@ -15,7 +15,7 @@ except ModuleNotFoundError:
     pass
 
 from decimal import Decimal
-from run_test import autoInter
+from run_test import autoInter, importInter
 import config
 
 UPLOAD_FOLDER = "./run_test/excel/"
@@ -134,7 +134,9 @@ def qianyun3():
 
 @app.route('/runtest', methods=['GET','POST'])
 def runtest():
-    subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/autoInter.py', shell=True)
+#    subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/autoInter.py', shell=True)
+    myrun = autoInter.lhl()
+    myrun.runTest()
     return qianyun4()
 
 @app.route('/interfaceList', methods=['GET','POST'])
@@ -168,11 +170,18 @@ def qianyun4():
 def delinter():
     if request.method == "GET":
         get_id = request.args.get("iid")
+        get_rd = request.args.get("rid")
+        print(get_id)
+        print(get_rd)
         if get_id == "" or get_id == None:
+            myrun = autoInter.lhl()
+            myrun.oneTest(get_rd)
             return qianyun4()
-        else:
+        elif get_rd == "" or get_rd == None:
             mydata = lhlSql()
             mydata.DelInterface(get_id)
+            return qianyun4()
+        else:
             return qianyun4()
 
 @app.route('/interfaceRespondList', methods=['GET','POST'])
@@ -288,9 +297,8 @@ def upload_file():
     print(f)
     if f and allowed_file(f.filename):
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
-        subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/importInter.py', shell=True)
-        print("a" * 10)
-        return qianyun4()
+        #subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/importInter.py', shell=True)
+        return importInter.readInter()
         #return render_template('interfacelist.html', result=())
     else:
         return render_template('error.html', result=())

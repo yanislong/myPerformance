@@ -90,13 +90,22 @@ class lhlSql:
         return inter
 
     def getInterfaceRespondList(self, iname, result, mid, num=0):
-        """查询interfaceRespondList表中20条数据"""
+        """查询interfaceRespondList表中数据,返回20条"""
         cursor = self.con.cursor()
         sql = "select id, intername, interaddr, requestparam, respondbody, code, respondtime, inputtime, descp, result from interfaceRespond where intername like '%{0}%' and result like '%{1}%' and id like '%{2}%' order by id Desc limit {3},20".format(iname,result,mid,num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
         return inter
+
+    def getIdInterface(self, iid=0):
+        """通过Id,查询interfaceInfo表中的数据"""
+        cursor = self.con.cursor()
+        sql = "select id, intername, interaddr, header, param, `option`, author, descp, expected from interfaceInfo where id='{0}'".format(iid)
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
 
     def getAllInterface(self):
         """查询interfaceInfo表中所有数据"""
