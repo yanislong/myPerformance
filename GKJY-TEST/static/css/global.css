@@ -1,14 +1,21 @@
-h1 {text-align: center; color: #4169e1;}
-a {font-size: 22px; font-weight: bold; color: #1e90ff; display: inline-block; text-align: center;}
+h1 {text-align: center; color: #fff; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
+a {font-size: 22px; font-weight: bold; color: #eee; display: inline-block; text-align: center; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
+a:link,a:visited{
+ text-decoration:none;  /*超链接无下划线*/
+}
+a:hover{
+ text-decoration:underline;  /*鼠标放上去有下划线*/
+}
 /*body {background-image: url('../image/page.jpg'); background-size: 100% 100%}*/
-body {background-image: url('../image/83.jpg'); background-size: 100% 100%}
+#body {background-image: url('../image/83.jpg'); background-size: 100% 100%}
+body {background-color: #8cc; background-size: 100% 100%}
 span {font-size: 16px; color:#933;}
 table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff0000; border-collapse: collapse; width: 100%}
 td {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff0000; border-collapse: collapse; }
 div {margin: 20px;}
 #runmokuai span { font-size: 18px; color: #000; margin: 10px;}
 #bmokuai {float: left; margin: 50px;}
-table tr:nth-child(even){background: #eee8aa;}
+table tr:nth-child(even){background: #efe;}
 
 .hide{
             display: none;

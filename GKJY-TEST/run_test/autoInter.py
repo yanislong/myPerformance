@@ -5,9 +5,11 @@ import sys, json, re
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest')
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/user')
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test')
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
 
 import userLogin
 from lhlmysql.lhlsql import lhlSql
+import config
 
 class lhl:
     
@@ -21,6 +23,7 @@ class lhl:
             self.session = ""
             print('没有身份认证信息')
         self.timeout = 12
+        self.testurl = config.testurl
         self.getheader['Authorization'] = self.session
         self.postheader_json['Authorization'] = self.session 
         self.postheader_www['Authorization'] = self.session 
@@ -34,12 +37,14 @@ class lhl:
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
         s = requests.session()
-        self.getheader['Cookie'] = header
         if not self.__analysisUrl(url):
             return None
         try:
             param = json.loads(param)
         except json.decoder.JSONDecodeError:
+            param = {}
+        if not isinstance(param, dict):
+            print('get请求的参数格式有误')
             param = {}
         try:
             res = s.get(url, headers=self.getheader, params=param, timeout=self.timeout)
@@ -74,6 +79,9 @@ class lhl:
             data = json.loads(data)
         except json.decoder.JSONDecodeError:
             data = {}
+        if not isinstance(data, dict):
+            print('post请求的数据格式有误')
+            param = {}
         s = requests.session()
         if header.strip() == "json":
             try:
@@ -146,25 +154,28 @@ class lhl:
             return None
 
     def runTest(self):
-    #    aaa = [(1722, '个人中心', 'http://10.0.115.18:7474/portal-test/user/person/get', '', '{"": ""}', 'get', '杨东升', '获取当前登录人信息\n（有效的token值）', '200')]
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
         for i in mydata:
             print(i)
+            l1 = re.compile('http://(.*?)/')
+            l2 = l1.findall(i[2])
+            l3 = i[2].replace(l2[0], self.testurl)
+    #        print(l3)
             if i[5].lower() == "get":
-                resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])
+                resGet = self.respondGet(i[8],l3.strip(),i[3],i[4])
                 if resGet:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
-                resPost = self.respondPost(i[8],i[2].strip(),i[3],i[4])
+                resPost = self.respondPost(i[8],l3.strip(),l3,i[4])
                 if resPost:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
                 continue
             if i[5].lower() == "put":
-                resPut = self.respondPut(i[2].strip(),i[3],i[4])
+                resPut = self.respondPut(l3.strip(),i[3],i[4])
                 if resPut:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
                 continue
             else:
                 print("请求方式或参数有误不存在")
@@ -175,20 +186,24 @@ class lhl:
         onedata = sqldata.getIdInterface(rid)
         for i in onedata:
             print(i)
+            l1 = re.compile('http://(.*?)/')
+            l2 = l1.findall(i[2])
+            l3 = i[2].replace(l2[0], self.testurl)
+    #        print(l3)
             if i[5].lower() == "get":
-                resGet = self.respondGet(i[8],i[2].strip(),i[3],i[4])
+                resGet = self.respondGet(i[8],l3.strip(),i[3],i[4])
                 if resGet:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
-                resPost = self.respondPost(i[8],i[2].strip(),i[3],i[4])
+                resPost = self.respondPost(i[8],l3.strip(),i[3],i[4])
                 if resPost:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
                 continue
             if i[5].lower() == "put":
-                resPut = self.respondPut(i[2].strip(),i[3],i[4])
+                resPut = self.respondPut(l3.strip(),i[3],i[4])
                 if resPut:
-                    sqldata.insertInterfaceRespond(i[1],i[2],i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
                 continue
             else:
                 print("请求方式或参数有误不存在")

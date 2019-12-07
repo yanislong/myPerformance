@@ -48,7 +48,7 @@ def test01():
 def downloadfile():
     if request.method == 'GET':
         #fullfilename = request.args.get('filename')
-        fullfilename = '/root/lhl/myPerformance/GKJY-TEST/templates/interfacedata.xlsx'
+        fullfilename = '/root/lhl/myPerformance/GKJY-TEST/templates/file/interfacedata.xlsx'
         fullfilenamelist = fullfilename.split('/')
         filename = fullfilenamelist[-1]
         filepath = fullfilename.replace('/%s'%filename, '')
@@ -134,9 +134,7 @@ def qianyun3():
 
 @app.route('/runtest', methods=['GET','POST'])
 def runtest():
-#    subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/autoInter.py', shell=True)
-    myrun = autoInter.lhl()
-    myrun.runTest()
+    subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/autoInter.py', shell=True)
     return qianyun4()
 
 @app.route('/interfaceList', methods=['GET','POST'])
@@ -164,7 +162,7 @@ def qianyun4():
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceInfoName()
 #    print(webbodydata)
-    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedataauthor))
+    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedataauthor,config.intermode,config.option,config.author))
 
 @app.route('/delinterface', methods=['GET','POST'])
 def delinter():

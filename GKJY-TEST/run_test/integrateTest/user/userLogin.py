@@ -49,9 +49,8 @@ class userlogin():
         """使用已注册账号进行登录"""
 
         mokuai = "用户登录"
-        passwd = "12345678"
         data = {}
-        data['password'] = passwd
+        data['password'] = config.passwd
         data['rememberMe'] = True
         url = self.url + "/login/account"
         for j in self.account.keys():

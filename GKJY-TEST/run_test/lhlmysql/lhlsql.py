@@ -209,4 +209,4 @@ if __name__ == "__main__":
 #    a = lhlSql()
 #    a.getInterfaceList()
     b = portalSql()
-    b.delUser()
+#    b.delUser()

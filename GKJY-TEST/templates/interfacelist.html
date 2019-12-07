@@ -2,6 +2,8 @@
 <head>
 <title>接口列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="https://fonts.loli.net/css?family=Quicksand:400" rel="stylesheet">
+<link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 <script src="{{url_for('static',filename='js/tanceng.js')}}"></script>
 <!--<script src="{{url_for('static',filename='js/bundle.js')}}"></script>-->
@@ -12,6 +14,11 @@
 </style>
 </head>
 <body>
+  <audio id="vdo" autoplay="autoplay" loop>
+  <!-- 如果浏览器不支持，则会呈现下面内容 -->
+  <p>你的浏览器不支持HTML5音频，你可以<a href="{{url_for('static',filename='vidio/tuihou.mp3')}}">下载</a>这个音频文件。</p>
+  <source src="{{url_for('static',filename='vidio/tuihou.mp3')}}" type="audio/ogg">
+  </audio>
 <h1>待请求接口列表</h1>
 <a href="/">index</a>
  || <a href="interfaceRespondList">接口请求结果</a>
@@ -27,7 +34,7 @@
 <button>模板下载</button>
 </form>
 <form action="/interfaceList" method="get" style="float:left">
-接口名称:<input list="namelist" value="" name="interface" autocomplete="off" />
+模块:<input list="namelist" value="" name="interface" autocomplete="off" />
 <datalist id="namelist">
 {% for i in result[3] %}
 <option>{{i[0]}}</option>
@@ -51,8 +58,13 @@
 <div id="shade" class="c1 hide"></div>
 <div id="modal" class="c2 hide">
 <form action="/addInterface" method="post">
-<p>模块：<input name="imode" /></p>
-<p>接口描述：<input name="idesc" /></p>
+<p>模块：<input list="modelist" name="imode" autocomplete="off" /></p>
+<datalist id="modelist">
+{% for i in result[6] %}
+<option>{{i}}</option>
+{% endfor %}
+</datalist>
+<p>接口描述：<input name="idesc" autocomplete="off" /></p>
 <p>接口地址：<input name="iaddr" /></p>
 <p>请求头：<input list="headlist" value="" name="iheader" autocomplete="off" />
 <datalist id="headlist">
@@ -60,15 +72,20 @@
 </datalist>
 </p>
 <p>请求参数：<textarea name="iparam"></textarea></p>
-<p>
 </datalist>
-请求方法:<input list="optionlist" value="" name="ioption" autocomplete="off" />
+<p>请求方法:<input list="optionlist" value="" name="ioption" autocomplete="off" />
 <datalist id="optionlist">
-<option>get</option>
-<option>post</option>
+{% for i in result[7] %}
+<option>{{i}}</option>
+{% endfor %}
 </datalist>
 </p>
-<p>开发者：<input name="iauthor" /></p>
+<p>开发者：<input list="authorlist" name="iauthor" autocomplete="off"  /></p>
+<datalist id="authorlist">
+{% for i in result[8] %}
+<option>{{i}}</option>
+{% endfor %}
+</datalist>
 <p>预期结果：<input name="iresult" /></p>
 <p><button>确定</button></p>
 </form>
