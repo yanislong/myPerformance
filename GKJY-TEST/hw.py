@@ -37,7 +37,7 @@ app.secret_key = os.urandom(12)
 
 @app.route('/', methods=["GET"])
 def hw():
-    res = config.name
+    res = (config.name, config.bugurl)
     return render_template("index.html", result=(res,))
 
 @app.route('/test')

@@ -7,12 +7,16 @@ import hashlib
 
 #测试平台名称
 name = "国科晋云"
+#首页外链bug平台地址
+bugurl = "https://www.tapd.cn/company/participant_projects"
 #接口模块
 intermode = ['user','order','job','flow','account','contract','invoice','file','messcenter','org','ldap']
 #接口请求方法
 option = ['get','post']
 #接口开发者
 author = ['杨东升','杜丽','丁旭','张亚辉','梁永全']
+#是否开启身份认证
+authorized = True
 
 #################################################
 
@@ -65,12 +69,19 @@ noAccount = ["0123456","a1234","abc123456789012345678901234567890","a!@#$%^&","1
 
 ######################全局方法###############################
 
+#提供参数,返回MD5值
 def mm(parm):
     m1 = hashlib.md5(parm.encode())
     return m1.hexdigest()
 
+#返回当前时间
 def mydatatime():
     return time.strftime("%m%d %H%M%S",time.localtime())
+
+#返回11位随机数
+def suiji():
+    a = ''.join(random.sample(['z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a','Z','Y','X','U','V','W','Q','E','R','T','I','O','P','A','S','D','F','G','H','H','J','K','L','C','B','N','M','1','2','3','4','5','6','7','8','0','9'], 11))
+    return a
 
 #####################################################
 

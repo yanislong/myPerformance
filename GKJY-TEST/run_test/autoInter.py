@@ -17,11 +17,14 @@ class lhl:
         self.getheader = {}
         self.postheader_json = {}
         self.postheader_www = {}
-        try:
-            self.session = userLogin.userlogin().accountLogin()
-        except requests.exceptions.ConnectionError:
+        if config.authorized == True:
+            try:
+                self.session = userLogin.userlogin().accountLogin()
+            except requests.exceptions.ConnectionError:
+                self.session = ""
+                print('没有身份认证信息')
+        else:
             self.session = ""
-            print('没有身份认证信息')
         self.timeout = 12
         self.testurl = config.testurl
         self.getheader['Authorization'] = self.session
