@@ -23,11 +23,11 @@
       <p><a href="interfaceList">!进入!</a></p>
     </div>
     <div class="ok">
-      <p class="attention">※  根本没有巧合, 巧合是种错觉 ※ </p>
+      <p class="attention">※  {{result[0][3]}} ※ </p>
     </div>
   </div>
   <div align="center">
-  <audio id="vdo" autoplay="autoplay" loop>
+  <audio id="vdo" {{result[0][2]}} loop>
   <!-- 如果浏览器不支持，则会呈现下面内容 -->
   <p>你的浏览器不支持HTML5音频，你可以<a href="{{url_for('static',filename='vidio/tuihou.mp3')}}">下载</a>这个音频文件。</p>
   <source src="{{url_for('static',filename='vidio/tuihou.mp3')}}" type="audio/ogg">

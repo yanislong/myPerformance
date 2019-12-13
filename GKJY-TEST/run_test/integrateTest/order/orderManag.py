@@ -30,32 +30,48 @@ class orderManag():
         roleName = ["中國石油化工集團公司中國石油化工集團公司中國石油化工集團公司"] 
         url = self.url + "/order/addOrder"
         param = {}
-        param["applyNumber"] = ""
+#        param["applyNumber"] = ""
+        #提交申请方 0甲方1销售经理
         param["applyParty"] = 1
-        param["approveStep"] = ""
+        #服务区ID
         param["areaId"] = 0
-        param["areaInfo"] = ""
+        #平均折扣/最低折扣\n配置方式\n0固定参数：平均折扣\n1灵活配置：最低折扣
         param["avgDiscount"] = 0
+        #资源配置方式，0固定参数1灵活配置
+        param['deployWay'] = ""
+        #优惠总额，单位：分
         param["discountPrice"] = 0
+        #用户单位ID
         param["entCompanyId"] =  0
-        param["entCompanyName"] = "1"
+        #甲方账号是否存在 0存在1不存在
         param["entExist"] = 0
-        param["entId"] = 0
+        #甲方邮箱
         param["entMail"] = "1"
+        #甲方联系电话
         param["entPhone"] = "1"
-        param["orderId"] = 123
-        param["orderNumber"] = ""
+        #甲方联系电话方式0固定电话1手机
+        param["entPhoneWay"] = "1"
+        #甲方账号ID
+        param["entId"] = 0
+        #订单ID
+#        param["orderId"] = 123
+        #订单类型 0试用1新购2续费3退订
         param["orderType"] = 0
+        #产品类型 1高性能计算 3数据存储 4网络资源
         param["productType"] = 0
+        #项目名称
         param["projectName"] = "1"
-        reslist=[{"level": 0,"parentId": 0,"resId": 0,"resInfo": "","totalNumber": 0,"unitPrice": 0,"useNumber": 0}]
-        resvolist = [{"discount": 0,"number": 0,"orderResId": 0,"price": 0,"resId": 0,"validDays": 0,"validUnit": "","resList":reslist }]
-       	param["resVOList"] = resvolist
+        #销售经理ID
         param["salesUserId"] = 12
-        param["salesUserName"] = "小翠"
-        param["status"] = 2
+        #报价总额，单位：分
         param["totalPrice"] = 0
-        param["userId"] = 11
+        #订单状态：0暂存1提交
+        param["status"] = 0
+        #用户账号不存在时备注
+        param['userRemark'] = ""
+        resvolist = [{"discount": 0,"number": 0,"price": 0,"resId": 0,"validDays": 0,"resProdSrvId": 0,"unitPrice": 0,"validUnit": 0,"validUnit": "","resTypeId":""}]
+        #资源信息
+       	param["resVOList"] = resvolist
         for j in roleName:
             res = requests.post(url, headers=self.postheader, data=json.dumps(param))
             print(res.text)

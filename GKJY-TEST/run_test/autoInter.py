@@ -14,12 +14,9 @@ import config
 class lhl:
     
     def __init__(self):
-        self.getheader = {}
-        self.postheader_json = {}
-        self.postheader_www = {}
         if config.authorized == True:
             try:
-                self.session = userLogin.userlogin().accountLogin()
+                self.session = userLogin.userlogin().accountLogin(config.useaccount,config.passwd)
             except requests.exceptions.ConnectionError:
                 self.session = ""
                 print('没有身份认证信息')
@@ -27,18 +24,35 @@ class lhl:
             self.session = ""
         self.timeout = 12
         self.testurl = config.testurl
+        self.getheader = {}
         self.getheader['Authorization'] = self.session
+        self.postheader_json = {}
         self.postheader_json['Authorization'] = self.session 
-        self.postheader_www['Authorization'] = self.session 
         self.postheader_json['Content-Type'] = "application/json"
+        self.postheader_www = {}
+        self.postheader_www['Authorization'] = self.session 
         self.postheader_www['Content-Type'] = "application/x-www-form-urlencoded"
         pass
 
-    def respondGet(self, result_code, url, header="", param=""):
+    def respondGet(self, result_code, url, header="", param="", upwd=None):
         """
-        请求时需要4个参数，预期的响应code, 完整url，请求header,请求参数
+        请求时需要4个参数, 预期的响应code, 完整url, 请求header,请求参数, 测试账号密码
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
+        #判断是否提供了测试用的用户名和密码，如果没有提供则使用默认账号，如果提供有误则没有身份认证信息
+        self.getheader['Authorization'] = self.session
+        if upwd:
+            try:
+                upwd = json.loads(upwd)
+                try:
+                    testsession = userLogin.userlogin().accountLogin(upwd['username'],upwd['passwd'])
+                    self.getheader['Authorization'] = testsession
+                except requests.exceptions.ConnectionError:
+                    self.getheader['Authorization'] = ""
+                except KeyError:
+                    self.getheader['Authorization'] = ""
+            except json.decoder.JSONDecodeError:
+                self.getheader['Authorization'] = ""
         s = requests.session()
         if not self.__analysisUrl(url):
             return None
@@ -73,11 +87,30 @@ class lhl:
         rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
         return rep
    
-    def respondPost(self, result_code, url, header="", data={}):
+    def respondPost(self, result_code, url, header="", data={}, upwd=None):
         """
         请求时需要4个参数，预期的响应code, 完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
+        #判断是否提供了测试用的用户名和密码，如果没有提供则使用默认账号，如果提供有误则没有身份认证信息
+        self.postheader_json['Authorization'] = self.session
+        self.postheader_www['Authorization'] = self.session
+        if upwd:
+            try:
+                upwd = json.loads(upwd)
+                try:
+                    testsession = userLogin.userlogin().accountLogin(upwd['username'],upwd['passwd'])
+                    self.postheader_json['Authorization'] = testsession
+                    self.postheader_www['Authorization'] = testsession
+                except requests.exceptions.ConnectionError:
+                    self.postheader_json['Authorization'] = ""
+                    self.postheader_www['Authorization'] = ""
+                except KeyError:
+                    self.postheader_json['Authorization'] = ""
+                    self.postheader_www['Authorization'] = ""
+            except json.decoder.JSONDecodeError:
+                self.postheader_json['Authorization'] = ""
+                self.postheader_www['Authorization'] = ""
         try:
             data = json.loads(data)
         except json.decoder.JSONDecodeError:
@@ -100,6 +133,7 @@ class lhl:
             print(res.text,res.elapsed.total_seconds(),res.status_code)
         else:
             try:
+                print('nojson')
                 res = s.post(url, headers=self.postheader_www, data=data, timeout=self.timeout)
             except requests.exceptions.MissingSchema:
                 print('请求的Url地址有误')
@@ -125,11 +159,30 @@ class lhl:
         rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
         return rep
 
-    def respondPut(self, url, header="", data={}):
+    def respondPut(self, url, header="", data={}, upwd=None):
         """
         请求时需要3个参数，预期的响应code, 完整url，请求header,请求参数
         函数返回一个字典{'body': , 'respondTime':, 'code':}
         """
+        #判断是否提供了测试用的用户名和密码，如果没有提供则使用默认账号，如果提供有误则没有身份认证信息
+        self.postheader_json['Authorization'] = self.session
+        self.postheader_www['Authorization'] = self.session
+        if upwd:
+            try:
+                upwd = json.loads(upwd)
+                try:
+                    testsession = userLogin.userlogin().accountLogin(upwd['username'],upwd['passwd'])
+                    self.postheader_json['Authorization'] = testsession
+                    self.postheader_www['Authorization'] = testsession
+                except requests.exceptions.ConnectionError:
+                    self.postheader_www['Authorization'] = ""
+                    self.postheader_json['Authorization'] = ""
+                except KeyError:
+                    self.postheader_json['Authorization'] = ""
+                    self.postheader_www['Authorization'] = ""
+            except json.decoder.JSONDecodeError:
+                self.postheader_www['Authorization'] = ""
+                self.postheader_json['Authorization'] = ""
         s = requests.session()
         self.pheader['Cookie'] = header
         try:
@@ -160,23 +213,23 @@ class lhl:
         sqldata = lhlSql()
         mydata = sqldata.getAllInterface()
         for i in mydata:
-            print(i)
             l1 = re.compile('http://(.*?)/')
             l2 = l1.findall(i[2])
             l3 = i[2].replace(l2[0], self.testurl)
     #        print(l3)
+    #        print(i)
             if i[5].lower() == "get":
-                resGet = self.respondGet(i[8],l3.strip(),i[3],i[4])
+                resGet = self.respondGet(i[8],l3.strip(),i[3],i[4],i[9])
                 if resGet:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
-                resPost = self.respondPost(i[8],l3.strip(),l3,i[4])
+                resPost = self.respondPost(i[8],l3.strip(),i[3],i[4],i[9])
                 if resPost:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
                 continue
             if i[5].lower() == "put":
-                resPut = self.respondPut(l3.strip(),i[3],i[4])
+                resPut = self.respondPut(l3.strip(),i[3],i[4],i[9])
                 if resPut:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
                 continue
@@ -194,17 +247,17 @@ class lhl:
             l3 = i[2].replace(l2[0], self.testurl)
     #        print(l3)
             if i[5].lower() == "get":
-                resGet = self.respondGet(i[8],l3.strip(),i[3],i[4])
+                resGet = self.respondGet(i[8],l3.strip(),i[3],i[4],i[9])
                 if resGet:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
-                resPost = self.respondPost(i[8],l3.strip(),i[3],i[4])
+                resPost = self.respondPost(i[8],l3.strip(),i[3],i[4],i[9])
                 if resPost:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
                 continue
             if i[5].lower() == "put":
-                resPut = self.respondPut(l3.strip(),i[3],i[4])
+                resPut = self.respondPut(l3.strip(),i[3],i[4],i[9])
                 if resPut:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
                 continue

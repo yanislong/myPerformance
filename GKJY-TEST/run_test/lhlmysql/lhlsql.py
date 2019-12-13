@@ -101,7 +101,7 @@ class lhlSql:
     def getIdInterface(self, iid=0):
         """通过Id,查询interfaceInfo表中的数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, `option`, author, descp, expected from interfaceInfo where id='{0}'".format(iid)
+        sql = "select id, intername, interaddr, header, param, `option`, author, descp, expected, account from interfaceInfo where id='{0}'".format(iid)
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
@@ -110,7 +110,7 @@ class lhlSql:
     def getAllInterface(self):
         """查询interfaceInfo表中所有数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, `option`, author, descp, expected from interfaceInfo"
+        sql = "select id, intername, interaddr, header, param, `option`, author, descp, expected, account from interfaceInfo"
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
@@ -125,11 +125,11 @@ class lhlSql:
         cursor.close()
         return result
 
-    def insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected):
+    def insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected, iuserpwd):
         """向interfaceInfo表中插入数据"""
         cursor = self.con.cursor()
         tt = time.strftime("%Y/%m/%d %H:%M:%S")
-        sql = "insert into interfaceInfo(intername,interaddr,header,param,`option`,author,inputtime, descp, expected) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt,descp,expected)
+        sql = "insert into interfaceInfo(intername,interaddr,header,param,`option`,author,inputtime, descp, expected, account) value('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt,descp,expected,iuserpwd)
         cursor.execute(sql)
         self.con.commit()
         cursor.close()

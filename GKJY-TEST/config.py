@@ -7,6 +7,8 @@ import hashlib
 
 #测试平台名称
 name = "国科晋云"
+#追求真相
+saying = "根本没有巧合, 巧合是种错觉"
 #首页外链bug平台地址
 bugurl = "https://www.tapd.cn/company/participant_projects"
 #接口模块
@@ -16,7 +18,10 @@ option = ['get','post']
 #接口开发者
 author = ['杨东升','杜丽','丁旭','张亚辉','梁永全']
 #是否开启身份认证
-authorized = True
+authorized = ""#True
+#是否开启音乐
+#music = "autoplay"
+music = ""
 
 #################################################
 
@@ -34,9 +39,11 @@ mysqlpasswd = "root"
 #url = "http://11.2.77.3"
 testurl = "11.2.77.1"
 url = "http://11.2.77.1"
+#接口模块地址
 userurl = url + "/portal/user"
 orderurl = url + "/portal/order"
 joburl = url + "/portal/job"
+orgurl = url + "/portal/org"
 contracturl = url + "/portal/contract"
 
 #测试环境数据库
@@ -51,12 +58,14 @@ mysqlportal_passwd = "Test~107443"
 #注册不删除用户
 #useaccount = {'lizongwu':'17344432202'} #,'LIZONGWU':'335916781@qq.com'}
 #useaccount = {'Demo001':'17344432202'}
-useaccount = {'ZhangEmailuser163':'17344432202'} 
+#useaccount = {'ZhangEmailuser163':'17344432202'} 
+useaccount = 'yanislong'
 
 #通用密码
 #passwd = "12345678"
 #passwd = "Test123456!"
-passwd = "Zhang@2019"
+#passwd = "Zhang@2019"
+passwd = "ODc3ZmFkND"
 
 #已注册账号手机号,长度要保持一直
 account = ["test123test","a12345","ab012345678901234567890123456789","LIXIAOFENG","kali001"]

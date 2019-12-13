@@ -50,9 +50,9 @@ class userFind():
 #               result = "Success"
 #            else:
 #               result = "Faile"
-#            self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), reg.text, reg.status_code, round(reg.elapsed.total_seconds(),5), self.phoneRegist.__doc__, result)
+            self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(data), reg.text, reg.status_code, round(reg.elapsed.total_seconds(),5), self.phoneFind.__doc__, result)
         return None
 
 if __name__ == "__main__":
     runtest = userFind()
-    #runtest.phoneFind()
+    runtest.phoneFind()

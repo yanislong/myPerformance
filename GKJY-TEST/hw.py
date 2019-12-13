@@ -37,7 +37,7 @@ app.secret_key = os.urandom(12)
 
 @app.route('/', methods=["GET"])
 def hw():
-    res = (config.name, config.bugurl)
+    res = (config.name, config.bugurl, config.music, config.saying)
     return render_template("index.html", result=(res,))
 
 @app.route('/test')
@@ -96,7 +96,9 @@ def integr():
         get_name = get_name.split(',')
         print(get_name)
         for i in get_name:
-            p = subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/' + i + '.py', shell=True)
+            doc = 'python3 /root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/' + i + '.py'
+            print(doc)
+            p = subprocess.Popen(doc, shell=True)
             out,err=p.communicate(timeout=15)
         return jsonify({"msg": {"out": out,"err": err}, "status": 0})
     elif request.method == "GET":
@@ -116,6 +118,7 @@ def qianyun3():
             get_option = request.form['ioption']
             get_author = request.form['iauthor']
             get_result = request.form['iresult']
+            get_userpwd = request.form['iuserpwd']
         except TypeError:
             get_mode = ""
             get_desc = ""
@@ -125,9 +128,10 @@ def qianyun3():
             get_option = ""
             get_author = ""
             get_result = ""
+            get_userpwd = ""
         finally:
             mydata = lhlSql()
-            mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result)
+            mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd)
 #            insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected)
 #    return render_template('addInterface.html')
     return qianyun4()
@@ -162,7 +166,7 @@ def qianyun4():
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceInfoName()
 #    print(webbodydata)
-    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedataauthor,config.intermode,config.option,config.author))
+    return render_template('interfacelist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,webnamedataauthor,config.intermode,config.option,config.author,config.music))
 
 @app.route('/delinterface', methods=['GET','POST'])
 def delinter():
@@ -209,7 +213,7 @@ def qianyun5():
     webnamedata = mydata.getInterfaceRespondName()
     webtotalpage = int(webtotalnumber / 20) + 1
     intername = mydata.getInterfaceRespondName()
-    return render_template('interfacerespondlist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata))
+    return render_template('interfacerespondlist.html', result=(webbodydata,webtotalnumber,webtotalpage,intername,webnamedata,config.music))
 
 @app.route('/qianyunPOST')
 def qianyunpost():

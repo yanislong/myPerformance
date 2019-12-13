@@ -24,17 +24,18 @@ class org():
     def addorg(self):
         """添加组织机构"""
 
+        ii = {"id":4,"no":"ABCD","name":"国科晋云","level":1,"sort":1,"parentId":0,"leaf":0,"leaderId":10013,"userIds":None}
         mokuai = "组织机构"
         data = {}
-        data["leaderId"] = "1"
+       # data["id"] = 0
+        data["leaderId"] = "10014"
         data["leaf"] = 0
-        data["level"] = "1"
-        data["no"] = 1
-        data["name"] = "1"
-        data["parentId"] = "1"
+        data["level"] = 1
+        data["no"] = "20191209"
+        data["name"] = "20191209组织机构"
+        data["parentId"] = 0
         data["sort"] = 0
-        data["id"] = 1
-        data["userIds"] = 1
+        data["userIds"] = None
         url = self.url + "/add"
         res = requests.post(url, headers=self.postheader, data=json.dumps(data))
         print(res.text)
@@ -263,13 +264,13 @@ class org():
 if __name__ == "__main__":
     runtest = org()
     runtest.addorg()
-    runtest.orgupdate()
-    runtest.orgrd()
-    runtest.delorg()
-    runtest.orgmode()
-    runtest.orglist()
-    runtest.orgno()
-    runtest.orgparent()
-    runtest.orgperm()
+#    runtest.orgupdate()
+#    runtest.orgrd()
+#    runtest.delorg()
+#    runtest.orgmode()
+#    runtest.orglist()
+#    runtest.orgno()
+#    runtest.orgparent()
+#    runtest.orgperm()
     runtest.orgtree()
-    runtest.orgrename()
+#    runtest.orgrename()

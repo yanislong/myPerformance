@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-  <audio id="vdo" autoplay="autoplay" loop>
+  <audio id="vdo" {{result[9]}} loop>
   <!-- 如果浏览器不支持，则会呈现下面内容 -->
   <p>你的浏览器不支持HTML5音频，你可以<a href="{{url_for('static',filename='vidio/tuihou.mp3')}}">下载</a>这个音频文件。</p>
   <source src="{{url_for('static',filename='vidio/tuihou.mp3')}}" type="audio/ogg">
@@ -25,6 +25,7 @@
  || <a href="integrate">接口集成测试</a>
  || <a href="collvalue">前后端对接文档</a>
  || <a href="rule">字段规则</a>
+ || <a href="http://24mail.chacuo.net/" target="view_window">测试助手</a>
 <hr />
 <form  enctype='multipart/form-data' action="/uploadfile" method="post" style="display:inline">
 &nbsp || &nbsp<input type="file" name="myf" />
@@ -71,8 +72,7 @@
 <option>json</option>
 </datalist>
 </p>
-<p>请求参数：<textarea name="iparam"></textarea></p>
-</datalist>
+<p>请求参数：<textarea name="iparam" rows="4" cols="45" onmouseover="showparam()" onmouseout="hideparam()" ></textarea><span id="testparam">提供参数都按json格式输入</span></p>
 <p>请求方法:<input list="optionlist" value="" name="ioption" autocomplete="off" />
 <datalist id="optionlist">
 {% for i in result[7] %}
@@ -87,10 +87,12 @@
 {% endfor %}
 </datalist>
 <p>预期结果：<input name="iresult" /></p>
+<p>测试账号密码：<textarea name="iuserpwd" rows="2" cols="45" onmouseover="showtip()" onmouseout="hidetip()" > {"username":"","passwd":""} </textarea><span id="testtip">提供调用该接口的账号和密码,按当前格式输入内容,确保正确的json格式</span></p>
+<div></div>
 <p><button>确定</button></p>
 </form>
 <p>
-    <input type="button" value="取消" onclick="Hide();">
+<input type="button" value="取消" onclick="Hide();">
 </p>
     </div>
 <table>

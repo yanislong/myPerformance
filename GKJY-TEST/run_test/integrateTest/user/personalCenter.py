@@ -157,7 +157,7 @@ class personal():
         mokuai = "个人中心"
         data = {}
         url = self.url + "/person/update/address"
-        data['address'] = ""
+        data['address'] = "a" * 300
         res = requests.post(url, headers=self.postheader, params=data)
         print(res.text)
         try:
@@ -194,12 +194,12 @@ class personal():
 
 if __name__ == "__main__":
     runtest = personal()
-    runtest.dataauthoriz()
+#    runtest.dataauthoriz()
     runtest.personinfo()
-    runtest.menuauthoriz()
-    runtest.updateemail()
-    runtest.updateinterest()
-    runtest.updatemobile()
-    runtest.updatephone()
-    runtest.updateaddress()
-    runtest.updatepwd()
+#    runtest.menuauthoriz()
+#    runtest.updateemail()
+#    runtest.updateinterest()
+#    runtest.updatemobile()
+#    runtest.updatephone()
+#    runtest.updateaddress()
+#    runtest.updatepwd()

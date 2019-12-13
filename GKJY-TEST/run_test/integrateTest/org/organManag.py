@@ -5,6 +5,7 @@ import threading
 import json
 import sys
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql')
+sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/user')
 sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
 
 from lhlsql import lhlSql, portalSql
@@ -22,7 +23,7 @@ class organManag():
         self.postheader['Content-Type'] = "application/x-www-form-urlencoded;charset=UTF-8"
         self.postheader['Requested-With'] = "XMLHttpRequest"
         self.postheader['Authorization'] = self.session.accountLogin()
-        self.url = config.userurl
+        self.url = config.orgurl + "/org"
         pass
 
     def addaddress(self):
@@ -39,7 +40,6 @@ class organManag():
         url = self.url + "/insertAddress"
         res = requests.post(url, headers=self.postheader, data=param)
         print(res.url)
-        print(param)
         print(res.text)
         try:
             if res.json()['code'] == 200:
@@ -208,13 +208,13 @@ class organManag():
 
 if __name__ == "__main__":
     runtest = organManag()
-#    runtest.addaddress()
+    runtest.addaddress()
 #    runtest.getaddress()
 #    runtest.deladdress()
 #    runtest.updateaddress()
 #    runtest.addorg()
 #    runtest.getorg()
-    runtest.getorginfo()
+#    runtest.getorginfo()
 
     tmp = []
     for i in range(0):

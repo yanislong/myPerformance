@@ -97,6 +97,6 @@ if __name__ == "__main__":
     runtest = userregist()
     #runtest.phoneRegist()
     #runtest.illegalAccountRegist()
-    for i in range(2):
+    for i in range(1):
         t = threading.Thread(target=runtest.phoneRegist)
         t.start()
