@@ -3,9 +3,10 @@
 import requests
 import threading
 import json
-import sys
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+import sys, os
+sys.path.append(os.getcwd() + '/../../lhlmysql')
+sys.path.append(os.getcwd() + '/../../../')
+sys.path.append(os.getcwd() + "/../user")
 
 from lhlsql import lhlSql, portalSql
 import config
@@ -202,7 +203,7 @@ class HPC():
         return None
 
 if __name__ == "__main__":
-    runtest = organManag()
+    runtest = HPC()
 #    runtest.addaddress()
 #    runtest.getaddress()
 #    runtest.deladdress()

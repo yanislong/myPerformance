@@ -2,9 +2,9 @@
 
 import requests
 import threading
-import json, sys, random
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+import json, sys, random, os
+sys.path.append(os.getcwd() + '/../../lhlmysql')
+sys.path.append(os.getcwd() + '/../../../')
 
 from lhlsql import lhlSql, portalSql
 import config

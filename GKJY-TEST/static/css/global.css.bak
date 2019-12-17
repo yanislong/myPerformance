@@ -1,5 +1,5 @@
-h1{text-align: center; color: #fff; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
-a{font-size: 22px; font-weight: bold; color: #eee; display: inline-block; text-align: center; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
+h1 {text-align: center; color: #fff; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
+a {font-size: 22px; font-weight: bold; color: #eee; display: inline-block; text-align: center; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
 a:link,a:visited{
  text-decoration:none;  /*超链接无下划线*/
 }
@@ -40,9 +40,6 @@ table tr:nth-child(even){background: #efe;}
             margin-top: -150px;
             margin-left: -200px;
         }
-#modal p {
-			margin-left:80px;
-		}
 .c3{
             position: fixed;
             top:0;
@@ -64,24 +61,31 @@ table tr:nth-child(even){background: #efe;}
             margin-left: -200px;
         }
 
+#moda1 p {
+			margin-left:80px;
+		}
+
 #moda2 p {
 			margin-left:80px;
 		}
 
-#editinter {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    background-color: #fff; /* Green */
-    border: none;
+#button {
+    background-color: #e7e7e7; /* Green */
+    /*border: none;*/
     color: #000;
-    margin: 2px;
-    padding: 5px 8px;
+    padding: 2px 8px;
     text-align: center;
+    margin: 2px;
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
-    cursor: pointer;
+    cursor:pointer;
+    border: 1px solid #222;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
 }
 
-#editinter:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+#button:hover {
+    background-color: #000; /* Green */
+    color: white;
 }

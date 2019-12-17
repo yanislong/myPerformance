@@ -5,15 +5,17 @@ from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect, Response
 from werkzeug import secure_filename
 from flask import jsonify
-from run_test.lhlmysql.lhlsql import lhlSql
 import os, json, sys, pymysql, subprocess
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/excel')
-#sys.path.append('./run_test/excel')
+sys.path.append(os.getcwd() + '/run_test')
+sys.path.append(os.getcwd() + '/run_test/excel')
+sys.path.append(os.getcwd() + '/run_test/lhlmysql')
+sys.path.append(os.getcwd() + '/run_test/integrateTest/user')
 try:
     import myrule
 except ModuleNotFoundError:
     pass
 
+from run_test.lhlmysql.lhlsql import lhlSql
 from decimal import Decimal
 from run_test import autoInter, importInter
 import config
@@ -48,7 +50,7 @@ def test01():
 def downloadfile():
     if request.method == 'GET':
         #fullfilename = request.args.get('filename')
-        fullfilename = '/root/lhl/myPerformance/GKJY-TEST/templates/file/interfacedata.xlsx'
+        fullfilename = './templates/file/interfacedata.xlsx'
         fullfilenamelist = fullfilename.split('/')
         filename = fullfilenamelist[-1]
         filepath = fullfilename.replace('/%s'%filename, '')
@@ -96,7 +98,7 @@ def integr():
         get_name = get_name.split(',')
         print(get_name)
         for i in get_name:
-            doc = 'python3 /root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/' + i + '.py'
+            doc = 'python3 ./run_test/integrateTest/' + i + '.py'
             print(doc)
             p = subprocess.Popen(doc, shell=True)
             out,err=p.communicate(timeout=15)
@@ -107,7 +109,6 @@ def integr():
 @app.route('/addInterface', methods=['GET','POST'])
 def qianyun3():
     if request.method == "POST":
-        print(123)
         try:
             #get_name = request.get_data()
             get_mode = request.form['imode']
@@ -119,6 +120,12 @@ def qianyun3():
             get_author = request.form['iauthor']
             get_result = request.form['iresult']
             get_userpwd = request.form['iuserpwd']
+            get_id = request.form['editinter']
+            mydata = lhlSql()
+            if get_id != "":
+                mydata.UpdateInterfaceWithId(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd,get_id)
+            else:
+                mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd)
         except TypeError:
             get_mode = ""
             get_desc = ""
@@ -129,16 +136,12 @@ def qianyun3():
             get_author = ""
             get_result = ""
             get_userpwd = ""
-        finally:
-            mydata = lhlSql()
-            mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd)
-#            insertInterface(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected)
-#    return render_template('addInterface.html')
+            get_id = ""
     return qianyun4()
 
 @app.route('/runtest', methods=['GET','POST'])
 def runtest():
-    subprocess.Popen('python3 /root/lhl/myPerformance/GKJY-TEST/run_test/autoInter.py', shell=True)
+    subprocess.Popen('python3 ./run_test/autoInter.py', shell=True)
     return qianyun4()
 
 @app.route('/interfaceList', methods=['GET','POST'])

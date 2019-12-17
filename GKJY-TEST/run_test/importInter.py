@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
-import sys, json
+import sys, json, os
 import xlrd
 from lhlmysql.lhlsql import lhlSql
 
 def readInter():
     try:
-        wb = xlrd.open_workbook(filename='/root/lhl/myPerformance/GKJY-TEST/run_test/excel/interfacedata.xlsx')
+        wb = xlrd.open_workbook(filename= os.getcwd() + '/run_test/excel/interfacedata.xlsx')
     except FileNotFoundError:
         try:
-            wb = xlrd.open_workbook(filename='/root/lhl/myPerformance/GKJY-TEST/run_test/excel/interfacedata.xls')
+            wb = xlrd.open_workbook(filename= os.getcwd() + '/run_test/excel/interfacedata.xls')
         except FileNotFoundError:
             return "<html><p>导入的文件名字有误,确保上传的文件名为interfacedata.xlsx的excel文件</p><a href='interfaceList'>返回待请求接口列表</a></html>"
     except xlrd.zipfile.BadZipFile:

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import pymysql
-
-import time
-import sys
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+import sys, os, time
+sys.path.append(os.getcwd() + '/../')
+print(sys.path)
 
 import config
 
@@ -82,7 +81,7 @@ class lhlSql:
     def getInterfaceList(self, iname="", iauthor="", num=0):
         """查询interfaceInfo表中20条数据"""
         cursor = self.con.cursor()
-        sql = "select id, intername, interaddr, header, param, `option`, inputtime, author, descp, expected from interfaceInfo where intername like '%{0}%' and author like '%{1}%' order by id Desc limit {2},20".format(iname, iauthor, num)
+        sql = "select id, intername, interaddr, header, param, `option`, inputtime, author, descp, expected, account from interfaceInfo where intername like '%{0}%' and author like '%{1}%' order by id Desc limit {2},20".format(iname, iauthor, num)
         cursor.execute(sql)
         inter = cursor.fetchall()
         cursor.close()
@@ -167,6 +166,16 @@ class lhlSql:
         """通过id删除表中数据"""
         cursor = self.con.cursor()
         sql = "delete from interfaceInfo where id={0}".format(iid)
+        cursor.execute(sql)
+        self.con.commit()
+        cursor.close()
+        return None
+
+    def UpdateInterfaceWithId(self, iname, iaddr, iheader, iparam, ioption, iauthor, descp, expected, iuserpwd, iid):
+        """通过id指定接口,修改待请求接口信息"""
+        cursor = self.con.cursor()
+        tt = time.strftime("%Y/%m/%d %H:%M:%S")
+        sql = "update interfaceInfo set intername='{0}', interaddr='{1}', header='{2}', param='{3}', `option`='{4}', author='{5}', inputtime='{6}', descp='{7}', expected='{8}', account='{9}' where id='{10}'".format(iname,iaddr,iheader,iparam,ioption,iauthor,tt,descp,expected,iuserpwd,iid)
         cursor.execute(sql)
         self.con.commit()
         cursor.close()

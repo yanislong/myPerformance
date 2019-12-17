@@ -1,0 +1,56 @@
+function Show(){
+        document.getElementById('shade1').sytle.visibility="hidden";
+        document.getElementById('modal').style.visibility="hidden";
+        document.getElementById('testtip').style.visibility="hidden";
+        document.getElementById('testparam').style.visibility="hidden";
+    }
+
+function Hide(){
+        document.getElementById('shade1').classList.add('hide');
+        document.getElementById('modal').classList.add('hide');
+    }
+
+function showtip(){
+        document.getElementById('testtip').style.visibility="";
+    }
+
+function hidetip(){
+        document.getElementById('testtip').style.visibility="hide";
+    }
+
+function showparam(){
+        document.getElementById('testparam').style.visibility="";
+    }
+
+function hideparam(){
+        document.getElementById('testparam').style.visibility="hide";
+    }
+
+function editShow(){
+        document.getElementById('shade2').classList.remove('hide');
+        document.getElementById('moda2').classList.remove('hide');
+        document.getElementById('edittip').style.visibility="hidden";
+        document.getElementById('editparam').style.visibility="hidden";
+    }
+
+function editHide(){
+        document.getElementById('shade2').classList.add('hide');
+        document.getElementById('moda2').classList.add('hide');
+    }
+
+function HideEditTip(){
+        document.getElementById('edittip').style.visibility="hidden";
+    }
+
+function ShowEditTip(){
+        document.getElementById('edittip').style.visibility="";
+    }
+
+function HideEditParam(){
+        document.getElementById('editparam').style.visibility="hidden";
+    }
+
+function ShowEditParam(){
+        document.getElementById('editparam').style.visibility="";
+    }
+

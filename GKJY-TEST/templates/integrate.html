@@ -4,41 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
-<style>
-</style>
-<script>
-function fun(){
-    obj = document.getElementsByName("iname");
-    check_val = [];
-    for(k in obj){
-        if(obj[k].checked)
-            check_val.push(obj[k].value);
-    }
-     return check_val;
-}
-
-function vailForm() {
-    var obj = document.getElementsByName("iname");
-    var check_val = [];
-    var xhttp = new XMLHttpRequest();
-
-    for(k in obj){
-        if(obj[k].checked){
-            check_val.push(obj[k].value);
-        }
-    }
-    if (check_val == "") {
-        alert("请选择要执行的模块");
-        return false;
-    }
-    else{
-        alert("已执行所选模块，等待执行结果");
-    }
-    xhttp.open("POST","/integrate",true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(check_val);
-}
-</script>
+<script src="{{url_for('static', filename='js/global.js')}}"></script>
 </head>
 <body>
 <h1>接口集成测试</h1>

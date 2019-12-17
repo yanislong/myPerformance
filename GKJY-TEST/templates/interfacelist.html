@@ -56,9 +56,11 @@
 &nbsp&nbsp||&nbsp&nbsp <button>执行接口测试</button>
 </form>
  || <input type="button" value="新增接口" onclick="Show();">
+<!--新增接口-->
 <div id="shade" class="c1 hide"></div>
 <div id="modal" class="c2 hide">
 <form action="/addInterface" method="post">
+<input type="hidden" name="editinter" value="" />
 <p>模块：<input list="modelist" name="imode" autocomplete="off" /></p>
 <datalist id="modelist">
 {% for i in result[6] %}
@@ -67,7 +69,7 @@
 </datalist>
 <p>接口描述：<input name="idesc" autocomplete="off" /></p>
 <p>接口地址：<input name="iaddr" /></p>
-<p>请求头：<input list="headlist" value="" name="iheader" autocomplete="off" />
+<p>数据格式：<input list="headlist" value="" name="iheader" autocomplete="off" />
 <datalist id="headlist">
 <option>json</option>
 </datalist>
@@ -98,24 +100,56 @@
 <table>
 <thead>
 <tr>
-<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:50px">操作</th>
+<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">数据格式</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:100px">操作</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">请求头</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:50px">操作</th>
+<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">数据格式</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:100px">操作</th>
 </tr>
 </tfoot>
 <tbody>
 <form action="/delinterface" method="get">
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 50px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button></td>
+<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 100px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><div id="editinter" onclick="Show2();">编辑</div></td>
 </tr>
-{% endfor %}
 </form>
+<!--编辑接口-->
+<div id="shade2" class="c3 hide"></div>
+<div id="moda2" class="c4 hide">
+<form action="/addInterface" method="post">
+<p>模块：<input name="imode" value='{{i[1]}}' /></p>
+<p>接口描述：<textarea name="idesc" rows="1" cols="55">{{i[8]}}</textarea></p>
+<p>接口地址：<textarea name="iaddr" rows="1" cols="55">{{i[2]}}</textarea></p>
+<p>数据格式：<input list="headlist" value="{{i[3]}}" name="iheader" autocomplete="off" />
+<datalist id="headlist">
+<option>json</option>
+</datalist>
+</p>
+<p>请求参数：<textarea name="iparam" rows="4" cols="45" onmouseover="showparam2()" onmouseout="hideparam2()">{{i[4]}}</textarea><span id="testparam2">提供参数都按json格式输入</span></p>
+<p>请求方法:<input list="optionlist" value="{{i[5]}}" placeholder="{{i[5]}}" name="ioption" autocomplete="off" />
+<datalist id="optionlist">
+{% for j in result[7] %}
+<option>{{j}}</option>
+{% endfor %}
+</datalist>
+</p>
+<p>开发者：<input list="authorlist" value='{{i[7]}}' name="iauthor" autocomplete="off"  /></p>
+<datalist id="authorlist">
+{% for i in result[8] %}
+<option>{{i}}</option>
+{% endfor %}
+</datalist>
+<p>预期结果：<input name="iresult" value='{{i[9]}}' /></p>
+<p>测试账号密码：<textarea name="iuserpwd" rows="2" cols="45" onmouseover="showtip2()" onmouseout="hidetip2()">{{i[10]}}</textarea><span id="testtip2">提供调用该接口的账号和密码,按当前格式输入内容,确保正确的json格式</span></p>
+<input type="hidden" name="editinter" value="{{i[0]}}" />
+<p><button>确定</button></p>
+</form>
+<p><input type="button" value="取消" onclick="Hide2();"></p>
+</div>
+{% endfor %}
 </tbody>
 </table>
 </body>
-<script>function txt(){ var message=confirm('确认删除?')}</script>
 </html>

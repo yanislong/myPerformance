@@ -87,7 +87,7 @@ def mm(parm):
 def mydatatime():
     return time.strftime("%m%d %H%M%S",time.localtime())
 
-#返回11位随机数
+#返回11位随机数([0-9a-zA-Z])
 def suiji():
     a = ''.join(random.sample(['z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a','Z','Y','X','U','V','W','Q','E','R','T','I','O','P','A','S','D','F','G','H','H','J','K','L','C','B','N','M','1','2','3','4','5','6','7','8','0','9'], 11))
     return a

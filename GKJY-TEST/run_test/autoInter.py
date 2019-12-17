@@ -2,13 +2,14 @@
 
 import requests
 import sys, json, re
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/integrateTest/user')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+import os
+
+sys.path.append(os.getcwd() + '/integrateTest')
+sys.path.append(os.getcwd() + '/integrateTest/user')
+sys.path.append(os.getcwd())
 
 import userLogin
-from lhlmysql.lhlsql import lhlSql
+from .lhlmysql.lhlsql import lhlSql
 import config
 
 class lhl:
@@ -215,7 +216,11 @@ class lhl:
         for i in mydata:
             l1 = re.compile('http://(.*?)/')
             l2 = l1.findall(i[2])
-            l3 = i[2].replace(l2[0], self.testurl)
+            if l2 == None or l2 =="" or l2==[]:
+                l3 = i[2]
+                print('url没有替换')
+            else:
+                l3 = i[2].replace(l2[0], self.testurl)
     #        print(l3)
     #        print(i)
             if i[5].lower() == "get":
@@ -244,7 +249,11 @@ class lhl:
             print(i)
             l1 = re.compile('http://(.*?)/')
             l2 = l1.findall(i[2])
-            l3 = i[2].replace(l2[0], self.testurl)
+            if l2 == None or l2=="" or l2==[]:
+                l3 = i[2]
+                print("url没有替换")
+            else:    
+                l3 = i[2].replace(l2[0], self.testurl)
     #        print(l3)
             if i[5].lower() == "get":
                 resGet = self.respondGet(i[8],l3.strip(),i[3],i[4],i[9])

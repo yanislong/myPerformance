@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 import requests
-import json
+import json, os
 import sys
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+sys.path.append(os.getcwd() + '/../../../')
+sys.path.append(os.getcwd() + '/../../lhlmysql')
 
 from lhlsql import lhlSql, portalSql
 import config

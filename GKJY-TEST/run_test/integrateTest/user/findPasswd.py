@@ -2,12 +2,10 @@
 
 import requests
 import hashlib
-import json
-import time
-import random
-import sys
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST/run_test/lhlmysql')
-sys.path.append('/root/lhl/myPerformance/GKJY-TEST')
+import json, time, random
+import sys, os
+sys.path.append(os.getcwd() + '/../../lhlmysql')
+sys.path.append(os.getcwd() + '/../../../')
 
 from lhlsql import lhlSql, portalSql
 import config
