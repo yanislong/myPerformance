@@ -122,10 +122,7 @@ def qianyun3():
             get_userpwd = request.form['iuserpwd']
             get_id = request.form['editinter']
             mydata = lhlSql()
-            if get_id != "":
-                mydata.UpdateInterfaceWithId(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd,get_id)
-            else:
-                mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd)
+            mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd)
         except TypeError:
             get_mode = ""
             get_desc = ""
@@ -136,7 +133,6 @@ def qianyun3():
             get_author = ""
             get_result = ""
             get_userpwd = ""
-            get_id = ""
     return qianyun4()
 
 @app.route('/runtest', methods=['GET','POST'])
@@ -174,8 +170,14 @@ def qianyun4():
 @app.route('/delinterface', methods=['GET','POST'])
 def delinter():
     if request.method == "GET":
-        get_id = request.args.get("iid")
-        get_rd = request.args.get("rid")
+        try:
+            get_id = request.args.get("iid")
+        except KeyError:
+            get_id = ""
+        try:
+            get_rd = request.args.get("rid")
+        except KeyError:
+            get_rd = ""
         print(get_id)
         print(get_rd)
         if get_id == "" or get_id == None:

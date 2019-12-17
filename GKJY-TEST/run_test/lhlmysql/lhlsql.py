@@ -3,7 +3,7 @@
 import pymysql
 import sys, os, time
 sys.path.append(os.getcwd() + '/../')
-print(sys.path)
+sys.path.append(os.getcwd() + '/../../')
 
 import config
 

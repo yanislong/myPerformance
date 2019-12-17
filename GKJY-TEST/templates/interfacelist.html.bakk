@@ -135,3 +135,21 @@
 </table>
 </body>
 </html>
+<!--编辑接口
+<div id="shade2" class="c3 hide"></div>
+<div id="moda2" class="c4 hide">
+<p>模块：<input name="imode" value='{{i[1]}}' /></p>
+<p>接口描述：<textarea name="idesc" rows="1" cols="55">{{i[8]}}</textarea></p>
+<p>接口地址：<textarea name="iaddr" rows="1" cols="55">{{i[2]}}</textarea></p>
+<p>数据格式：<input list="headlist" value="{{i[3]}}" name="iheader" autocomplete="off" /></p>
+<p>请求参数：<textarea name="iparam" rows="4" cols="45" onmouseover="showparam2()" onmouseout="hideparam2()">{{i[4]}}</textarea><span id="testparam2">提供参数
+都按json格式输入</span></p>
+<p>请求方法:<input list="optionlist" value="{{i[5]}}" placeholder="{{i[5]}}" name="ioption" autocomplete="off" /></p>
+<p>开发者：<input list="authorlist" value='{{i[7]}}' name="iauthor" autocomplete="off"  /></p>
+<p>预期结果：<input name="iresult" value='{{i[9]}}' /></p>
+<p>测试账号密码：<textarea name="iuserpwd" rows="2" cols="45" onmouseover="showtip2()" onmouseout="hidetip2()">{{i[10]}}</textarea><span id="testtip2">提供调>用该接口的账号和密码,按当前格式输入内容,确保正确的json格式</span></p>
+<input type="hidden" name="editinter" value="{{i[0]}}" />
+<p><button>确定</button></p>
+<p><input type="button" value="取消" onclick="Hide2();"></p>
+-->
+

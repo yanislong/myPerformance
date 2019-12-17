@@ -6,10 +6,11 @@ import os
 
 sys.path.append(os.getcwd() + '/integrateTest')
 sys.path.append(os.getcwd() + '/integrateTest/user')
+sys.path.append(os.getcwd() + '/run_test/integrateTest/user')
 sys.path.append(os.getcwd())
 
 import userLogin
-from .lhlmysql.lhlsql import lhlSql
+from lhlmysql.lhlsql import lhlSql
 import config
 
 class lhl:
@@ -69,9 +70,9 @@ class lhl:
         except requests.exceptions.ConnectionError:
             print("请求URL无法连接")
             return None
-        print(res.status_code)
-        print(res.url)
-        print(res.text)
+#        print(res.status_code)
+#        print(res.url)
+#        print(res.text)
         if result_code:
             try:
                 if str(res.json()['code']) == str(result_code.strip()):
@@ -129,9 +130,9 @@ class lhl:
             except requests.exceptions.ConnectionError:
                 print("请求URL无法连接")
                 return None
-            print(res.url)
-            print(data)
-            print(res.text,res.elapsed.total_seconds(),res.status_code)
+#            print(res.url)
+#            print(data)
+#            print(res.text,res.elapsed.total_seconds(),res.status_code)
         else:
             try:
                 print('nojson')
@@ -142,9 +143,9 @@ class lhl:
             except requests.exceptions.ConnectionError:
                 print("请求URL无法连接")
                 return None
-            print(res.url)
-            print(data)
-            print(res.text,res.elapsed.total_seconds(),res.status_code)
+#            print(res.url)
+#            print(data)
+#            print(res.text,res.elapsed.total_seconds(),res.status_code)
         if result_code:
             try:
                 if str(res.json()['code']) == str(result_code.strip()):
@@ -246,7 +247,7 @@ class lhl:
         sqldata = lhlSql()
         onedata = sqldata.getIdInterface(rid)
         for i in onedata:
-            print(i)
+    #        print(i)
             l1 = re.compile('http://(.*?)/')
             l2 = l1.findall(i[2])
             if l2 == None or l2=="" or l2==[]:

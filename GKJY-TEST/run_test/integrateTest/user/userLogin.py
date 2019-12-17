@@ -5,6 +5,7 @@ import json, os
 import sys
 sys.path.append(os.getcwd() + '/../../../')
 sys.path.append(os.getcwd() + '/../../lhlmysql')
+sys.path.append(os.getcwd() + '/run_test/lhlmysql')
 
 from lhlsql import lhlSql, portalSql
 import config
