@@ -55,4 +55,3 @@ function hidetip2(){
 function hideparam2(){
         document.getElementById('testparam2').style.visibility="hidden";
     }
-

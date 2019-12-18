@@ -111,7 +111,7 @@
 <form action="/delinterface" method="get">
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 100px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><input id="editinter" name="editinter2" value="{{i[0]}}" class="btn" onclick="testbut();Show2();"/></td>
+<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 100px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><input id="editinter" name="editinter2" value="{{i[0]}}" class="btn" onclick="testbut();Show2();" title="编辑" /></td>
 </tr>
 {% endfor %}
 </form>
