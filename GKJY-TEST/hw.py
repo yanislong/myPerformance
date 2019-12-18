@@ -120,7 +120,6 @@ def qianyun3():
             get_author = request.form['iauthor']
             get_result = request.form['iresult']
             get_userpwd = request.form['iuserpwd']
-            get_id = request.form['editinter']
             mydata = lhlSql()
             mydata.insertInterface(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd)
         except TypeError:
@@ -133,6 +132,36 @@ def qianyun3():
             get_author = ""
             get_result = ""
             get_userpwd = ""
+    return qianyun4()
+
+@app.route('/updateInterface', methods=['GET','POST'])
+def updateInter():
+    if request.method == "POST":
+        try:
+            #get_name = request.get_data()
+            get_mode = request.form['imode']
+            get_desc = request.form['idesc']
+            get_addr = request.form['iaddr']
+            get_header = request.form['iheader']
+            get_param = request.form['iparam']
+            get_option = request.form['ioption']
+            get_author = request.form['iauthor']
+            get_result = request.form['iresult']
+            get_userpwd = request.form['iuserpwd']
+            get_id = request.form['iid']
+            mydata = lhlSql()
+            mydata.UpdateInterfaceWithId(get_mode,get_addr,get_header,get_param,get_option,get_author,get_desc,get_result,get_userpwd,get_id)
+        except TypeError:
+            get_mode = ""
+            get_desc = ""
+            get_addr = ""
+            get_header = ""
+            get_parama = ""
+            get_option = ""
+            get_author = ""
+            get_result = ""
+            get_userpwd = ""
+            get_id = ""
     return qianyun4()
 
 @app.route('/runtest', methods=['GET','POST'])
@@ -353,6 +382,23 @@ def qianyun():
         return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
     return None
 
+@app.route('/test')
+def mytest():
+    return render_template('test.html')
+
+@app.route('/mytest', methods=['GET', 'POST'])
+def mytest2():
+    if request.method == "POST":
+        message = request.get_data()
+        message = json.loads(message.decode('utf-8'))
+        mydata = lhlSql()
+        temp = mydata.getIdInterface(message['editId'])
+        try:
+            print(temp[0])
+        except IndexError:
+            print("ID不存在,没有找到对应的接口信息")
+            return jsonify({"msg":"ID不存在,没有找到对应的接口信息","code":400,"data":""})
+        return json.dumps({"msg":"ok","code":200,"data":temp[0]})
 
 @app.route('/logout')
 def logout():

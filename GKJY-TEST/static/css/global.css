@@ -1,4 +1,5 @@
 h1{text-align: center; color: #fff; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
+h2{text-align: center;}
 a{font-size: 22px; font-weight: bold; color: #eee; display: inline-block; text-align: center; font-family:Quicksand,"游ゴシック","Yu Gothic","游ゴシック体",YuGothic,"Yu Gothic UI","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","Meiryo UI","メイリオ",Meiryo,sans-serif;}
 a:link,a:visited{
  text-decoration:none;  /*超链接无下划线*/
@@ -84,4 +85,16 @@ table tr:nth-child(even){background: #efe;}
 
 #editinter:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.btn{
+    margin-top: 14px;
+    margin-left: 10px;
+    background-color: #666; /*给个按钮上个背景*/
+    border: solid 1px; /*将原本的边框的设置为0*/
+    border-radius: 12px; /*设置四个角的弧度*/
+    width: 85px;
+    height: 29px;
+    cursor: pointer;/*设置鼠标悬浮时，鼠标的样式*/
+    font-size: 0;/*hahahhahahahahaha,这里是我脑洞大发，把字体设置为0，但是这样一来没有字体撑开，它会很小很小，所以在上面制定了宽度和高度*/
 }

@@ -152,4 +152,3 @@
 <p><button>确定</button></p>
 <p><input type="button" value="取消" onclick="Hide2();"></p>
 -->
-

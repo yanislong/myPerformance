@@ -6,8 +6,7 @@
 <link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 <script src="{{url_for('static',filename='js/tanceng.js')}}"></script>
-<!--<script src="{{url_for('static',filename='js/bundle.js')}}"></script>-->
-<!--<script async defer src="{{url_for('static',filename='js/test.js')}}"></script>-->
+<script src="{{url_for('static',filename='js/global.js')}}"></script>
 <style type="text/css">
     table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; width: 100%}
     td {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; }
@@ -60,15 +59,15 @@
 <div id="shade" class="c1 hide"></div>
 <div id="modal" class="c2 hide">
 <form action="/addInterface" method="post">
-<input type="hidden" name="editinter" value="" />
+<h2>新增</h2>
 <p>模块：<input list="modelist" name="imode" autocomplete="off" /></p>
 <datalist id="modelist">
 {% for i in result[6] %}
 <option>{{i}}</option>
 {% endfor %}
 </datalist>
-<p>接口描述：<input name="idesc" autocomplete="off" /></p>
-<p>接口地址：<input name="iaddr" /></p>
+<p>接口描述：<textarea name="idesc" rows="1" cols="55"></textarea></p>
+<p>接口地址：<textarea name="iaddr" rows="1" cols="55"></textarea></p>
 <p>数据格式：<input list="headlist" value="" name="iheader" autocomplete="off" />
 <datalist id="headlist">
 <option>json</option>
@@ -112,9 +111,28 @@
 <form action="/delinterface" method="get">
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 100px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><!--div id="editinter" onclick="Show2();">编辑</div--></td>
+<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 100px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><input id="editinter" name="editinter2" value="{{i[0]}}" class="btn" onclick="testbut();Show2();"/></td>
 </tr>
 {% endfor %}
+</form>
+</div>
+<!--编辑接口-->
+<div id="shade2" class="c3 hide"></div>
+<div id="moda2" class="c4 hide">
+<h2>编辑</h2>
+<form action="/updateInterface" method="post">
+<p>模块：<input id="emode" name="imode" value="" /></p>
+<p>接口描述：<textarea id="edesc" name="idesc" rows="1" cols="55"></textarea></p>
+<p>接口地址：<textarea id="eaddr" name="iaddr" rows="1" cols="55"></textarea></p>
+<p>数据格式：<input id="eheader" value="" name="iheader" /></p>
+<p>请求参数：<textarea id="eparam" name="iparam" rows="4" cols="45" onmouseover="showparam2()" onmouseout="hideparam2()"></textarea><span id="testparam2">提供参数都按json格式输入</span></p>
+<p>请求方法:<input id="eoption" value="" placeholder="" name="ioption" /></p>
+<p>开发者：<input id="eauthor" value='' name="iauthor" /></p>
+<p>预期结果：<input id="eresult" name="iresult" value='' /></p>
+<p>测试账号密码：<textarea id="euserpwd" name="iuserpwd" rows="2" cols="45" onmouseover="showtip2()" onmouseout="hidetip2()"></textarea><span id="testtip2">提供调用该接口的账号和密码,按当前格式输入内容,确保正确的json格式</span></p>
+<input id="editinter" name="iid" value='' type="hidden" />
+<p><button>确定</button></p>
+<p><input type="button" value="取消" onclick="Hide2();"></p>
 </form>
 </div>
 </tbody>
