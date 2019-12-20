@@ -109,6 +109,7 @@ function fileBinary() {
         document.getElementById('moda3').classList.remove('hide');
         document.getElementById('encodedesc').value=resultObj;
       }
+       if(xhttp.readyState==4 && xhttp.status==500){alert('导入文件有误');}
     }
   }
 }
@@ -135,6 +136,7 @@ function fileBase() {
         document.getElementById('moda3').classList.remove('hide');
         document.getElementById('encodedesc').value=resultObj;
       }
+      if(xhttp.readyState==4 && xhttp.status==500){alert('导入文件有误');}
     }
   }
 }

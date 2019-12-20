@@ -21,7 +21,7 @@ from run_test import autoInter, importInter
 import config
 
 UPLOAD_FOLDER = "./run_test/excel/"
-ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz'])
+ALLOWED_EXTENSIONS = set(['json','txt','jpeg','xlsx','xls','gz','png'])
 
 app = Flask(__name__)
 

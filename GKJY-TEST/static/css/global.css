@@ -63,7 +63,8 @@ tbody tr:hover {
             right: 0;
             background: rgba(0,0,0,.5);
             z-index: 2;
-        }
+}
+
 .c4{
             background-color: white;
             position: fixed;
@@ -77,6 +78,9 @@ tbody tr:hover {
 }
 
 #moda2 p {
+    margin-left:80px;
+}
+#moda3 p {
     margin-left:80px;
 }
 
