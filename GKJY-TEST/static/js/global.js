@@ -33,6 +33,7 @@ function fun(){
      return check_val;
 }
 
+//编辑待请求接口给选定的接口赋值
 function testbut() {
 //    var aa = document.querySelectorAll('#editinter');
 //    var obj = document.getElementById("editinter");
@@ -72,3 +73,69 @@ function testbut() {
         }
     }
 }
+
+//使用伪类实现title属性(未使用)
+function onMouseHover(ev) {
+        document.styleSheets[0].insertRule('#title::before { left: '+ ev.pageX +'px }', 0);
+        document.styleSheets[0].insertRule('#title::after { left: '+ ev.pageX +'px }', 0);
+        document.getElementById('title').style.zIndex=9999;
+    }
+ 
+    function onMouseOut() {
+        document.styleSheets[0].deleteRule(0);
+        document.styleSheets[0].deleteRule(0);
+}
+
+//文件转码
+function fileBinary() {
+    var xhttp = new XMLHttpRequest();
+    var input = document.createElement("input");
+    var action = "/encodefile"; //上传服务的接口地址
+    var form = new FormData();
+    input.type = "file";
+    input.click();
+    input.onchange = function(){
+    var file = input.files[0];
+    form.append("myf", file); //第一个参数是后台读取的请求key值
+    form.append("fileName", file.name);
+    form.append("type", "binary"); //实际业务的其他请求参数
+    xhttp.open("POST", action);
+    xhttp.send(form); //发送表单数据
+    xhttp.onreadystatechange = function(){
+      if(xhttp.readyState==4 && xhttp.status==200){
+        //var resultObj = JSON.parse(xhttp.responseText);
+        var resultObj = xhttp.responseText;
+        document.getElementById('shade3').classList.remove('hide');
+        document.getElementById('moda3').classList.remove('hide');
+        document.getElementById('encodedesc').value=resultObj;
+      }
+    }
+  }
+}
+//文件转码
+function fileBase() {
+    var xhttp = new XMLHttpRequest();
+    var input = document.createElement("input");
+    var action = "/encodefile"; //上传服务的接口地址
+    var form = new FormData();
+    input.type = "file";
+    input.click();
+    input.onchange = function(){
+    var file = input.files[0];
+    form.append("myf", file); //第一个参数是后台读取的请求key值
+    form.append("fileName", file.name);
+    form.append("type", "base64"); //实际业务的其他请求参数
+    xhttp.open("POST", action);
+    xhttp.send(form); //发送表单数据
+    xhttp.onreadystatechange = function(){
+      if(xhttp.readyState==4 && xhttp.status==200){
+        //var resultObj = JSON.parse(xhttp.responseText);
+        var resultObj = xhttp.responseText;
+        document.getElementById('shade3').classList.remove('hide');
+        document.getElementById('moda3').classList.remove('hide');
+        document.getElementById('encodedesc').value=resultObj;
+      }
+    }
+  }
+}
+

@@ -73,16 +73,26 @@ class lhl:
 #        print(res.status_code)
 #        print(res.url)
 #        print(res.text)
+        #判断是否给了预期的code,如果没有结果为None
         if result_code:
-            try:
-                if str(res.json()['code']) == str(result_code.strip()):
+            #如果code为200,判断响应json中的code是否和预期的值相等,如果解析json失败返回Error
+            if res.status_code == 200:
+                try:
+                    if str(res.json()['code']) == str(result_code.strip()):
+                        result = 'Success'
+                    else:
+                        result = 'Faile'
+                except json.decoder.JSONDecodeError:
+                    result = 'Faile'
+                except KeyError:
+                    result = 'Faile'
+            #如果响应的code不是200
+            else:
+                 #判断预期的code与服务端的响应code是否相等,相等也认定为成功,不相等返回Error
+                if str(res.status_code) == str(result_code.strip()):
                     result = 'Success'
                 else:
-                    result = 'Faile'
-            except json.decoder.JSONDecodeError:
-                result = "Error"
-            except KeyError:
-                result = "Error"
+                    result = 'Error'
         else:
             result = "None"
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
@@ -146,16 +156,26 @@ class lhl:
 #            print(res.url)
 #            print(data)
 #            print(res.text,res.elapsed.total_seconds(),res.status_code)
+        #判断是否给了预期的code,如果没有结果为None
         if result_code:
-            try:
-                if str(res.json()['code']) == str(result_code.strip()):
+            #如果code为200,判断响应json中的code是否和预期的值相等,如果解析json失败返回Error
+            if res.status_code == 200:
+                try:
+                    if str(res.json()['code']) == str(result_code.strip()):
+                        result = 'Success'
+                    else:
+                        result = 'Faile'
+                except json.decoder.JSONDecodeError:
+                    result = 'Error'
+                except KeyError:
+                    result = 'Error'
+            #如果响应的code不是200
+            else:
+                 #判断预期的code与服务端的响应code是否相等,相等也认定为成功,不相等返回Error
+                if str(res.status_code) == str(result_code.strip()):
                     result = 'Success'
                 else:
-                    result = 'Faile'
-            except json.decoder.JSONDecodeError:
-                result = "Error"
-            except KeyError:
-                result = "Error"
+                    result = 'Error'
         else:
             result = "None"
         rep = {'body': res.text, 'respondTime':res.elapsed.total_seconds(), 'code':res.status_code, 'result':result}
@@ -196,8 +216,28 @@ class lhl:
             print("请求URL无法连接")
             return None
        # print(res.text.encode('utf-8').decode('utf-8'),res.elapsed.total_seconds(),res.status_code)
-        result = {'body': res.text, 'respondTime': res.elapsed.total_seconds(), 'code': res.status_code}
-        return result
+       #判断是否给了预期的code,如果没有结果为None
+        if result_code:
+            #如果code为200,判断响应json中的code是否和预期的值相等,如果解析json失败返回Error
+            if res.status_code == 200:
+                try:
+                    if str(res.json()['code']) == str(result_code.strip()):
+                        result = 'Success'
+                    else:
+                        result = 'Faile'
+                except json.decoder.JSONDecodeError:
+                    result = 'Error'
+                except KeyError:
+                    result = 'Error'
+            #如果响应的code不是200
+            else:
+                 #判断预期的code与服务端的响应code是否相等,相等也认定为成功,不相等返回Error
+                if str(res.status_code) == str(result_code.strip()):
+                    result = 'Success'
+                else:
+                    result = 'Error'
+        else:
+            result = "None"
 
     def __analysisUrl(self,myurl):
         """url规则: 只有字母和数字[0-9a-zA-Z]、一些特殊符号"$-_.+!*'(),"[不包括双引号]、

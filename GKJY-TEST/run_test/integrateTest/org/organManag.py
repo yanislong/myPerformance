@@ -19,8 +19,9 @@ class organManag():
         self.portalsql = portalSql()
         self.session = userLogin.userlogin()
         self.postheader = {}
-#        self.postheader['Content-Type'] = "application/json"
-        self.postheader['Content-Type'] = "application/x-www-form-urlencoded;charset=UTF-8"
+        self.getheader = {}
+        self.postheader['Content-Type'] = "application/json"
+        self.getheader['Content-Type'] = "application/x-www-form-urlencoded;charset=UTF-8"
         self.postheader['Requested-With'] = "XMLHttpRequest"
         self.postheader['Authorization'] = self.session.accountLogin()
         self.url = config.orgurl + "/org"
@@ -133,16 +134,22 @@ class organManag():
 
         mokuai = "组织管理"
         param = {}
-        param['mobile'] = ""
-        param['orgAddress'] = ""
+        #联系人
+        param['contacts'] = "梁雪峰"
+        #法人
+        param['legalPerson'] = "梁凯"
+        param['mobile'] = "18911226966"
+        param['orgAddress'] = "龙域中心A座"
         param['orgAccount'] = ""
-        param['orgName'] = ""
-        param['orgEmail'] = ""
+        param['orgName'] = "龙行天下创世纪集团"
+        param['orgEmail'] = "250@qq.com"
+        userinfo = {"account": "","email": "","id": 0,"mobilePhone": "","originPassword": "","password": "","salt": ""}
+        param['userDTOList'] = [userinfo]
         param['userId'] = ""
+        param['userNumber'] = ""
         url = self.url + "/insertOrg"
-        res = requests.post(url, headers=self.postheader, data=param)
+        res = requests.post(url, headers=self.postheader, data=json.dumps(param))
         print(res.url)
-        print(param)
         print(res.text)
         try:
             if res.json()['code'] == 200:
@@ -170,7 +177,6 @@ class organManag():
         url = self.url + "/getOrgList"
         res = requests.post(url, headers=self.postheader, data=param)
         print(res.url)
-        print(param)
         print(res.text)
         try:
             if res.json()['code'] == 200:
@@ -208,11 +214,11 @@ class organManag():
 
 if __name__ == "__main__":
     runtest = organManag()
-    runtest.addaddress()
+#    runtest.addaddress()
 #    runtest.getaddress()
 #    runtest.deladdress()
 #    runtest.updateaddress()
-#    runtest.addorg()
+    runtest.addorg()
 #    runtest.getorg()
 #    runtest.getorginfo()
 

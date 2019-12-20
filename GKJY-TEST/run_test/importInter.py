@@ -6,9 +6,11 @@ from lhlmysql.lhlsql import lhlSql
 
 def readInter():
     try:
+#        wb = xlrd.open_workbook(filename= os.getcwd() + '/excel/ainterfacedata.xlsx')
         wb = xlrd.open_workbook(filename= os.getcwd() + '/run_test/excel/interfacedata.xlsx')
     except FileNotFoundError:
         try:
+#            wb = xlrd.open_workbook(filename= os.getcwd() + '/excel/ainterfacedata.xls')
             wb = xlrd.open_workbook(filename= os.getcwd() + '/run_test/excel/interfacedata.xls')
         except FileNotFoundError:
             return "<html><p>导入的文件名字有误,确保上传的文件名为interfacedata.xlsx的excel文件</p><a href='interfaceList'>返回待请求接口列表</a></html>"
@@ -22,6 +24,7 @@ def readInter():
         print(row)
         row[5] = row[5].strip()
         row[8] = row[8].strip()
+        print(type(row[7]))
         if row[7]:
             try:
                 tmp = "请求参数"
@@ -43,7 +46,11 @@ def readInter():
                     jsdata2 = json.dumps(json.loads(row[8]))
             except json.decoder.JSONDecodeError:
                 return dataerror2
-            mydata.insertInterface(row[0],row[3],row[2],json.dumps(json.loads(row[5]),ensure_ascii=False),row[4],row[6],row[1],str(int(row[7])),json.dumps(json.loads(row[8]),ensure_ascii=False))
+            if type(row[7]) == float:
+                row[7] = str(int(row[7]))
+            else:
+                row[7] = ""
+            mydata.insertInterface(row[0],row[3],row[2],json.dumps(json.loads(row[5]),ensure_ascii=False),row[4],row[6],row[1],row[7],json.dumps(json.loads(row[8]),ensure_ascii=False))
         else:
             try:
                 tmp = "请求参数"

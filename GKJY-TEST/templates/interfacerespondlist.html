@@ -5,8 +5,9 @@
 <link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
 <title>接口执行结果</title>
 <style type="text/css">
-    table, th, td {table-layout: fixed; border: 2px solid #369; border-collapse: collapse; width: 100%; padding: 5px; }
+    table, th {table-layout: fixed; border: 2px solid #369; border-collapse: collapse; width: 100%;}
     td { white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
+
 </style>
 </head>
 <body>
@@ -33,8 +34,6 @@ ID：<input name="myid" value="" />
 当前页数：<input name="page" value="" />
 执行结果：<input list="reslist" name="result" autocomplete="off" value="" />
 <datalist id="reslist">
-<option>True</option>
-<option>False</option>
 <option>Success</option>
 <option>Faile</option>
 <option>Error</option>
@@ -42,22 +41,27 @@ ID：<input name="myid" value="" />
 <button>GO</button>
 <p style="display:inline">total: {{result[1]}} | totalpage: {{result[2]}}</p>
 </form>
-<hr />
-<table>
+<table id="customers">
 <thead>
 <tr>
-<th style="width: 40px">id </th><th style="width: 100px">模块</th><th>接口请求描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th>执行结果</th><th style="width: 160px">执行时间</th>
+<th class="interId">id </th><th class="interMode">模块</th><th>接口请求描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th class="interCode">响应码</th><th class="interRespon">响应用时</th><th class="interE">执行结果</th><th class="interInputTime">执行时间</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 40px">id </th><th style="width: 100px">模块</th><th>接口请求描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th style="width: 30px">响应码</th><th style="width: 70px">响应用时</th><th>执行结果</th><th style="width: 160px">执行时间</th>
+<th class="interId">id </th><th class="interMode">模块</th><th>接口请求描述</th><th>接口地址</th><th>请求参数</th><th>请求响应</th><th class="interCode">响应码</th><th class="interRespon">响应用时</th><th class="interE">执行结果</th><th class="interInputTime">执行时间</th>
 </tr>
 </tfoot>
 <tbody>
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td title="{{i[1]}}" style="width: 100px">{{i[1]}}</td><th>{{i[8]}}</th><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}">{{i[3]|safe}}</td><td title="{{i[4]}}">{{i[4]}}</td><td style="width: 30px">{{i[5]}}</td><td style="width: 70px">{{i[6]}}</td><td>{{i[9]}}</td><td style="width: 160px">{{i[7]}}</td>
+<td class="interId">{{i[0]}}</td><td title="{{i[1]}}" class="interMode">{{i[1]}}</td><th>{{i[8]}}</th><td title="{{i[2]}}">{{i[2]}}</td><td title="{{i[3]}}">{{i[3]|safe}}</td><td title="{{i[4]}}">{{i[4]}}</td><td class="interCode">{{i[5]}}</td><td class="interRespon">{{i[6]}}</td>
+{% if i[9] == "Success" %}
+<td id="result">{{i[9]}}</td>
+{% else %}
+<td id="result" style="color:red">{{i[9]}}</td>
+{% endif %}
+<td class="interInputTime">{{i[7]}}</td>
 </tr>
 {% endfor %}
 </tbody>

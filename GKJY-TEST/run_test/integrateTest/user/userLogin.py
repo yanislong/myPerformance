@@ -22,7 +22,7 @@ class userlogin():
         self.url = config.userurl
         pass
 
-    def accountLogin(self, username=None, passwd=None):
+    def accountLogin(self, username=config.useaccount, passwd=config.passwd):
         """使用已注册账号进行登录"""
 
         mokuai = "用户登录"

@@ -55,3 +55,9 @@ function hidetip2(){
 function hideparam2(){
         document.getElementById('testparam2').style.visibility="hidden";
     }
+
+function Hide3(){
+        document.getElementById('shade3').classList.add('hide');
+        document.getElementById('moda3').classList.add('hide');
+    }
+

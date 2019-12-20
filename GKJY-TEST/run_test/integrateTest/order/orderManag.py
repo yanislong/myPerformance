@@ -27,54 +27,51 @@ class orderManag():
         """使用合法数据申请资源"""
 
         mokuai = "订单管理"
-        roleName = ["中國石油化工集團公司中國石油化工集團公司中國石油化工集團公司"] 
         url = self.url + "/order/addOrder"
         param = {}
-#        param["applyNumber"] = ""
         #提交申请方 0甲方1销售经理
         param["applyParty"] = 1
         #服务区ID
-        param["areaId"] = 0
+        param["areaId"] = 8
         #平均折扣/最低折扣\n配置方式\n0固定参数：平均折扣\n1灵活配置：最低折扣
         param["avgDiscount"] = 0
         #资源配置方式，0固定参数1灵活配置
-        param['deployWay'] = ""
+        param['deployWay'] = 0
         #优惠总额，单位：分
         param["discountPrice"] = 0
         #用户单位ID
         param["entCompanyId"] =  0
         #甲方账号是否存在 0存在1不存在
-        param["entExist"] = 0
+        param["entExist"] = 1
         #甲方邮箱
-        param["entMail"] = "1"
+        param["entMail"] = "250@qq.com"
         #甲方联系电话
-        param["entPhone"] = "1"
+        param["entPhone"] = "18911226966"
         #甲方联系电话方式0固定电话1手机
-        param["entPhoneWay"] = "1"
+        param["entPhoneWay"] = ""
         #甲方账号ID
-        param["entId"] = 0
+        param["entId"] = ""
         #订单ID
-#        param["orderId"] = 123
+        param["orderId"] = ""
         #订单类型 0试用1新购2续费3退订
-        param["orderType"] = 0
+        param["orderType"] = 1
         #产品类型 1高性能计算 3数据存储 4网络资源
-        param["productType"] = 0
+        param["productType"] = 1
         #项目名称
-        param["projectName"] = "1"
+        param["projectName"] = "年会预购礼物资金计算"
         #销售经理ID
-        param["salesUserId"] = 12
+        param["salesUserId"] = 10038
         #报价总额，单位：分
-        param["totalPrice"] = 0
+        param["totalPrice"] = 1
         #订单状态：0暂存1提交
-        param["status"] = 0
+        param["status"] = 1
         #用户账号不存在时备注
-        param['userRemark'] = ""
-        resvolist = [{"discount": 0,"number": 0,"price": 0,"resId": 0,"validDays": 0,"resProdSrvId": 0,"unitPrice": 0,"validUnit": 0,"validUnit": "","resTypeId":""}]
+        param['userRemark'] = "运营管理员添加"
+        resvolist = [{"discount": 1,"number": 1,"price": 1,"resId": 1,"validDays": 1,"resProdSrvId": 1,"unitPrice": 1,"validUnit": "月","resTypeId":1}]
         #资源信息
        	param["resVOList"] = resvolist
-        for j in roleName:
-            res = requests.post(url, headers=self.postheader, data=json.dumps(param))
-            print(res.text)
+        res = requests.post(url, headers=self.postheader, data=json.dumps(param))
+        print(res.text)
         try:
             if res.json()['code'] == 200:
                 result = "Success"
@@ -82,7 +79,7 @@ class orderManag():
                 result = "Faile"
         except KeyError:
             result = "Error"
-        self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(param), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.addorder.__doc__, result)
+        self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(param, ensure_ascii=False), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.addorder.__doc__, result)
         return None
 
     def applyorder(self):
@@ -315,8 +312,6 @@ class orderManag():
         self.sqldata.insertInterfaceRespond(mokuai, url, json.dumps(param), res.text, res.status_code, round(res.elapsed.total_seconds(),5), self.checkprice.__doc__, result)
         return None
 
-    def orderpaymanag(self):
-        """根据订单号进行付款"""
     def orderpaymanag(self):
         """根据订单号进行付款"""
 

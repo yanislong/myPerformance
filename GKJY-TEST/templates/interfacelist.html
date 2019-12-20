@@ -2,14 +2,15 @@
 <head>
 <title>接口列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="https://fonts.loli.net/css?family=Quicksand:400" rel="stylesheet">
 <link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
 <script src="{{url_for('static',filename='js/tanceng.js')}}"></script>
 <script src="{{url_for('static',filename='js/global.js')}}"></script>
 <style type="text/css">
-    table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; width: 100%}
-    td {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; }
+/*    table,th {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; width: 100%}
+    td {table-layout: fixed; word-break: break-all; word-wrap: break-word; border:2px solid #ff8800; border-collapse: collapse; }*/
+    table, th{table-layout: fixed; border: 2px solid #369; border-collapse: collapse; width: 100%;}
+    td { white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
 </style>
 </head>
 <body>
@@ -24,7 +25,7 @@
  || <a href="integrate">接口集成测试</a>
  || <a href="collvalue">前后端对接文档</a>
  || <a href="rule">字段规则</a>
- || <a href="http://24mail.chacuo.net/" target="view_window">测试助手</a>
+ || <a href="help" target="view_window">测试助手</a>
 <hr />
 <form  enctype='multipart/form-data' action="/uploadfile" method="post" style="display:inline">
 &nbsp || &nbsp<input type="file" name="myf" />
@@ -96,22 +97,22 @@
 <input type="button" value="取消" onclick="Hide();">
 </p>
     </div>
-<table>
+<table id="customers">
 <thead>
 <tr>
-<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">数据格式</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:100px">操作</th>
+<th class="interId">id </th><th class="interMode">模块</th><th class="interDesc">接口描述</th><th>接口地址</th><th class="interFormat">数据格式</th><th class="interParam">请求参数</th><th class="interOption">请求方法</th><th class="interAuthor">开发者</th><th class="interResult">预期结果</th><th class="interInputTime">录入时间</th><th class="interOperat">操作</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
-<th style="width: 40px">id </th><th style="width: 20%">模块</th><th style="width: 50%">接口描述</th><th>接口地址</th><th style="width: 50%">数据格式</th><th>请求参数</th><th style="width: 60px">请求方法</th><th style="width:70px">开发者</th><th style="width: 20%">预期结果</th><th style="width: 40%">录入时间</th><th style="width:100px">操作</th>
+<th class="interId">id </th><th class="interMode">模块</th><th class="interDesc">接口描述</th><th>接口地址</th><th class="interFormat">数据格式</th><th class="interParam">请求参数</th><th class="interOption">请求方法</th><th class="interAuthor">开发者</th><th class="interResult">预期结果</th><th class="interInputTime">录入时间</th><th class="interOperat">操作</th>
 </tr>
 </tfoot>
 <tbody>
 <form action="/delinterface" method="get">
 {% for i in result[0] %}
 <tr>
-<td style="width: 40px">{{i[0]}}</td><td style="width: 30%">{{i[1]}}</td><th style="width: 50%">{{i[8]}}</th><td>{{i[2]}}</td><td style="width: 50%">{{i[3]}}</td><td>{{i[4]}}</td><td style="width: 60px">{{i[5]}}</td><td style="width:70px">{{i[7]}}</td><th>{{i[9]}}</th><td style="width: 40%">{{i[6]}}</td><td style="width: 100px"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><input id="editinter" name="editinter2" value="{{i[0]}}" class="btn" onclick="testbut();Show2();" title="编辑" /></td>
+<td class="interId">{{i[0]}}</td><td class="interMode">{{i[1]}}</td><th class="interDesc">{{i[8]}}</th><td title="{{i[2]}}">{{i[2]}}</td><td class="interFormat">{{i[3]}}</td><td><div title="{{i[4]}}" class="interParam">{{i[4]}}</div></td><td class="interOption">{{i[5]}}</td><td class="interAuthor">{{i[7]}}</td><th>{{i[9]}}</th><td class="interResult">{{i[6]}}</td><td  class="interInputTime"><button name="iid" value="{{i[0]}}">删除</button><button name='rid' value="{{i[0]}}">执行</button><input id="editinter" name="editinter2" value="{{i[0]}}" class="btn" onclick="testbut();Show2();" title="编辑" /></td>
 </tr>
 {% endfor %}
 </form>

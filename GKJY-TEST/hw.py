@@ -5,7 +5,7 @@ from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect, Response
 from werkzeug import secure_filename
 from flask import jsonify
-import os, json, sys, pymysql, subprocess
+import os, json, sys, pymysql, subprocess, base64, binascii
 sys.path.append(os.getcwd() + '/run_test')
 sys.path.append(os.getcwd() + '/run_test/excel')
 sys.path.append(os.getcwd() + '/run_test/lhlmysql')
@@ -46,6 +46,7 @@ def hw():
 def test01():
     return render_template("test.html", relset=())
 
+#待请求接口中的上传文件
 @app.route('/downloadfile/', methods=['GET', 'POST'])
 def downloadfile():
     if request.method == 'GET':
@@ -71,7 +72,6 @@ def downloadfile():
         response = Response(send_file(), content_type='application/octet-stream')
         response.headers["Content-disposition"] = 'attachment; filename=%s' % filename   # 如果不加上这行代码，导致下图的问题
         return  response
-
 
 @app.route('/collvalue', methods=['GET'])
 def coll():
@@ -399,6 +399,35 @@ def mytest2():
             print("ID不存在,没有找到对应的接口信息")
             return jsonify({"msg":"ID不存在,没有找到对应的接口信息","code":400,"data":""})
         return json.dumps({"msg":"ok","code":200,"data":temp[0]})
+
+@app.route('/help')
+def testhelp():
+    return render_template('help.html')
+
+#上传文件解析处理不同编码
+@app.route('/encodefile', methods=['POST'])
+def encode_file():
+    f = request.files['myf']
+    ftype = request.form['type']
+    if f and allowed_file(f.filename):
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], f.filename)
+        f.save(filepath)
+        if ftype == "base64":
+            with open(filepath,"rb") as tmpf:
+                myencode = base64.b64encode(tmpf.read())
+                myencode = "data:image/jpeg;base64," + myencode.decode()
+                return myencode
+        elif ftype == "binary":
+            with open(filepath,"rb") as tmpf:
+                myencode = tmpf.read()
+                hexstr = binascii.b2a_hex(myencode) #得到一个16进制的数
+                bsstr = bin(int(hexstr,16))[2:]
+                print(bsstr)
+                return bsstr
+        else:
+            return render_template('error.html', result=())
+    else:
+        return render_template('error.html', result=())
 
 @app.route('/logout')
 def logout():

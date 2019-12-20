@@ -10,7 +10,7 @@ import config
 class lhlSql:
     
     def __init__(self):
-        self.con = pymysql.connect(config.mysql_host, config.mysqluser, config.mysqlpasswd, 'portaltest')
+        self.con = pymysql.connect(config.mysql_host, config.mysqluser, config.mysqlpasswd, 'portaltest', charset="utf8mb4")
 
     def getTimeInfo(self, iname, num=0):
         """根据iname, num参数，查询20条接口响应的时间信息"""
