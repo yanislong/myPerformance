@@ -86,7 +86,7 @@ function onMouseHover(ev) {
         document.styleSheets[0].deleteRule(0);
 }
 
-//文件转码
+//文件转码为二进制
 function fileBinary() {
     var xhttp = new XMLHttpRequest();
     var input = document.createElement("input");
@@ -113,7 +113,8 @@ function fileBinary() {
     }
   }
 }
-//文件转码
+
+//文件转码为base64
 function fileBase() {
     var xhttp = new XMLHttpRequest();
     var input = document.createElement("input");
@@ -141,3 +142,30 @@ function fileBase() {
   }
 }
 
+//文件转码为字符串,可作为接口参数传递
+function fileStr() {
+    var xhttp = new XMLHttpRequest();
+    var input = document.createElement("input");
+    var action = "/encodefile"; //上传服务的接口地址
+    var form = new FormData();
+    input.type = "file";
+    input.click();
+    input.onchange = function(){
+    var file = input.files[0];
+    form.append("myf", file); //第一个参数是后台读取的请求key值
+    form.append("fileName", file.name);
+    form.append("type", "filestr"); //实际业务的其他请求参数
+    xhttp.open("POST", action);
+    xhttp.send(form); //发送表单数据
+    xhttp.onreadystatechange = function(){
+      if(xhttp.readyState==4 && xhttp.status==200){
+        //var resultObj = JSON.parse(xhttp.responseText);
+        var resultObj = xhttp.responseText;
+        document.getElementById('shade3').classList.remove('hide');
+        document.getElementById('moda3').classList.remove('hide');
+        document.getElementById('encodedesc').value=resultObj;
+      }
+      if(xhttp.readyState==4 && xhttp.status==500){alert('导入文件有误');}
+    }
+  }
+}

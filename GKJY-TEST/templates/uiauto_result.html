@@ -1,0 +1,81 @@
+<html>
+<head>
+<link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
+<style type="text/css">
+    body {
+      background-color:#66ccFF;
+      text-align:center;
+    }
+    p {
+      color: red;
+      font-size: 18px;
+    }
+    table.dataintable {
+      margin-top:15px;
+      border-collapse:collapse;
+      border:1px solid #aaa;
+      width:90%;
+    }
+    table.dataintable th {
+      vertical-align:baseline;
+      padding:5px 15px 5px 6px;
+      background-color:#3F3F3F;
+      border:1px solid #3F3F3F;
+      text-align:left;
+      color:#fff;
+    }
+    table.dataintable td {
+      vertical-align:text-top;
+      padding:6px 15px 6px 6px;
+      border:1px solid #aaa;
+    }
+</style>
+</head>
+<body>
+<h1>先进计算中心统一服务系统UI自动化测试平台</h1>
+<a href="/">index</a>
+ || <a href="uiauto">UI自动化</a>
+ || <a href="rule">字段规则</a>
+<hr />
+<p>*当前显示为上一次执行结果，最新结果大约4-10分钟后刷新页面显示，根据列表id值判断是否更新，增加1 *</p>
+<!--p>可以通过腾讯远程会议查看执行过程，会议id: 963 270 205 </p-->
+<img style="padding: 10px" src="../static/image/wait.gif" height="64" width="64">
+<div id="loadText">自动化脚本正在执行，请稍后！</div>
+<table class="dataintable">
+<thead>
+<tr>
+<th>id </th><th>模块</th><th>开始执行时间</th><th>结束时间</th><th>执行结果保存记录时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+</tr>
+{% for i in result %}
+<tr>
+<td>{{i[0]}}</td>
+<td>{{i[1]}}</td>
+<td>{{i[2]}}</td>
+<td>{{i[3]}}</td>
+<td>{{i[5]}}</td>
+<table class="dataintable">
+<thead>
+<tr>
+<th>测试的功能点</th><th>执行结果</th>
+</tr>
+</thead>
+<tbody>
+<tbody>
+{% for j,k in json.loads(i[4]).items() %}
+<tr>
+<td>{{j}}</td>
+<td>{{k}}</td>
+</tr>
+{% endfor %}
+<tbody>
+</table>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</body>
+</html>

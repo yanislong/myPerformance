@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>UI自动化</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="icon" href="{{url_for('static',filename='image/favicon.ico')}}" type="image/x-icon"/>
+<!--link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}" -->
+<style type="text/css">
+    body {
+      background-color:#66ccFF;
+      text-align:center;
+    }
+    table.dataintable {
+      margin-top:15px;
+      border-collapse:collapse;
+      border:1px solid #aaa;
+      width:90%;
+      bgcolor:#000;
+    }
+    table.dataintable th {
+      vertical-align:baseline;
+      padding:5px 15px 5px 6px;
+      background-color:#3F3F3F;
+      border:1px solid #3F3F3F;
+      text-align:left;
+      color:#fff;
+    }
+    table.dataintable td {
+      vertical-align:text-top;
+      padding:6px 15px 6px 6px;
+      border:1px solid #aaa;
+    }
+</style>
+</head>
+<body>
+<h1>先进计算中心统一服务系统UI自动化测试平台</h1>
+<a href="/">index</a>
+ || <a href="uiauto_www">UI自动化执行结果</a>
+ || <a href="rule">字段规则</a>
+ || <a href="help" target="view_window">测试助手</a>
+<hr />
+<table class="dataintable">
+<thead>
+<tr>
+<th>模块</th><th>UI自动化执行测试的功能</th><th>操作</th>
+</tr>
+</thead>
+<tbody>
+<form method="post" action="/uiauto_redirect_w">
+<tr>
+<td rowspan="4">www官网</td><td>用户登录</td><td rowspan="4"><button>执行</button></td>
+</tr>
+</form>
+<tr><td>邮箱注册</td></tr>
+<tr><td>手机号注册</td></tr>
+<tr><td>通过首页试用按钮进行登录</td></tr>
+</tbody>
+</table>
+<table class="dataintable">
+<thead>
+<tr>
+<th>模块</th><th>UI自动化执行测试的功能</th><th>操作</th>
+</tr>
+</thead>
+<tbody>
+<form method="post" action="/uiauto_redirect_c">
+<tr>
+<td rowspan="3">console控制台</td><td>用户登录</td><td rowspan="3"><button>执行</button></td>
+</tr>
+</form>
+<tr><td>登录webshell</td></tr>
+<tr><td>共享存储上传文件</td></tr>
+</tbody>
+</table>
+<table class="dataintable">
+<thead>
+<tr>
+<th>模块</th><th>UI自动化执行测试的功能</th><th>操作</th>
+</tr>
+</thead>
+<tbody>
+<form method="post" action="/uiauto_redirect_a">
+<tr>
+<td rowspan="6">admin管理后台</td><td>申请资源</td><td rowspan="6"><button>执行</button></td>
+</tr>
+</form>
+<tr><td>价格审批</td></tr>
+<tr><td>生产合同</td></tr>
+<tr><td>合同审批</td></tr>
+<tr><td>变更配置</td></tr>
+<tr><td>配置资源</td></tr>
+</tbody>
+</table>
+</body>
+</html>

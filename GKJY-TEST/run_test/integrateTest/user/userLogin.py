@@ -30,6 +30,7 @@ class userlogin():
         data['password'] = passwd
         data['account'] = username
         data['rememberMe'] = True
+        data['origin'] = 1
         url = self.url + "/login/account"
         res = requests.post(url, headers=self.postheader, data=json.dumps(data))
         print(res.text)
@@ -63,5 +64,6 @@ class userlogin():
 
 if __name__ == "__main__":
     runtest = userlogin()
-    runtest.accountLogin(config.useaccount,config.passwd)
+    #runtest.accountLogin(config.useaccount,config.passwd)
+    runtest.accountLogin("tmp007","YzAyMTgyMT")
     #runtest.wpassLogin()

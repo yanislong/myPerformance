@@ -18,6 +18,7 @@ except ModuleNotFoundError:
 from run_test.lhlmysql.lhlsql import lhlSql
 from decimal import Decimal
 from run_test import autoInter, importInter
+import socket
 import config
 
 UPLOAD_FOLDER = "./run_test/excel/"
@@ -424,6 +425,12 @@ def encode_file():
                 bsstr = bin(int(hexstr,16))[2:]
                 print(bsstr)
                 return bsstr
+        elif ftype == "filestr":
+            with open(filepath,"rb") as tmpf:
+                myencode = tmpf.read()
+                myencode = myencode.decode('utf-8')
+                print(myencode)
+                return myencode
         else:
             return render_template('error.html', result=())
     else:
@@ -433,6 +440,63 @@ def encode_file():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/uiauto', methods=['GET','POST'])
+def uiauto():
+    return render_template('uiauto.html', result=())
+
+@app.route('/uiauto_redirect_w', methods=['GET','POST'])
+def uiauto_redirect():
+    sk = socket.socket()
+    address = (config.runui_ip,config.runui_port)
+    print(config.runui_ip)
+    sk.connect(address)
+   # while True:
+   # inp = input('>>>>>.')
+   # if inp == 'exit':
+   #     break
+    inp = "ui_www.py"
+    sk.send(bytes(inp,'utf8'))
+    sk.close()
+    return redirect('uiauto_www')
+
+@app.route('/uiauto_redirect_c', methods=['GET','POST'])
+def uiauto_redirect_c():
+    sk = socket.socket()
+    address = (config.runui_ip,config.runui_port)
+    print(config.runui_ip)
+    sk.connect(address)
+   # while True:
+   # inp = input('>>>>>.')
+   # if inp == 'exit':
+   #     break
+    inp = "ui_console.py"
+    sk.send(bytes(inp,'utf8'))
+    sk.close()
+    return redirect('uiauto_www')
+
+@app.route('/uiauto_redirect_a', methods=['GET','POST'])
+def uiauto_redirect_a():
+    sk = socket.socket()
+    address = (config.runui_ip,config.runui_port)
+    print(config.runui_ip)
+    sk.connect(address)
+   # while True:
+   # inp = input('>>>>>.')
+   # if inp == 'exit':
+   #     break
+    inp = "ui_admin.py"
+    sk.send(bytes(inp,'utf8'))
+    sk.close()
+    return redirect('uiauto_www')
+
+@app.route('/uiauto_www', methods=['GET','POST'])
+def uiauto_www():
+    mydata = lhlSql()
+    www_result = mydata.getUiautoResult()
+    #print(www_result)
+    return render_template('uiauto_result.html', result=(www_result))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port="8888")

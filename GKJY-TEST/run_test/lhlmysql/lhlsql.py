@@ -181,6 +181,16 @@ class lhlSql:
         cursor.close()
         return None
 
+    def getUiautoResult(self):
+        """获取UI自动化执行结果"""
+        cursor = self.con.cursor()
+        sql = "select * from uitestresult where id = (SELECT max(id) FROM uitestresult)"
+        cursor.execute(sql)
+        uires = cursor.fetchall()
+        cursor.close()
+        return uires
+
+
     def __del__(self):
         pass
 

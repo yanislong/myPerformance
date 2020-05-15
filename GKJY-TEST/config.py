@@ -2,6 +2,7 @@
 
 import time
 import hashlib
+import base64
 
 #################全局配置################################
 
@@ -10,7 +11,8 @@ name = "国科晋云"
 #追求真相
 saying = "根本没有巧合, 巧合是种错觉"
 #首页外链bug平台地址
-bugurl = "https://www.tapd.cn/company/participant_projects"
+#bugurl = "https://www.tapd.cn/company/participant_projects"
+bugurl = "http://192.168.15.20:8866/zentao/my/"
 #接口模块
 intermode = ['user','order','job','flow','account','contract','invoice','file','messcenter','org','ldap']
 #接口请求方法
@@ -23,6 +25,12 @@ authorized = ""#True
 #music = "autoplay"
 music = ""
 
+#执行ui自动化远程主机ip
+runui_ip = "10.0.113.152"
+#runui_ip = "10.0.110.251"
+#执行ui自动化远程主机port
+runui_port = 8000
+
 #################################################
 
 #########################数据库,服务器地址配置#############################
@@ -32,19 +40,27 @@ mysql_host = "127.0.0.1"
 mysqluser = "root"
 mysqlpasswd = "root"
 
-#开发环境应用服务地址
-#develoturl = "http://11.2.77.1:8088"
-
 #测试环境应用服务地址
-#url = "http://11.2.77.3"
-testurl = "11.2.77.1"
-url = "http://11.2.77.1"
+url = "http://11.2.77.3"
+testurl = "11.2.77.3"
+#接口模块地址
+userurl = url + "/portal-test/user"
+orderurl = url + "/portal-test/order"
+joburl = url + "/portal-test/job"
+orgurl = url + "/portal-test/org"
+contracturl = url + "/portal-test/contract"
+
+#开发环境服务地址
+'''
+#testurl = "11.2.77.1"
+#url = "http://11.2.77.1"
 #接口模块地址
 userurl = url + "/portal/user"
 orderurl = url + "/portal/order"
 joburl = url + "/portal/job"
 orgurl = url + "/portal/org"
 contracturl = url + "/portal/contract"
+'''
 
 #测试环境数据库
 mysqlportal_host = "192.168.15.21"
@@ -92,7 +108,39 @@ def suiji():
     a = ''.join(random.sample(['z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a','Z','Y','X','U','V','W','Q','E','R','T','I','O','P','A','S','D','F','G','H','H','J','K','L','C','B','N','M','1','2','3','4','5','6','7','8','0','9'], 11))
     return a
 
+#sale进行sha1
+def jm_sha1(parm):
+    jmobj = hashlib.sha1()
+    jmobj.update(parm.encode('utf-8'))
+#    print(jmobj.digest_size)
+    return jmobj.hexdigest()
+
+#sale加上密码进行sha256
+def jm_sha256(parm,b):
+    jmobj = hashlib.sha256()
+    jmobj.update(parm.encode('utf-8'))
+    jmobj.update(b.encode('utf-8'))
+    print(jmobj.digest())
+    return jmobj.hexdigest()
+
+#十六进制转二进制(byte)
+def hexStringTobytes(str):
+    str = str.replace(" ", "")
+    print(bytes.fromhex(str))
+    return bytes.fromhex(str)
+
+#二进制(byte)转十六进制
+def bytesToHexString(bs):
+    return ''.join(['%02X' % b for b in bs])
+
+#####################################################
+
 #####################################################
 
 if __name__ == "__main__":
+    aa = jm_sha1("574ff13b-93cd-437a-9283-524250c038bfDemo001")
+    bb = jm_sha256('Test123456!', aa)
+    cc = "5166D92F37C9DFA6EC863E5A2EB1B58146F8F24DA27D1BB38E9F6ED960627ED8"
+#    hexStringTobytes(cc)
+#    print(base64.b64encode(bb.encode('utf-8')))
     pass
