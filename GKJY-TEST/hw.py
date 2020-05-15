@@ -492,8 +492,16 @@ def uiauto_redirect_a():
 
 @app.route('/uiauto_www', methods=['GET','POST'])
 def uiauto_www():
+    if request.method == "GET":
+        try:
+            get_mode = request.args.get("imode")
+        except:
+            get_mode = "www"
+        if not get_mode:
+            get_mode = "www"
+        print(get_mode)
     mydata = lhlSql()
-    www_result = mydata.getUiautoResult()
+    www_result = mydata.getUiautoResult(get_mode)
     #print(www_result)
     return render_template('uiauto_result.html', result=(www_result))
 

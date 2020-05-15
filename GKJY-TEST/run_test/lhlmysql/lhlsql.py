@@ -181,10 +181,10 @@ class lhlSql:
         cursor.close()
         return None
 
-    def getUiautoResult(self):
+    def getUiautoResult(self, imode):
         """获取UI自动化执行结果"""
         cursor = self.con.cursor()
-        sql = "select * from uitestresult where id = (SELECT max(id) FROM uitestresult)"
+        sql = "select * from uitestresult where id = (SELECT max(id) FROM uitestresult where mode='{0}')".format(imode)
         cursor.execute(sql)
         uires = cursor.fetchall()
         cursor.close()

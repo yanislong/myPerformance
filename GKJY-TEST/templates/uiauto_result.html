@@ -41,6 +41,15 @@
 <!--p>可以通过腾讯远程会议查看执行过程，会议id: 963 270 205 </p-->
 <img style="padding: 10px" src="../static/image/wait.gif" height="64" width="64">
 <div id="loadText">自动化脚本正在执行，请稍后！</div>
+<form action="/uiauto_www" method="get" style="float:left">
+模块:<input list="namelist" name="imode" autocomplete="off" />
+<datalist id="namelist">
+<option>www</option>
+<option>console</option>
+<option>admin</option>
+</datalist>
+<button>查看</button>
+</form>
 <table class="dataintable">
 <thead>
 <tr>
