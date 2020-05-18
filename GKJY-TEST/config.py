@@ -26,7 +26,7 @@ authorized = ""#True
 music = ""
 
 #执行ui自动化远程主机ip
-runui_ip = "10.0.113.152"
+runui_ip = "10.0.113.160"
 #runui_ip = "10.0.110.251"
 #执行ui自动化远程主机port
 runui_port = 8000

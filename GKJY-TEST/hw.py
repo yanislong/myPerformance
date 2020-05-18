@@ -466,10 +466,6 @@ def uiauto_redirect_c():
     address = (config.runui_ip,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
-   # while True:
-   # inp = input('>>>>>.')
-   # if inp == 'exit':
-   #     break
     inp = "ui_console.py"
     sk.send(bytes(inp,'utf8'))
     sk.close()
@@ -481,10 +477,6 @@ def uiauto_redirect_a():
     address = (config.runui_ip,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
-   # while True:
-   # inp = input('>>>>>.')
-   # if inp == 'exit':
-   #     break
     inp = "ui_admin.py"
     sk.send(bytes(inp,'utf8'))
     sk.close()
