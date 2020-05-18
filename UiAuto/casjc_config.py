@@ -2,6 +2,9 @@
 """admin管理后台用户"""
 
 #销售经理账号
+user_name = "Casjc001"
+
+#销售经理账号
 user_name1 = "lihaifeng"
 
 #销售总监账号
@@ -19,8 +22,11 @@ user_name5 = "daijiwei"
 #总经理账号
 user_name7 = "tangdebing"
 
-#通用密码
+#后台通用密码
 user_passwd = "Casjc@123"
+
+#后台管理员密码
+user_passwd2 = "123456aA~"
 
 """console控制台用户"""
 
@@ -48,20 +54,21 @@ uppath = r"c:\usr\AutoUi.pdf"
 #admin管理后台登录地址
 
 #测试环境
-#adminUrl = "http://11.2.77.3:30088"
+adminUrl = "http://11.2.77.3:30088"
 
 #开发环境
-adminUrl = "http://11.2.77.1:10088"
-muser = "duliadmin"
-mpasswd = "Test1234!"
+#adminUrl = "http://11.2.77.1:10088"
+
+#muser = "duliadmin"
+#mpasswd = "Test1234!"
 
 #admin控制台登录地址
 
 #测试环境
-#consoleUrl = "http://11.2.77.3:30086"
+consoleUrl = "http://11.2.77.3:30086"
 
 #开发环境
-consoleUrl = "http://11.2.77.1:10086"
+#consoleUrl = "http://11.2.77.1:10086"
 
 #申请资源类型 1存储,2共享
 restype1 = "store"

@@ -17,34 +17,6 @@ import casjc_page
 def isElementExist():
     psss 
     
-#登陆后台系统
-def Casjc_login(uname="Casjc001", upasswd="123456aA~"):
-    hailong = webdriver.Chrome()
-    hailong.get(casjc_config.adminUrl)
-    hailong.maximize_window()
-    hailong.find_element_by_css_selector("input[type='text']").send_keys(uname)
-    hailong.find_element_by_css_selector('input[type="password"]').send_keys(upasswd)
-    hailong.find_element_by_tag_name('button').click()
-    #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入首页
-    #WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[class="router-link-active"]')))
-    #casjc_config.casjc_result['login_status'] = "%s: 登录成功" %uname
-    #time.sleep(casjc_config.show_time)
-    #return None
-    wait_num = 0
-    while wait_num < casjc_config.wait_time:
-        time.sleep(casjc_config.short_time)
-        try:
-            if hailong.find_elements_by_css_selector('a[class="router-link-active"]')[0].text == "首页":
-                print (uname + u"登陆成功")
-                casjc_config.casjc_result['后台用户登录' + time.strftime("%M%S",time.localtime())] = "%s 登录成功" %uname
-                return hailong
-        except:
-            wait_num += 1
-    hailong.quit()
-    print ("登陆失败")
-    casjc_config.casjc_result['login'] = "%s 登录失败" %uname
-    return None
-
 #退出后台系统
 def Casjc_logout(mydri=None):
     #mydri = Casjc_login()
@@ -72,8 +44,8 @@ def Casjc_res(ctype="share"):
     """
     title = "申请资源"
     #登录，点击资源管理菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name1
+    upasswd = casjc_config.user_passwd
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_resmanagement()
@@ -96,7 +68,13 @@ def Casjc_res(ctype="share"):
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
     time.sleep(casjc_config.short_time)
     #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[104].click()
-    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    try:
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    except exceptions.ElementNotInteractableException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 当前企业没有找到账号"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
     #输入手机号
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys('13112341234')
     #输入邮箱
@@ -184,27 +162,38 @@ def Casjc_res(ctype="share"):
 
 
 #价格审批
-def Casjc_price(priceuser):
+def Casjc_price(priceuser=""):
     title = "价格审批"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
-    aaa = ui_page.Casjc_admin_page(hailong)
+    uname = priceuser
+    upasswd = casjc_config.user_passwd
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_resmanagement()
     #进入资源审批页面
     if priceuser != "tangdebing":
-        hailong.find_elements_by_css_selector('i[class="el-icon- iconfont iconshenpizhong"]')[0].click()
-        time.sleep(casjc_config.short_time)
-        #进入待审批列表
-        hailong.find_elements_by_css_selector('li[data-index="/approveWat"')[0].click()
-        time.sleep(casjc_config.short_time)
-    if hailong.find_elements_by_css_selector('li[data-index="/approveWat"')[0].text == "待审批":
+        try:
+            WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
+            time.sleep(casjc_config.short_time)
+            hailong.find_elements_by_css_selector('i[class="el-icon- iconfont iconshenpizhong"]')[0].click()
+            time.sleep(casjc_config.short_time)
+            #进入待审批列表
+            hailong.find_elements_by_css_selector('li[data-index="/approveWat"')[0].click()
+            time.sleep(casjc_config.short_time)
+        except exceptions.TimeoutException:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 操作异常"
+            Casjc_logout(hailong)
+            hailong.quit()
+            return None
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/approveWat"]')))
+    if hailong.find_elements_by_css_selector('li[data-index="/approveWat"]')[0].text == "待审批":
         print ("进入资源审批-待审批列表成功")
     else:
         print ("进入资源审批-待审批列表失败")
     #进入资源申请详情页面
     if len(hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')) < 1:
         print ("没有待审批资源")
-        casjc_config.casjc_result['价格审批' + time.strftime("%M%S",time.localtime())] = "没有待审批资源"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "没有待审批资源"
         return None
     else:
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
@@ -220,26 +209,37 @@ def Casjc_price(priceuser):
     ordernum = hailong.find_elements_by_tag_name('p')[2].text
     try:
         #点击审批通过
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary"]')))
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
-    except:
+    except exceptions.TimeoutException:
         print ("点击审批通过异常")
-    #获取提交返回结果
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-    time.sleep(casjc_config.short_time)
-    casjc_config.casjc_result['价格审批'+ time.strftime("%M%S",time.localtime())] = ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
-    #推出登录
-    Casjc_logout(hailong)
-    time.sleep(casjc_config.show_time)
-    return None
+    #获取提交请求返回信息
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+            hailong.quit()
+            return None
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+
 
 #生成合同
 def Casjc_contract():
     title = "生成合同"
-    hailong = Casjc_login(casjc_config.user_name1,casjc_config.user_passwd)
-    #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入资源管理页面
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '资源管理')))
-    time.sleep(casjc_config.short_time)
-    hailong.find_element_by_link_text('资源管理').click()          
+    #登录，点击资源管理菜单
+    hailong = webdriver.Chrome()
+    uname = casjc_config.user_name1
+    upasswd = casjc_config.user_passwd
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa.admin_resmanagement()         
     #进入资源审批页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
     time.sleep(casjc_config.short_time)
@@ -255,7 +255,9 @@ def Casjc_contract():
     #判断待审批列表是否有数据
     if len(hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')) < 1:
         print ("没有待审批资源")
-        casjc_config.casjc_result['生产合同' + time.strftime("%M%S",time.localtime())] = "没有待生成资源"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 没有待生成资源"
+        Casjc_logout(hailong)
+        hailong.quit()
         return None
     else:
         #进入生成合同详情页面
@@ -302,54 +304,52 @@ def Casjc_contract():
     ordernum = hailong.find_elements_by_tag_name('p')[2].text
     #点击生产合同
     hailong.find_element_by_css_selector('button[class="el-button el-button--primary"').click()
-    #获取提交返回结果
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-    time.sleep(casjc_config.short_time)
-    casjc_config.casjc_result['生产合同'+ time.strftime("%M%S",time.localtime())] = ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
-    #推出登录
-    Casjc_logout(hailong)
-    time.sleep(casjc_config.show_time)
-    return None
+    #获取提交请求返回信息
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+            hailong.quit()
+            return None
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
 
 
 
 #合同审批
 def Casjc_contract_apply(appuser):
     title = "合同审批"
-    hailong = Casjc_login(appuser,casjc_config.user_passwd)
-    #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入资源管理页面
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '资源管理')))
-    time.sleep(casjc_config.short_time)
-    hailong.find_element_by_link_text('资源管理').click() 
-    time.sleep(casjc_config.show_time)
-    #进入资源审批页面
-    #hailong.find_elements_by_css_selector('div[class="el-submenu__title"]')[0].click()
-    #time.sleep(2)
-    #进入待审批列表
-    #hailong.find_elements_by_css_selector('li[role="menuitem"]')[2].click()
-    #hailong.find_elements_by_css_selector('li[data-index="/approveWat"]')
-    w1 = 0
-    while w1 < casjc_config.wait_time:
-        time.sleep(casjc_config.short_time)
-        try:
-            if hailong.find_elements_by_css_selector('span[class="el-breadcrumb__inner"]')[2].text == u"待审批":
-                print ("进入资源审批-待审批列表成功")
-            else:
-                print ("进入资源审批-待审批列表失败")
-            break
-        except:
-            w1 += 1
-    #进入生成合同详情页面
-    if len(hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')) < 1:
-        print ("没有待审批资源")
-        casjc_config.casjc_result['合同审批' + time.strftime("%M%S",time.localtime())] = "没有待审批资源"
+    #登录，点击资源管理菜单
+    hailong = webdriver.Chrome()
+    uname = appuser
+    upasswd = casjc_config.user_passwd
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa.admin_resmanagement() 
+    #进入资源审批页面,点击审批按钮
+    try:        
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="table-btn"]')))
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
+    except:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 操作异常"
+        Casjc_logout(hailong)
         hailong.quit()
         return None
-    else:
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
-    time.sleep(casjc_config.show_time)
     #勾选复选框,附件内容已确认
-    hailong.find_elements_by_css_selector('label[class="el-checkbox"]')[0].click()
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'label[class="el-checkbox"]')))
+        hailong.find_element_by_css_selector('label[class="el-checkbox"]').click()
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
     #输入审批意见
     hailong.find_elements_by_css_selector('textarea[class="el-textarea__inner"]')[0].send_keys(u"UI自动化合同审批")
     #进入申请信息tab，获取订单号
@@ -364,24 +364,32 @@ def Casjc_contract_apply(appuser):
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
         print ("点击审批通过按钮异常")
-    #获取提交返回结果
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-    time.sleep(casjc_config.short_time)
-    casjc_config.casjc_result['合同审批'+ time.strftime("%M%S",time.localtime())] = ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
-    #推出登录
-    Casjc_logout(hailong)
-    time.sleep(casjc_config.show_time)
-    return None
+    #获取提交请求返回信息
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+            hailong.quit()
+            return None
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
 
 #配置资源-固定配置-变更配置
 def Casjc_change_config():
     title = "变更配置"
-    hailong = Casjc_login(casjc_config.user_name1,casjc_config.user_passwd)
-    #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入资源管理页面
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '资源管理')))
-    time.sleep(casjc_config.short_time)
-    hailong.find_element_by_link_text('资源管理').click() 
-    time.sleep(casjc_config.show_time)
+    #登录，点击资源管理菜单
+    hailong = webdriver.Chrome()
+    uname = casjc_config.user_name1
+    upasswd = casjc_config.user_passwd
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa.admin_resmanagement() 
     #进入配置资源页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/configTable"]')))
     time.sleep(casjc_config.short_time)
@@ -392,10 +400,10 @@ def Casjc_change_config():
     while w1 < casjc_config.wait_time:
         time.sleep(casjc_config.short_time)
         try:
-            if hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].text == u"变更配置":
+            if hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].text == "变更配置":
                 hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
                 time.sleep(casjc_config.show_time)
-                if hailong.find_elements_by_css_selector('div[class="colorBlue"]')[0].text.strip() == u"注意：固定参数配置方式仅有一次变更机会，变更后总价需与订单总价一致":
+                if hailong.find_elements_by_css_selector('div[class="colorBlue"]')[0].text.strip() == "注意：固定参数配置方式仅有一次变更机会，变更后总价需与订单总价一致":
                     print ("进入配置参数页面成功")
                 else:
                     print ("进入配置参数页面失败")
@@ -403,7 +411,7 @@ def Casjc_change_config():
             else:
                 print ("没有找到变更配置按钮")
                 hailong.quit()
-                casjc_config.casjc_result['变更配置' + time.strftime("%M%S",time.localtime())] = "没有找到按钮"
+                casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = "没有找到按钮"
                 return None
         except:
             w1 +=1
@@ -427,17 +435,30 @@ def Casjc_change_config():
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
         print ("点击确认参数按钮异常")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
     #判断是否弹出确认提示框,如果弹出点击确定按钮
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__message"]')))
     hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
-    #获取提交返回结果
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-    time.sleep(casjc_config.short_time)
-    casjc_config.casjc_result['变更配置'+ time.strftime("%M%S",time.localtime())] = ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
-    #推出登录
-    Casjc_logout(hailong)
-    time.sleep(casjc_config.show_time)
-    return None
+    #获取提交请求返回信息
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+            hailong.quit()
+            return None
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+
 
 #配置资源-固定配置-配置资源
 def Casjc_config(ctype="share"):
@@ -446,12 +467,12 @@ def Casjc_config(ctype="share"):
     ctype=store 配置数据存储
     """
     title = "配置资源"
-    hailong = Casjc_login(casjc_config.user_name5,casjc_config.user_passwd)
-    #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入资源管理页面
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '资源管理')))
-    time.sleep(casjc_config.short_time)
-    hailong.find_element_by_link_text('资源管理').click() 
-    time.sleep(casjc_config.show_time)
+    #登录，点击资源管理菜单
+    hailong = webdriver.Chrome()
+    uname = casjc_config.user_name5
+    upasswd = casjc_config.user_passwd
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa.admin_resmanagement()
     #进入配置资源页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/configTable"]')))
     time.sleep(casjc_config.short_time)
@@ -468,7 +489,7 @@ def Casjc_config(ctype="share"):
     else:
         print ("没有找到配置资源按钮")
         hailong.quit()
-        casjc_config.casjc_result['配置资源' + time.strftime("%M%S",time.localtime())] = "没有找到按钮"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "没有找到按钮"
         return None
     #点击产品服务下拉列表
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
@@ -520,24 +541,36 @@ def Casjc_config(ctype="share"):
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
         print ("点击确认参数按钮异常")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
     #判断是否弹出确认提示框,如果弹出点击确定按钮
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__message"]')))
     hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
-    #获取提交返回结果
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-    time.sleep(casjc_config.short_time)
-    casjc_config.casjc_result['变更配置'+ time.strftime("%M%S",time.localtime())] = ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
-    #推出登录
-    Casjc_logout(hailong)
-    time.sleep(casjc_config.show_time)
-    return None
+    #获取提交请求返回信息
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+            hailong.quit()
+            return None
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 订单号:" + ordernum + " 操作异常"
+        Casjc_logout(hailong)
+        hailong.quit()
+        return None
 
 #新建企业单位
 def Casjc_create_ent():
     title = "新增企业单位"
     #登录，点击运营中心菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_operationcenter()
@@ -568,12 +601,12 @@ def Casjc_create_ent():
     #获取提交请求返回信息
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-        casjc_config.casjc_result['新建企业单位'] = "当前登录用户: " + uname + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
         Casjc_logout(hailong)
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['新建企业单位'] = "当前登录用户: " + uname +"操作异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname +"操作异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -582,8 +615,8 @@ def Casjc_create_ent():
 def Casjc_edit_ent():
     title = "编辑企业单位"
     #登录，点击运营中心菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_operationcenter()
@@ -619,12 +652,12 @@ def Casjc_edit_ent():
     #获取提交请求返回信息
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-row"]')))
-        casjc_config.casjc_result['编辑企业单位'] = "当前登录用户: " + uname + newuser + "编辑成功"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + newuser + "编辑成功"
         Casjc_logout(hailong)
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['编辑企业单位'] = "当前登录用户: " + uname +"操作异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname +"操作异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -633,8 +666,8 @@ def Casjc_edit_ent():
 def Casjc_addsysent():
     title = "新增企业管理用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_usersystem()
@@ -651,7 +684,7 @@ def Casjc_addsysent():
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
     #判断打开新增弹窗成功
-    if hailong.find_elements_by_css_selector('span[class="el-dialog__title"]')[-1].text == u"新增企业用户":
+    if hailong.find_elements_by_css_selector('span[class="el-dialog__title"]')[-1].text == "新增企业用户":
         print ("新增弹窗打开成功" )      
     #输入企业用户账号
     newuser = "ui" + time.strftime("%m%d%H%M",time.localtime())
@@ -668,7 +701,7 @@ def Casjc_addsysent():
         time.sleep(casjc_config.show_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_config.casjc_result['新建企业管理用户'] = "当前登录用户: " + uname + " 选择企业单位异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择企业单位异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -678,7 +711,7 @@ def Casjc_addsysent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_config.casjc_result['新建企业管理用户'] = "当前登录用户: " + uname + " 选择角色异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择角色异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -705,8 +738,8 @@ def Casjc_addsysent():
 def Casjc_addent():
     title = "新增企业普通用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_usersystem()
@@ -740,7 +773,7 @@ def Casjc_addent():
         time.sleep(casjc_config.show_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_config.casjc_result['新建企业普通用户'] = "当前登录用户: " + uname + " 选择企业单位异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择企业单位异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -750,7 +783,7 @@ def Casjc_addent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
     except:
-        casjc_config.casjc_result['新建企业普通用户'] = "当前登录用户: " + uname + " 选择角色异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择角色异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -760,7 +793,7 @@ def Casjc_addent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_config.casjc_result['新建企业普通用户'] = "当前登录用户: " + uname + " 选择关联企业管理员异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择关联企业管理员异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -770,15 +803,15 @@ def Casjc_addent():
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
         if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
-            casjc_config.casjc_result['新建企业普通用户'] = "当前登录用户: " + uname + " 账号:" + newuser + " 操作异常"
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 账号:" + newuser + " 操作异常"
             hailong.quit()
             return None
-        casjc_config.casjc_result['新建企业普通用户'] = "当前登录用户: " + uname + " 账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
         Casjc_logout(hailong)
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['新建企业普通用户'] = "当前登录用户: " + uname + " 操作异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 操作异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -788,8 +821,8 @@ def Casjc_addent():
 def Casjc_editent():
     title = "编辑企业用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_usersystem()
@@ -807,7 +840,7 @@ def Casjc_editent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['编辑企业用户'] = "当前登录用户: " + uname + " 操作异常,用户列表没有找到编辑按钮"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 操作异常,用户列表没有找到编辑按钮"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -826,15 +859,15 @@ def Casjc_editent():
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
         if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
-            casjc_config.casjc_result['编辑企业用户'] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
             hailong.quit()
             return None
-        casjc_config.casjc_result['编辑企业用户'] = "当前登录用户: " + uname + " 编辑账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 编辑账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
         Casjc_logout(hailong)
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['编辑企业用户'] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -843,8 +876,8 @@ def Casjc_editent():
 def Casjc_addsysuser():
     title = "新增系统用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_usersystem()
@@ -880,11 +913,11 @@ def Casjc_addsysuser():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('i[class="el-icon-arrow-right el-cascader-node__postfix"]')[3].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('i[class="el-icon-arrow-right el-cascader-node__postfix"]')[5].click()
+        hailong.find_elements_by_css_selector('i[class="el-icon-arrow-right el-cascader-node__postfix"]')[4].click()
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[role="menuitem"]')[-1].click()
     except IndexError:
-        casjc_config.casjc_result['新建系统用户'] = "当前登录用户: " + uname + " 选择组织机构异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择组织机构异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -894,7 +927,7 @@ def Casjc_addsysuser():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
     except:
-        casjc_config.casjc_result['新建系统用户'] = "当前登录用户: " + uname + " 选择角色异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 选择角色异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -907,11 +940,11 @@ def Casjc_addsysuser():
             casjc_config.casjc_result['新建系统用户'] = "当前登录用户: " + uname + " 账号:" + newuser + " 操作异常"
             hailong.quit()
             return None
-        casjc_config.casjc_result['新建系统用户'] = "当前登录用户: " + uname + " 账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
         Casjc_logout(hailong)
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['新建系统用户'] = "当前登录用户: " + uname + " 账号:" + newuser + " 操作异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 账号:" + newuser + " 操作异常"
         hailong.quit()
         return None
 
@@ -920,8 +953,8 @@ def Casjc_addsysuser():
 def Casjc_editsysuser():
     title = "编辑系统用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.muser
-    upasswd = casjc_config.mpasswd
+    uname = casjc_config.user_name
+    upasswd = casjc_config.user_passwd2
     hailong = webdriver.Chrome()
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
     aaa.admin_usersystem()
@@ -939,7 +972,7 @@ def Casjc_editsysuser():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['编辑系统用户'] = "当前登录用户: " + uname + " 操作异常,用户列表没有找到编辑按钮"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 操作异常,用户列表没有找到编辑按钮"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -959,15 +992,15 @@ def Casjc_editsysuser():
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
         if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
-            casjc_config.casjc_result['编辑系统用户'] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
             hailong.quit()
             return None
-        casjc_config.casjc_result['编辑系统用户'] = "当前登录用户: " + uname + " 编辑账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 编辑账号:" + newuser + hailong.find_element_by_css_selector('p[class="el-message__content"]').text
         Casjc_logout(hailong)
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['编辑系统用户'] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = "当前登录用户: " + uname + " 编辑账号:" + newuser + " 操作异常"
         Casjc_logout(hailong)
         hailong.quit()
         return None
@@ -976,14 +1009,6 @@ def Casjc_editsysuser():
 if __name__ == "__main__":
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    Casjc_create_ent()
-    Casjc_edit_ent()
-    Casjc_addsysent()
-    Casjc_addent()
-    Casjc_editent()
-    Casjc_addsysuser()
-    Casjc_editsysuser()
-    '''
     ctype = [casjc_config.restype2]
     #ctype = []
     for k in ctype:
@@ -992,6 +1017,8 @@ if __name__ == "__main__":
         Casjc_addsysent()
         Casjc_addent()
         Casjc_editent()
+        Casjc_addsysuser()
+        Casjc_editsysuser()
         Casjc_res(k)
         #价格审批人员列表
         order = [casjc_config.user_name2,casjc_config.user_name7]
@@ -1004,7 +1031,6 @@ if __name__ == "__main__":
             Casjc_contract_apply(i)
         Casjc_change_config()
         Casjc_config(k)
-    '''
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    

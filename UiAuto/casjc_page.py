@@ -33,7 +33,7 @@ class Casjc_admin_page():
         try:
             WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[class="router-link-active"]')))
             if self.hailong.find_elements_by_css_selector('a[class="router-link-active"]')[0].text == "首页":
-                casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = "当前用户: %s  登录成功" %self.uname
+                #casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = "当前用户: %s  登录成功" %self.uname
                 return None
             else:
                 casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = "当前用户: %s 登录失败,测试终止" %self.uname
