@@ -73,9 +73,13 @@ consoleUrl = "http://11.2.77.3:30086"
 #开发环境
 #consoleUrl = "http://11.2.77.1:10086"
 
-#申请资源类型 1存储,2共享
+#申请资源类型 store存储,share共享
 restype1 = "store"
 restype2 = "share"
+
+#申请资源配置方式 flexi灵活，fixed固定
+contype1 = "flexi"
+contype2 = "fixed"
 
 #自动化执行结果集
 casjc_result = {}

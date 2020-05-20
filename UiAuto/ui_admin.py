@@ -13,12 +13,25 @@ import casjc_page
  
 
 #申请资源
-def Casjc_res(ctype="share"):
+def Casjc_res(ctype="share", ptype="fixed"):
     """
     ctype=share 申请共享型计算
     ctype=store 申请数据存储
+    ptype=fixed 固定方式
+    ptype=flexi 灵活方式
     """
-    title = "申请资源"
+    if ctype == "share":
+        if ptype == "fixed":
+            title = "申请资源-固定方式-共享型"
+        elif ptype == "flexi":
+            title = "申请资源-灵活方式-共享型"
+    elif ctype == "store":
+        if ptype == "fixed":
+            title = "申请资源-固定方式-数据存储"
+        elif ptype == "flexi":
+            title = "申请资源-灵活方式-数据存储"
+    else:
+        title = "申请资源"
     #登录，点击资源管理菜单
     uname = casjc_config.user_name1
     upasswd = casjc_config.user_passwd
@@ -59,80 +72,116 @@ def Casjc_res(ctype="share"):
     #li标签列表数据长度,最后一个是灵活配置
     listelement = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
     #选择配置方式
-    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()#固定配置
-    #填写基本信息完成，提交下一步
-    hailong.find_elements_by_tag_name('button')[1].click()
-    time.sleep(casjc_config.show_time)
+    if ptype == "fixed":
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()#固定配置
+        #填写基本信息完成，提交下一步
+        hailong.find_elements_by_tag_name('button')[1].click()
+        time.sleep(casjc_config.show_time)
+        #输入资源有效期
+        aa = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')
+        if ctype == "share":
+            #共享型
+            aa[18].send_keys('1')
+            #选择共享型资源有效期时间范围
+            hailong.find_elements_by_css_selector('input[readonly="readonly"]')[1].click()
+            time.sleep(casjc_config.short_time)
+            bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
+            bb[11].click()
+            #展开共享型资源规格
+            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[5].click()
+            time.sleep(casjc_config.short_time)
+            #输入共享型四路计算节点核心时数量
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[20].send_keys('1')
+            time.sleep(casjc_config.short_time)
+            #输入共享型四路计算节点核心时折后单价
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].clear()
+            time.sleep(casjc_config.short_time)
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].send_keys('0.16')
+        elif ctype == "store":
+            #数据存储
+            aa[34].send_keys('1')
+            #选择数据存储有效期时间范围
+            hailong.find_elements_by_css_selector('input[readonly="readonly"]')[2].click()
+            time.sleep(casjc_config.short_time)
+            bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
+            bb[11].click()
+            #展开数据存储
+            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[7].click()
+            time.sleep(casjc_config.short_time)
+            #输入数据存储TB数量
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[36].send_keys('1')
+            '''
+            n = 0
+            for i in aa:
+                print n
+                n += 1
+                try:
+                    i.send_keys(str(n))
+                except:
+                    pass
+            '''
+            time.sleep(1)
+            #输入数据存储折后单价
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].clear()
+            time.sleep(casjc_config.short_time)
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].send_keys('0.16')
+        elif ctype == "network":
+            #网络资源
+            aa[42].send_keys('1')
+    elif ptype == "flexi":
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-1].click()#灵活配置
+        #填写基本信息完成，提交下一步
+        hailong.find_elements_by_tag_name('button')[1].click()
+        time.sleep(casjc_config.show_time)
+        if ctype == "share":
+            #共享型
+            #展开共享型资源规格
+            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[5].click()
+            time.sleep(casjc_config.short_time)
+            #输入共享型四路计算节点核心时折后单价
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[12].clear()
+            time.sleep(casjc_config.short_time)
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[12].send_keys('0.16')
+            #输入报价总额
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys('100')
+        elif ctype == "store":
+            #数据存储
+            #展开规格，采用专用硬件的点对点离线数据迁移
+            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[7].click()
+            time.sleep(casjc_config.short_time)
+            #输入采用专用硬件的点对点离线数据迁移折后单价
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].clear()
+            time.sleep(casjc_config.short_time)
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].send_keys('0.16')
+            #输入报价总额
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys('100')
+        elif ctype == "network":
+            #网络资源
+            aa[42].send_keys('1')
+    else:
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()#固定配置
+        #填写基本信息完成，提交下一步
+        hailong.find_elements_by_tag_name('button')[1].click()
+        time.sleep(casjc_config.show_time)
     if hailong.find_elements_by_css_selector('div[class="title"]')[0].text == u"高性能计算-标准型\n资源有效期":
         print("进入提交资源申请界面成功")
     else:
         print ("进入提交资源申请界面失败")
-    #输入资源有效期
-    aa = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')
-    if ctype == "share":
-        #共享型
-        aa[18].send_keys('1')
-        #选择共享型资源有效期时间范围
-        hailong.find_elements_by_css_selector('input[readonly="readonly"]')[1].click()
-        time.sleep(casjc_config.short_time)
-        bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-        bb[11].click()
-        #展开共享型资源规格
-        hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[5].click()
-        time.sleep(casjc_config.short_time)
-        #输入共享型四路计算节点核心时数量
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[20].send_keys('1')
-        time.sleep(casjc_config.short_time)
-        #输入共享型四路计算节点核心时折后单价
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].clear()
-        time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].send_keys('0.16')
-    elif ctype == "store":
-        #数据存储
-        aa[34].send_keys('1')
-        #选择数据存储有效期时间范围
-        hailong.find_elements_by_css_selector('input[readonly="readonly"]')[2].click()
-        time.sleep(casjc_config.short_time)
-        bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-        bb[11].click()
-        #展开数据存储
-        hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[7].click()
-        time.sleep(casjc_config.short_time)
-        #输入数据存储TB数量
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[36].send_keys('1')
-        '''
-        n = 0
-        for i in aa:
-            print n
-            n += 1
-            try:
-                i.send_keys(str(n))
-            except:
-                pass
-        '''
-        time.sleep(1)
-        #输入数据存储折后单价
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].clear()
-        time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].send_keys('0.16')
-    elif ctype == "network":
-        #网络资源
-        aa[42].send_keys('1')
     time.sleep(casjc_config.short_time)
     #提交资源申请
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
-    #cc = hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')
-    #for k in cc:
-    #    try:
-    #        k.click()
-     #   except:
-     #       print "error"
     #获取单号
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
-    ordernum = hailong.find_elements_by_tag_name('p')[2].text
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
+        time.sleep(casjc_config.short_time)
+        ordernum = hailong.find_elements_by_tag_name('p')[2].text
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "获取单号失败，没有进入提交成功页面"]
+        hailong.quit()
+        return None
     #获取提交返回结果
     aaa.admin_result(title,uname,ordernum)
-    return None
+    return ordernum
 
 
 #价格审批
@@ -835,31 +884,34 @@ def Casjc_editsysuser():
 if __name__ == "__main__":
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    ctype = [casjc_config.restype2]
+    ctype = [casjc_config.restype1,casjc_config.restype2]
+    ptype = [casjc_config.contype1,casjc_config.contype2]
     #ctype = []
     for k in ctype:
-        Casjc_create_ent()
-        Casjc_edit_ent()
-        Casjc_addsysent()
-        Casjc_addent()
-        Casjc_editent()
-        Casjc_addsysuser()
-        Casjc_editsysuser()
-        Casjc_res(k)
-        #价格审批人员列表
-        order = [casjc_config.user_name2,casjc_config.user_name7]
-        for j in order:
-            Casjc_price(j)
-        Casjc_contract()
-        #合同审批人员列表
-        conuser = [casjc_config.user_name3,casjc_config.user_name4]
-        for i in conuser:
-            Casjc_contract_apply(i)
-        Casjc_change_config()
-        Casjc_config(k)
+       # Casjc_create_ent()
+       # Casjc_edit_ent()
+       # Casjc_addsysent()
+       # Casjc_addent()
+       # Casjc_editent()
+       # Casjc_addsysuser()
+        #Casjc_editsysuser()
+        for y in ptype:
+            xx = Casjc_res(k,y)
+            if not xx:
+                continue
+            #价格审批人员列表
+            order = [casjc_config.user_name2,casjc_config.user_name7]
+            for j in order:
+                Casjc_price(j)
+            Casjc_contract()
+            #合同审批人员列表
+            conuser = [casjc_config.user_name3,casjc_config.user_name4]
+            for i in conuser:
+                Casjc_contract_apply(i)
+            Casjc_change_config()
+            Casjc_config(k)
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    
     print (json.dumps(casjc_config.casjc_result,ensure_ascii=False))
     casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
-    

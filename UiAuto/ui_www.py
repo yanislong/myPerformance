@@ -13,6 +13,7 @@ import casjc_mode
     
 #用户登陆
 def Casjc_www_login(uname="aa123", upasswd="123456aA~"):
+    title = "官网用户登录"
     hailong = webdriver.Chrome()
     hailong.get(casjc_config.consoleUrl)
     hailong.maximize_window()
@@ -26,21 +27,22 @@ def Casjc_www_login(uname="aa123", upasswd="123456aA~"):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="console"]')))
         if hailong.find_elements_by_css_selector('div[class="console"]')[0].text == "控制台":
-            casjc_config.casjc_result['官网用户登录'+ time.strftime("%M%S",time.localtime())] = "%s: 登录成功" %uname
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录成功" ]
             if __name__ == "__main__":
                 hailong.quit()
             return hailong
         else:
-            casjc_config.casjc_result['官网用户登录'+ time.strftime("%M%S",time.localtime())] = "%s: 登录失败" %uname
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录失败" ]
             hailong.quit()
             return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['官网用户登录'+ time.strftime("%M%S",time.localtime())] = "%s: 登录失败" %uname
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录失败" ]
         hailong.quit()
         return None
 
 #邮箱用户注册
 def Casjc_www_mail_regist():
+    title = "邮箱注册"
     hailong = webdriver.Chrome()
     hailong.get(casjc_config.consoleUrl)
     hailong.maximize_window()
@@ -66,7 +68,7 @@ def Casjc_www_mail_regist():
     time.sleep(casjc_config.short_time)
     mailcode = casjc_mode.Casjc_mailcode(tmpmail)
     if not mailcode:
-        casjc_config.casjc_result['邮箱注册'+ time.strftime("%M%S",time.localtime())] = "发送验证码后，200秒没有收到验证码"
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "邮箱: " + tmpmail[0] +" 发送验证码后，200秒没有收到验证码"]
         hailong.quit()
         return None
     #输入验证码
@@ -76,14 +78,18 @@ def Casjc_www_mail_regist():
     time.sleep(casjc_config.show_time)
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="nav-login"]')))
-        casjc_config.casjc_result['邮箱注册'+ time.strftime("%M%S",time.localtime())] = "账号: " + account + "邮箱: " + tmpmail[0] + " 注册成功"
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "邮箱: " + tmpmail[0] + " 注册成功"]
+        time.sleep(casjc_config.show_time)
+        hailong.quit()
+        return account
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['邮箱注册'+ time.strftime("%M%S",time.localtime())] = tmpmail[0] + " 注册失败"
-    hailong.quit()
-    return None
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "邮箱: " + tmpmail[0] + " 注册失败"]
+        hailong.quit()
+        return None
 
 #手机用户注册
 def Casjc_www_phone_regist():
+    title = "手机号注册"
     hailong = webdriver.Chrome()
     hailong.get(casjc_config.consoleUrl)
     hailong.maximize_window()
@@ -117,16 +123,17 @@ def Casjc_www_phone_regist():
     time.sleep(casjc_config.show_time)
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="nav-login"]')))
-        casjc_config.casjc_result['手机注册'+ time.strftime("%M%S",time.localtime())] = "账号: " + account + "手机号: " + tmpphone + " 注册成功"
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "手机号: " + tmpphone + " 注册失败"]
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['手机注册'+ time.strftime("%M%S",time.localtime())] = tmpphone + " 注册失败"
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "手机号: " + tmpphone + " 注册失败"]
     hailong.quit()
     return None
 
 #通过首页试用按钮进行登录
 def Casjc_www_try(uname="aa123", upasswd="123456aA~"):
+    title = "官网通过试用申请登录"
     hailong = webdriver.Chrome()
     hailong.get(casjc_config.consoleUrl)
     hailong.maximize_window()
@@ -144,16 +151,16 @@ def Casjc_www_try(uname="aa123", upasswd="123456aA~"):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="console"]')))
         if hailong.find_elements_by_css_selector('div[class="console"]')[0].text == "控制台":
-            casjc_config.casjc_result['官网通过试用申请登录'+ time.strftime("%M%S",time.localtime())] = "%s: 登录成功" %uname
+            casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录成功"]
             if __name__ == "__main__":
                 hailong.quit()
             return hailong
         else:
-            casjc_config.casjc_result['官网通过试用申请登录'+ time.strftime("%M%S",time.localtime())] = "%s: 登录失败" %uname
+            casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录失败"]
             hailong.quit()
             return None
     except exceptions.TimeoutException:
-        casjc_config.casjc_result['官网通过试用申请登录'+ time.strftime("%M%S",time.localtime())] = "%s: 登录失败" %uname
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录失败"]
         hailong.quit()
         return None
 
