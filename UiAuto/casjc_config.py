@@ -51,6 +51,9 @@ short_time = 1
 #上传文件路径
 uppath = r"c:\usr\AutoUi.pdf"
 
+#企业用户管理云存储配额
+quota_number = "50"
+
 #admin管理后台登录地址
 
 #测试环境
