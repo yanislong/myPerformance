@@ -71,7 +71,7 @@
 <table class="dataintable">
 <thead>
 <tr>
-<th>测试的功能点</th><th>执行结果</th>
+<th>测试的功能点</th><th>登录用户</th><th>执行结果</th>
 </tr>
 </thead>
 <tbody>
@@ -79,7 +79,8 @@
 {% for j,k in json.loads(i[4]).items() %}
 <tr>
 <td>{{j}}</td>
-<td>{{k}}</td>
+<td>{{k[0]}}</td>
+<td>{{k[1]}}</td>
 </tr>
 {% endfor %}
 <tbody>
