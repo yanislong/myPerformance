@@ -13,7 +13,7 @@ import casjc_page
  
 
 #申请资源
-def Casjc_res(ctype="share", ptype="fixed"):
+def Casjc_res(ptype="fixed", ctype="share"):
     """
     ctype=share 申请共享型计算
     ctype=store 申请数据存储
@@ -58,6 +58,7 @@ def Casjc_res(ctype="share", ptype="fixed"):
     time.sleep(casjc_config.short_time)
     #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[104].click()
     try:
+        jiafang = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except exceptions.ElementNotInteractableException:
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "当前企业没有找到账号"]
@@ -79,9 +80,11 @@ def Casjc_res(ctype="share", ptype="fixed"):
         time.sleep(casjc_config.show_time)
         #输入资源有效期
         aa = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-input el-input--small el-input-group el-input-group--append')))
         if ctype == "share":
-            #共享型
-            aa[18].send_keys('1')
+            #共享型,输入资源有效期
+            #aa[18].send_keys('1')
+            hailong.find_elements_by_xpath('//div[@class="el-input el-input--small el-input-group el-input-group--append"]/input[@class="el-input__inner"]')[1].send_keys('1')
             #选择共享型资源有效期时间范围
             hailong.find_elements_by_css_selector('input[readonly="readonly"]')[1].click()
             time.sleep(casjc_config.short_time)
@@ -98,8 +101,9 @@ def Casjc_res(ctype="share", ptype="fixed"):
             time.sleep(casjc_config.short_time)
             hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].send_keys('0.16')
         elif ctype == "store":
-            #数据存储
-            aa[34].send_keys('1')
+            #数据存储,输入资源有效期
+            #aa[34].send_keys('1')
+            hailong.find_elements_by_xpath('//div[@class="el-input el-input--small el-input-group el-input-group--append"]/input[@class="el-input__inner"]')[2].send_keys('1')
             #选择数据存储有效期时间范围
             hailong.find_elements_by_css_selector('input[readonly="readonly"]')[2].click()
             time.sleep(casjc_config.short_time)
@@ -170,22 +174,41 @@ def Casjc_res(ctype="share", ptype="fixed"):
     time.sleep(casjc_config.short_time)
     #提交资源申请
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
-    #获取单号
-    try:
-        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
-        time.sleep(casjc_config.short_time)
-        ordernum = hailong.find_elements_by_tag_name('p')[2].text
-    except exceptions.TimeoutException:
-        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "获取单号失败，没有进入提交成功页面"]
-        hailong.quit()
-        return None
     #获取提交返回结果
-    aaa.admin_result(title,uname,ordernum)
-    return ordernum
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "申请资源失败,操作异常"  + " 甲方账号: " + jiafang]
+            aaa.Casjc_logout()
+            return None
+        elif hailong.find_element_by_css_selector('p[class="el-message__content"]').text == "操作成功":
+            #获取单号
+            try:
+                WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
+                WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="aggregate"]')))
+                time.sleep(casjc_config.short_time)
+                ordernum = hailong.find_elements_by_tag_name('p')[2].text
+                orderavg = hailong.find_element_by_xpath('//div[@class="aggregate"]/span[1]').text
+            except exceptions.TimeoutException:
+                casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "获取单号或平均价折扣失败，或没有进入提交成功页面"  + " 甲方账号: " + jiafang]
+                hailong.quit()
+                return None
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text +  " 甲方账号: " + jiafang + orderavg]
+            aaa.Casjc_logout()
+            return ordernum[4:]
+        else:
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, hailong.find_element_by_css_selector('p[class="el-message__content"]').text + " 甲方账号: " + jiafang]
+            aaa.Casjc_logout()
+            return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "申请资源失败,操作异常" + " 甲方账号: " + jiafang]
+        aaa.Casjc_logout()
+        return None
+
 
 
 #价格审批
-def Casjc_price(priceuser=""):
+def Casjc_price(priceuser="", ordernum=""):
     title = "价格审批"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
@@ -212,15 +235,16 @@ def Casjc_price(priceuser=""):
         print ("进入资源审批-待审批列表成功")
     else:
         print ("进入资源审批-待审批列表失败")
-    #进入资源申请详情页面
-    if len(hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')) < 1:
-        print ("没有待审批资源")
-        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有待审批资源"]
-        aaa.Casjc_logout()
-        return None
-    else:
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
-        time.sleep(casjc_config.short_time)
+    #调用admin_appwait获取第一页是否有符合的订单号
+    aaa.admin_appwait(title, uname, ordernum)
+    #等待页面元素，确认是否进入审批详情页
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'textarea[class="el-textarea__inner')))
+    except exceptions.TimeoutException:
+            print ("没有找到价格审批页面审批意见元素")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到价格审批页面审批意见元素"]
+            aaa.Casjc_logout()
+            return None
     #输入审批意见
     hailong.find_element_by_css_selector('textarea[class="el-textarea__inner"]').send_keys(u"UI自动化审批")
     #进入申请信息tab，获取订单号
@@ -229,7 +253,12 @@ def Casjc_price(priceuser=""):
     hailong.find_elements_by_css_selector('span[class="el-radio-button__inner"]')[1].click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
-    ordernum = hailong.find_elements_by_tag_name('p')[2].text
+    ordernum2 = hailong.find_elements_by_tag_name('p')[2].text
+    if ordernum != ordernum2[4:]:
+        print ("预期价格审批的订单号与实际操作的订单号不同,终止审批")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "预期价格审批的订单号与实际操作的订单号不同,终止审批"]
+        aaa.Casjc_logout()
+        return None        
     try:
         #点击审批通过
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary"]')))
@@ -242,7 +271,7 @@ def Casjc_price(priceuser=""):
 
 
 #生成合同
-def Casjc_contract():
+def Casjc_contract(ordernum):
     title = "生成合同"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
@@ -262,16 +291,17 @@ def Casjc_contract():
         print ("进入资源审批-待审批列表成功")
     else:
         print ("进入资源审批-待审批列表失败")
-    #判断待审批列表是否有数据
-    if len(hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')) < 1:
-        print ("没有待审批资源")
-        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 没有待生成资源"]
+    #调用admin_appwait获取第一页是否有符合的订单号
+    aaa.admin_appwait(title, uname, ordernum)
+    try:
+        #等待页面元素，确认是否进入生产合同详情页
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="title"]')))    
+    except exceptions.TimeoutException:
+        print ("没有找到生成合同页面附件列表元素")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到生成合同页面附件列表元素"]
         aaa.Casjc_logout()
         return None
-    else:
-        #进入生成合同详情页面
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
-        time.sleep(casjc_config.short_time)
+    #点击上传按钮
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
     time.sleep(casjc_config.short_time)
     #上传文件
@@ -310,8 +340,14 @@ def Casjc_contract():
     hailong.find_elements_by_css_selector('span[class="el-radio-button__inner"]')[1].click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
-    ordernum = hailong.find_elements_by_tag_name('p')[2].text
+    ordernum2 = hailong.find_elements_by_tag_name('p')[2].text
+    if ordernum != ordernum2[4:]:
+        print ("预期生成合同的订单号与实际操作的订单号不同,终止生成")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "预期生成合同的订单号与实际操作的订单号不同,终止生成"]
+        aaa.Casjc_logout()
+        return None
     #点击生产合同
+    time.sleep(casjc_config.short_time)
     hailong.find_element_by_css_selector('button[class="el-button el-button--primary"').click()
     #获取提交返回结果
     aaa.admin_result(title,uname,ordernum)
@@ -320,7 +356,7 @@ def Casjc_contract():
 
 
 #合同审批
-def Casjc_contract_apply(appuser):
+def Casjc_contract_apply(appuser,ordernum):
     title = "合同审批"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
@@ -331,7 +367,16 @@ def Casjc_contract_apply(appuser):
     #进入资源审批页面,点击审批按钮
     try:        
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="table-btn"]')))
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
+        #调用admin_appwait获取第一页是否有符合的订单号
+        aaa.admin_appwait(title, uname, ordernum)
+        try:
+            #等待页面元素，确认是否进入生产合同详情页
+            WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'label[class="el-checkbox"]')))    
+        except exceptions.TimeoutException:
+            print ("没有找到合同审批页面复选框元素")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到合同审批页面复选框元素"]
+            aaa.Casjc_logout()
+            return None
     except:
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常"]
         aaa.Casjc_logout()
@@ -352,12 +397,19 @@ def Casjc_contract_apply(appuser):
     hailong.find_elements_by_css_selector('span[class="el-radio-button__inner"]')[1].click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
-    ordernum = hailong.find_elements_by_tag_name('p')[2].text   
+    ordernum2 = hailong.find_elements_by_tag_name('p')[2].text
+    if ordernum != ordernum2[4:]:
+        print ("预期审批合同的订单号与实际操作的订单号不同,终止审批")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "预期审批合同的订单号与实际操作的订单号不同,终止审批"]
+        aaa.Casjc_logout()
+        return None
     try:
         #点击审批通过
+        time.sleep(casjc_config.short_time)
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
         print ("点击审批通过按钮异常")
+        ordernum = "合同审批按钮点击异常"
   #获取提交返回结果
     aaa.admin_result(title,uname,ordernum)
     return None
@@ -365,8 +417,8 @@ def Casjc_contract_apply(appuser):
 
 
 #配置资源-固定配置-变更配置
-def Casjc_change_config():
-    title = "变更配置"
+def Casjc_change_config(ordernum):
+    title = "变更配置或确认参数"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
     uname = casjc_config.user_name1
@@ -378,26 +430,47 @@ def Casjc_change_config():
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('li[data-index="/configTable"]')[0].click()
     time.sleep(casjc_config.short_time)
-    #点击变更配置
-    w1 = 0
-    while w1 < casjc_config.wait_time:
+    try:
+        #等待加载待审批列表页面元素
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'thead[class="has-gutter"]')))
         time.sleep(casjc_config.short_time)
-        try:
-            if hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].text == "变更配置":
-                hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
-                time.sleep(casjc_config.show_time)
-                if hailong.find_elements_by_css_selector('div[class="colorBlue"]')[0].text.strip() == "注意：固定参数配置方式仅有一次变更机会，变更后总价需与订单总价一致":
-                    print ("进入配置参数页面成功")
-                else:
-                    print ("进入配置参数页面失败")
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'tr[class="el-table__row"]')))
+        time.sleep(casjc_config.short_time)
+        #获取第一页列表数据条数
+        listnum = hailong.find_elements_by_css_selector('tr[class="el-table__row"]')
+        print(ordernum)
+        #如果条数0，退出
+        if len(listnum) == 0:
+            print ("没有待配置资源")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有待配置资源"]
+            aaa.Casjc_logout()
+            return None
+        mytmp = 0
+        #循环遍历第一页列表是否有符合的订单号，如果有点击生成合同，没有退出
+        for i in range(len(listnum)):
+            if hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell el-tooltip"][1]').text == ordernum:
+                hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell"]/div[@class="table-btn"]/button[2]').click()
+                time.sleep(casjc_config.short_time)
+                mytmp = 1
                 break
-            else:
-                print ("没有找到变更配置按钮")
-                hailong.quit()
-                casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "没有找到变更配置按钮"]
-                return None
-        except:
-            w1 +=1
+        if mytmp == 0:
+            print ("配置资源列表第一页没有找到符合的订单号")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "配置资源列表第一页没有找到符合的订单号"]
+            aaa.Casjc_logout()
+            return None            
+    except exceptions.TimeoutException:
+        print ("配置资源列表页缺失元素")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "配置资源列表页缺失元素"]
+        aaa.Casjc_logout()
+        return None
+    #等待页面元素，确认是否进入变更配置或确认参数详情页
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'thead[class="has-gutter')))
+    except exceptions.TimeoutException:
+            print ("没有找到页面元素")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到页面元素"]
+            aaa.Casjc_logout()
+            return None
     #有效期开始时间
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
     time.sleep(casjc_config.short_time)
@@ -412,7 +485,12 @@ def Casjc_change_config():
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
-    ordernum = hailong.find_elements_by_tag_name('p')[1].text  
+    ordernum2 = hailong.find_elements_by_tag_name('p')[1].text
+    if ordernum != ordernum2[4:]:
+        print ("预期变更或确认参数的订单号与实际操作的订单号不同,终止变更或确认")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "预期变更或确认参数的订单号与实际操作的订单号不同,终止变更或确认"]
+        aaa.Casjc_logout()
+        return None
     try:
         #点击确认参数
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
@@ -430,11 +508,7 @@ def Casjc_change_config():
 
 
 #配置资源-固定配置-配置资源
-def Casjc_config(ctype="share"):
-    """
-    ctype=share 配置共享型计算
-    ctype=store 配置数据存储
-    """
+def Casjc_config(ctype, ordernum):
     title = "配置资源"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
@@ -446,22 +520,43 @@ def Casjc_config(ctype="share"):
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/configTable"]')))
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('li[data-index="/configTable"]')[0].click()
-    time.sleep(casjc_config.short_time)
-    #点击配置资源
-    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].text == "配置资源":
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
+    time.sleep(casjc_config.short_time)   
+    try:
+        #等待加载配置资源列表页面元素
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'thead[class="has-gutter"]')))
         time.sleep(casjc_config.short_time)
-        if hailong.find_elements_by_css_selector('div[class="details"]')[0].text.strip() != "a":
-            print ("进入配置资源页面成功")
-        else:
-            print (hailong.find_elements_by_css_selector('[class="el-select-dropdown__item"]')[1])
-    else:
-        print ("没有找到配置资源按钮")
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'tr[class="el-table__row"]')))
+        time.sleep(casjc_config.short_time)
+        #获取第一页列表数据条数
+        listnum = hailong.find_elements_by_css_selector('tr[class="el-table__row"]')
+        print(ordernum)
+        #如果条数0，退出
+        if len(listnum) == 0:
+            print ("没有待配置资源")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有待配置资源"]
+            aaa.Casjc_logout()
+            return None
+        mytmp = 0
+        #循环遍历第一页列表是否有符合的订单号，如果有点击生成合同，没有退出
+        for i in range(len(listnum)):
+            if hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell el-tooltip"][1]').text == ordernum:
+                hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell"]/div[@class="table-btn"]/button[2]').click()
+                time.sleep(casjc_config.short_time)
+                mytmp = 1
+                break
+        if mytmp == 0:
+            print ("列表第一页没有找到符合的订单号")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "待审批列表第一页没有找到符合的订单号"]
+            aaa.Casjc_logout()
+            return None            
+    except exceptions.TimeoutException:
+        print ("配置资源列表页缺失元素")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "配置资源列表页缺失元素"]
         aaa.Casjc_logout()
-        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到配置资源按钮"]
-        return None
+        return None    
     #点击产品服务下拉列表
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[class="el-select-dropdown__item"]')))
     time.sleep(casjc_config.short_time)
     #选择产品服务 -3:高性能计算 -2:数据存储 -1:网络资源
     if ctype == "share":
@@ -504,7 +599,12 @@ def Casjc_config(ctype="share"):
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
-    ordernum = hailong.find_elements_by_tag_name('p')[1].text 
+    ordernum2 = hailong.find_elements_by_tag_name('p')[1].text
+    if ordernum != ordernum2[4:]:
+        print ("预期配置资源的订单号与实际操作的订单号不同,终止配置资源")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "预期配置资源的订单号与实际操作的订单号不同,终止配置资源"]
+        aaa.Casjc_logout()
+        return None
     try:
         #点击确认配置
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
@@ -883,33 +983,33 @@ def Casjc_editsysuser():
 
 if __name__ == "__main__":
     print (">> UI自动化脚本开始执行执行")
-    start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
+    start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())  
+   # Casjc_create_ent()
+   # Casjc_edit_ent()
+   # Casjc_addsysent()
+   # Casjc_addent()
+  #  Casjc_editent()
+   # Casjc_addsysuser()
+   # Casjc_editsysuser()
     ctype = [casjc_config.restype1,casjc_config.restype2]
-    ptype = [casjc_config.contype1,casjc_config.contype2]
+    ptype = [casjc_config.contype2,casjc_config.contype1]
     #ctype = []
-    for k in ctype:
-       # Casjc_create_ent()
-       # Casjc_edit_ent()
-       # Casjc_addsysent()
-       # Casjc_addent()
-       # Casjc_editent()
-       # Casjc_addsysuser()
-        #Casjc_editsysuser()
-        for y in ptype:
+    for k in ptype:
+        for y in ctype:
             xx = Casjc_res(k,y)
             if not xx:
                 continue
             #价格审批人员列表
             order = [casjc_config.user_name2,casjc_config.user_name7]
             for j in order:
-                Casjc_price(j)
-            Casjc_contract()
+                Casjc_price(j,xx)
+            Casjc_contract(xx)
             #合同审批人员列表
             conuser = [casjc_config.user_name3,casjc_config.user_name4]
             for i in conuser:
-                Casjc_contract_apply(i)
-            Casjc_change_config()
-            Casjc_config(k)
+                Casjc_contract_apply(i,xx)
+            Casjc_change_config(xx)
+            Casjc_config(y,xx)
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    

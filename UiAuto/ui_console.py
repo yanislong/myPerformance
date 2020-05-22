@@ -474,7 +474,7 @@ def Casjc_console_try():
     cmp = "联合国发展集团(申请试用)" + time.strftime("%M%S")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(cmp)
     #输入项目名称
-    pro = "量子计算机算力计算" + time.strftime("%M%S")
+    pro = "这个时代太不浪漫，深情的人都被称为舔狗。" + time.strftime("%M%S")#"量子计算机算力计算" + time.strftime("%M%S")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(pro)
     #输入手机号
     pho = "13141032576"
