@@ -984,13 +984,13 @@ def Casjc_editsysuser():
 if __name__ == "__main__":
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())  
-   # Casjc_create_ent()
-   # Casjc_edit_ent()
-   # Casjc_addsysent()
-   # Casjc_addent()
-  #  Casjc_editent()
-   # Casjc_addsysuser()
-   # Casjc_editsysuser()
+    Casjc_create_ent()
+    Casjc_edit_ent()
+    Casjc_addsysent()
+    Casjc_addent()
+    Casjc_editent()
+    Casjc_addsysuser()
+    Casjc_editsysuser()
     ctype = [casjc_config.restype1,casjc_config.restype2]
     ptype = [casjc_config.contype2,casjc_config.contype1]
     #ctype = []
