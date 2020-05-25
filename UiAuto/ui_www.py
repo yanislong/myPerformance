@@ -12,7 +12,7 @@ import casjc_mode
 
     
 #用户登陆
-def Casjc_www_login(uname="aa123", upasswd="123456aA~"):
+def Casjc_www_login(uname=casjc_config.devPerson["user1"], upasswd=casjc_config.adminPerson["passwd1"]):
     title = "官网用户登录"
     hailong = webdriver.Chrome()
     hailong.get(casjc_config.consoleUrl)
