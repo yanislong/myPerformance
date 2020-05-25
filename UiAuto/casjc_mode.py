@@ -46,17 +46,22 @@ def Casjc_mail():
     header = {}
     header['User-Agent'] = ug
     #请求临时邮箱,获取当前邮箱地址,和cookie
-    r = requests.get(url, headers=header)
-    l1 = re.compile(r'sid=(.*)$')
-    l2 = l1.findall(r.headers['Set-Cookie'])
-    token = l2[0]
-#    print(token)
-    html = BeautifulSoup(r.content, features='lxml')
-#    print(html)
-    tmp = str(html.input['value'])
-    email = tmp + "@chacuo.net"
-    #print((email,tmp,token))
-    return((email,tmp,token))
+    try:
+        r = requests.get(url, headers=header)
+        l1 = re.compile(r'sid=(.*)$')
+        l2 = l1.findall(r.headers['Set-Cookie'])
+        token = l2[0]
+#        print(token)
+        html = BeautifulSoup(r.content, features='lxml')
+#        print(html)
+        tmp = str(html.input['value'])
+        email = tmp + "@chacuo.net"
+        #print((email,tmp,token))
+        return((email,tmp,token))
+    except requests.exceptions.ConnectionError:
+        print("无法请求24mail.chacuo.net")
+        return None
+        
 
 
 #获取邮箱验证码
@@ -93,13 +98,55 @@ def Casjc_mailcode(*res):
             #print(ccd)
             return ccd
 
+#临时手机号
+def Casjc_phone(num=0):
+    ug = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+    url = "http://yunjiema.net/zhongguohaoma/"
+    header = {}
+    header['User-Agent'] = ug
+    try:
+        r = requests.get(url, headers=header)
+        html = BeautifulSoup(r.content, features='lxml')
+        #print(html)
+        tmp = html.find_all(class_="number-boxes-item-number")[num].string
+        url = url + "86" + tmp[4:] + "/"
+        print(url)
+        return (tmp[4:],url)
+    except requests.exceptions.ConnectionError:
+        print("无法请求yunjiema.net")
+        return None
+    
+
+#获取手机号验证码
+def Casjc_phonecode(url):
+    ug = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+    header = {}
+    header['User-Agent'] = ug
+    tt = 0
+    while tt<30:
+        r = requests.get(url, headers=header)
+        html = BeautifulSoup(r.content, features='lxml')
+        #print(html)
+        tmp = html.find_all(class_="col-xs-12 col-md-8")
+        for i in tmp:
+            if "国科晋云" in i.text:
+                print(i.text)
+                l1 = re.compile('：(\d{6})，')
+                l2 = l1.findall(i.text)
+                print(l2)
+                return l2[0]
+        time.sleep(10)
+        tt += 1
+    print("爬取300秒没有找到国科晋云验证码")
+    return None
+ 
 
 #脚本执行结果插入到数据库
 def Run_result(*resdic):
     tt = time.strftime("%Y/%m/%d %H:%M:%S")
     con = pymysql.connect(host="10.0.20.91", port=33060, user="root", password="root", database='portaltest', charset="utf8mb4")
     cursor = con.cursor()
-    sql = "insert into uitestresult(mode,stime,etime,result,exectime) value('{0}','{1}','{2}','{3}','{4}')".format(resdic[0][0],resdic[0][1],resdic[0][2],resdic[0][3],tt)
+    sql = "insert into uitestresult(mode,stime,etime,result,exectime,env) value('{0}','{1}','{2}','{3}','{4}','{5}')".format(resdic[0][0],resdic[0][1],resdic[0][2],resdic[0][3],tt,resdic[0][4])
     cursor.execute(sql)
     con.commit()
     cursor.close()
@@ -107,5 +154,6 @@ def Run_result(*resdic):
     return None
 
 if __name__ == "__main__":
-    Run_result()
+    a = Casjc_phone()
+    #Casjc_phonecode(a[1])
 

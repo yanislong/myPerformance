@@ -19,17 +19,18 @@ def isElementExist():
 
 class Casjc_admin_page():
 
-    def __init__(self,hailong,luser,lpasswd):
+    def __init__(self,hailong,luser,lpasswd,lurl):
         self.hailong = hailong
         self.uname = luser        
         self.upasswd = lpasswd
+        self.lurl = lurl
         self.Casjc_login()
 
 
 
     #登陆后台系统
     def Casjc_login(self):
-        self.hailong.get(casjc_config.adminUrl)
+        self.hailong.get(self.lurl)
         self.hailong.maximize_window()
         self.hailong.find_element_by_css_selector("input[type='text']").send_keys(self.uname)
         self.hailong.find_element_by_css_selector('input[type="password"]').send_keys(self.upasswd)
@@ -201,16 +202,17 @@ class Casjc_admin_page():
 
 class Casjc_console_page():
 
-    def __init__(self, hailong, uname, passwd):
+    def __init__(self, hailong, uname, passwd, lurl):
         self.hailong = hailong
         self.uname = uname
         self.upasswd = passwd
+        self.lurl = lurl
         self.console_login()
 
 
     #登陆控制台系统
     def console_login(self):
-        self.hailong.get(casjc_config.consoleUrl)
+        self.hailong.get(self.lurl)
         self.hailong.maximize_window()
         self.hailong.find_elements_by_css_selector('a[href="/login"]')[0].click()
         time.sleep(casjc_config.show_time)

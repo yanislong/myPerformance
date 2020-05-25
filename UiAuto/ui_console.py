@@ -16,10 +16,11 @@ import ui_www
 def Casjc_console_upfile():
     title = "数据存储-上传文件"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #聚焦总览页面菜单产品图标
@@ -59,10 +60,11 @@ def Casjc_console_upfile():
 def Casjc_console_webshell():
     title = "打开webshell"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击总览页面的webshell按钮
@@ -82,10 +84,11 @@ def Casjc_console_webshell():
 def Casjc_console_user():
     title = "控制台-用户管理-新增用户"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击用户管理菜单
@@ -130,10 +133,11 @@ def Casjc_console_user():
 def Casjc_console_group():
     title = "控制台-用户管理-新增工作组"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击用户管理菜单
@@ -178,10 +182,11 @@ def Casjc_console_group():
 def Casjc_console_quota():
     title = "控制台-用户管理-云存储调整配额"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser2"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击用户管理菜单
@@ -221,10 +226,11 @@ def Casjc_console_quota():
 def Casjc_console_auth():
     title = "控制台-用户管理-云存储权限设置"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser2"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击用户管理菜单
@@ -275,10 +281,11 @@ def Casjc_console_auth():
 def Casjc_console_updatepw():
     title = "控制台-个人中心-修改密码"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击用户头像进入个人中心
@@ -379,10 +386,11 @@ def Casjc_console_updatepw():
 def Casjc_console_info():
     title = "控制台-个人中心-修改基本信息"
     #登录控制台
-    uname = casjc_config.user_name8
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig["entuser2"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     #进入控制台
     aaa.console()
     #点击用户头像进入个人中心
@@ -447,18 +455,20 @@ def Casjc_console_info():
     return None
 
 #控制台-个人中心-企业管理员申请试用
-def Casjc_console_try():
+def Casjc_console_try(env=""):
     title = "控制台-个人中心-注册新企业管理员申请试用"
     hailong = webdriver.Chrome()
+    uurl = myconfig['consoleUrl']
     #注册企业管理员
-    muser = ui_www.Casjc_www_mail_regist()
+    muser = ui_www.Casjc_www_mail_regist(uurl)
     if not muser:
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "注册企业管理员失败"] 
         return None        
     #登录控制台
     uname = muser
-    upasswd = casjc_config.user_passwd2
-    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd)
+    upasswd = myconfig['entpasswd']
+    uurl = myconfig['consoleUrl']
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
     try:
         #点击申请试用按钮
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="c-hero-aside-btn"]')))
@@ -488,9 +498,10 @@ def Casjc_console_try():
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="trial-title"]')))
         if hailong.find_element_by_css_selector('div[class="trial-title"]').text == "提交成功":
             #登录，点击资源管理菜单
-            uname2 = "wangnan"
-            upasswd = casjc_config.user_passwd
-            bbb = casjc_page.Casjc_admin_page(hailong,uname2,upasswd)
+            uname2 = myconfig2['user3']
+            upasswd = myconfig2['passwd2']
+            uurl = myconfig2['adminUrl']
+            bbb = casjc_page.Casjc_admin_page(hailong,uname2,upasswd,uurl)
             bbb.admin_resmanagement()
             if hailong.find_element_by_xpath('//tr[@class="el-table__row"][1]/td[4]/div[@class="cell"]').text == cmp:
                 casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "项目名称:" + pro + " 提交申请试用成功"]
@@ -514,6 +525,19 @@ def Casjc_console_try():
 
 
 if __name__ == "__main__":
+    try:
+        if sys.argv[1] == "dev":
+            myconfig = casjc_config.devPerson['console']
+            myconfig2 = casjc_config.devPerson['admin']
+            env = "dev"
+        else:
+            myconfig = casjc_config.testPerson['console']
+            myconfig2 = casjc_config.testPerson['admin']
+            env = "test"
+    except IndexError:
+        myconfig = casjc_config.testPerson['console']
+        myconfig2 = casjc_config.testPerson['admin']
+        env = "test"
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     Casjc_console_upfile()
@@ -524,10 +548,10 @@ if __name__ == "__main__":
     Casjc_console_auth()
     Casjc_console_updatepw()
     Casjc_console_info()
-    Casjc_console_try()
+    Casjc_console_try(env)
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
     print (">> UI自动化脚本执行完成")
     print (json.dumps(casjc_config.casjc_result,ensure_ascii=False))
-    casjc_mode.Run_result(("console",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
+    casjc_mode.Run_result(("console",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False),env))

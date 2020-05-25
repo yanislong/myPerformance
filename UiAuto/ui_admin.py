@@ -33,10 +33,11 @@ def Casjc_res(ptype="fixed", ctype="share"):
     else:
         title = "申请资源"
     #登录，点击资源管理菜单
-    uname = casjc_config.user_name1
-    upasswd = casjc_config.user_passwd
+    uname = myconfig['user2']
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_resmanagement()
     #点击申请资源按钮
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-row"]')))
@@ -47,7 +48,7 @@ def Casjc_res(ptype="fixed", ctype="share"):
     else:
         print ("进入资源申请界面失败")
     #选择用户单位,选择最后一个
-    hailong.find_element_by_css_selector('input[placeholder="请选择用户单位"]').click()
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
     time.sleep(casjc_config.short_time)
     #Select(hailong.find_elements_by_css_selector('li[class="el-scrollbar__view el-select-dropdown__list""]')).select_by_value('国科北京分部')
     hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
@@ -65,9 +66,12 @@ def Casjc_res(ptype="fixed", ctype="share"):
         aaa.Casjc_logout()
         return None
     #输入手机号
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys('13112341234')
     #输入邮箱
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].clear()
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys('131@qq.com')
+    #点击配置方式下拉框
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
     time.sleep(casjc_config.short_time)
     #li标签列表数据长度,最后一个是灵活配置
@@ -213,8 +217,9 @@ def Casjc_price(priceuser="", ordernum=""):
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
     uname = priceuser
-    upasswd = casjc_config.user_passwd
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_resmanagement()
     #进入资源审批页面
     if priceuser != "tangdebing":
@@ -275,9 +280,10 @@ def Casjc_contract(ordernum):
     title = "生成合同"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
-    uname = casjc_config.user_name1
-    upasswd = casjc_config.user_passwd
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    uname = myconfig['user2']
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_resmanagement()         
     #进入资源审批页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
@@ -361,8 +367,9 @@ def Casjc_contract_apply(appuser,ordernum):
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
     uname = appuser
-    upasswd = casjc_config.user_passwd
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_resmanagement() 
     #进入资源审批页面,点击审批按钮
     try:        
@@ -421,9 +428,10 @@ def Casjc_change_config(ordernum):
     title = "变更配置或确认参数"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
-    uname = casjc_config.user_name1
-    upasswd = casjc_config.user_passwd
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    uname = myconfig['user2']
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_resmanagement() 
     #进入配置资源页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/configTable"]')))
@@ -512,9 +520,10 @@ def Casjc_config(ctype, ordernum):
     title = "配置资源"
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
-    uname = casjc_config.user_name5
-    upasswd = casjc_config.user_passwd
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    uname = myconfig['user6']
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_resmanagement()
     #进入配置资源页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/configTable"]')))
@@ -624,10 +633,11 @@ def Casjc_config(ctype, ordernum):
 def Casjc_create_ent():
     title = "新增企业单位"
     #登录，点击运营中心菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_operationcenter()
     #进入企业管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'i[class="el-icon- iconfont iconicongl"]')))
@@ -639,9 +649,8 @@ def Casjc_create_ent():
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('div[class="el-row"]')[0].click()
     time.sleep(casjc_config.short_time)
-    #判断打开新增弹窗成功
-    if hailong.find_element_by_css_selector('span[class="el-radio-button__inner"]').text == "基础信息":
-        print ("新增弹窗打开成功" )      
+    #等待新增弹窗元素
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'span[class="el-radio-button__inner"]')))   
     #输入企业单位名称
     newuser = "ui_企业名称" + time.strftime("%m%d%H%M",time.localtime())
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys(newuser)
@@ -661,10 +670,11 @@ def Casjc_create_ent():
 def Casjc_edit_ent():
     title = "编辑企业单位"
     #登录，点击运营中心菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_operationcenter()
     #进入企业管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'i[class="el-icon- iconfont iconicongl"]')))
@@ -713,10 +723,11 @@ def Casjc_edit_ent():
 def Casjc_addsysent():
     title = "新增企业管理用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_usersystem()
     #进入用户管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
@@ -770,10 +781,11 @@ def Casjc_addsysent():
 def Casjc_addent():
     title = "新增企业普通用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_usersystem()
     #进入用户管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
@@ -837,10 +849,11 @@ def Casjc_addent():
 def Casjc_editent():
     title = "编辑企业用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_usersystem()
     #进入用户管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
@@ -878,10 +891,11 @@ def Casjc_editent():
 def Casjc_addsysuser():
     title = "新增系统用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_usersystem()
     #进入用户管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
@@ -942,10 +956,11 @@ def Casjc_addsysuser():
 def Casjc_editsysuser():
     title = "编辑系统用户"
     #登录，点击用户系统菜单
-    uname = casjc_config.user_name
-    upasswd = casjc_config.user_passwd2
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
     hailong = webdriver.Chrome()
-    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd)
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     aaa.admin_usersystem()
     #进入用户管理菜单
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
@@ -982,15 +997,25 @@ def Casjc_editsysuser():
 
 
 if __name__ == "__main__":
+    try:
+        if sys.argv[1] == "dev":
+            myconfig = casjc_config.devPerson['admin']
+            env = "dev"
+        else:
+            myconfig = casjc_config.testPerson['admin']
+            env = "test"
+    except IndexError:
+        myconfig = casjc_config.testPerson['admin']
+        env = "test"
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())  
-    Casjc_create_ent()
-    Casjc_edit_ent()
-    Casjc_addsysent()
-    Casjc_addent()
-    Casjc_editent()
-    Casjc_addsysuser()
-    Casjc_editsysuser()
+   # Casjc_create_ent()
+   # Casjc_edit_ent()
+   # Casjc_addsysent()
+  #  Casjc_addent()
+   # Casjc_editent()
+   # Casjc_addsysuser()
+  #  Casjc_editsysuser()
     ctype = [casjc_config.restype1,casjc_config.restype2]
     ptype = [casjc_config.contype2,casjc_config.contype1]
     #ctype = []
@@ -1000,12 +1025,12 @@ if __name__ == "__main__":
             if not xx:
                 continue
             #价格审批人员列表
-            order = [casjc_config.user_name2,casjc_config.user_name7]
+            order = [myconfig['user3'],myconfig['user7']]
             for j in order:
                 Casjc_price(j,xx)
             Casjc_contract(xx)
             #合同审批人员列表
-            conuser = [casjc_config.user_name3,casjc_config.user_name4]
+            conuser = [myconfig['user4'],myconfig['user5']]
             for i in conuser:
                 Casjc_contract_apply(i,xx)
             Casjc_change_config(xx)
@@ -1014,4 +1039,4 @@ if __name__ == "__main__":
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    
     print (json.dumps(casjc_config.casjc_result,ensure_ascii=False))
-    casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
+    casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False),env))
