@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 import casjc_config
 import casjc_mode
+import casjc_log
 
 
 #driver = webdriver.PhantomJS(executable_path='')
@@ -33,7 +34,9 @@ class Casjc_admin_page():
         self.hailong.get(self.lurl)
         self.hailong.maximize_window()
         self.hailong.find_element_by_css_selector("input[type='text']").send_keys(self.uname)
+        casjc_log.logging.info("管理后台登录-输入用户名:" + self.uname)
         self.hailong.find_element_by_css_selector('input[type="password"]').send_keys(self.upasswd)
+        casjc_log.logging.info("管理后台登录-输入密码:" + self.upasswd)
         self.hailong.find_element_by_tag_name('button').click()
         #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入首页
         try:
@@ -45,7 +48,7 @@ class Casjc_admin_page():
             else:
                 casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = [ self.uname, "登录失败,测试终止"]
                 self.hailong.quit()
-                print("登录失败或点击页面菜单异常，终止程序")
+                casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
                 sys.exit()
                 return None
         except exceptions.TimeoutException:
@@ -67,7 +70,7 @@ class Casjc_admin_page():
             self.hailong.find_elements_by_tag_name('a')[-1].click()
             #弹出确认提示框，点击确定
             self.hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
-            print ("退出登录成功")
+            casjc_log.logging.info("退出登录成功")
             time.sleep(casjc_config.show_time)
             self.hailong.quit()
             return None
@@ -89,7 +92,7 @@ class Casjc_admin_page():
             casjc_config.casjc_result['打开首页菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            print("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
             sys.exit()
             return None
 
@@ -104,7 +107,7 @@ class Casjc_admin_page():
             casjc_config.casjc_result['打开资源管理菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            print("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
             sys.exit()
             return None
 
@@ -119,7 +122,7 @@ class Casjc_admin_page():
             casjc_config.casjc_result['打开运营中心菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            print("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
             sys.exit()
             return None
         
@@ -134,7 +137,7 @@ class Casjc_admin_page():
             casjc_config.casjc_result['打开应用中心菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            print("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
             sys.exit()
             return None
 
@@ -149,7 +152,7 @@ class Casjc_admin_page():
             casjc_config.casjc_result['打开用户系统菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            print("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
             sys.exit()
             return None
 
@@ -157,6 +160,7 @@ class Casjc_admin_page():
         try:
             WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
             if len(self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+                casjc_log.logging.info("获取请求响应消息为空")
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
                 self.Casjc_logout()
                 return None
@@ -164,6 +168,7 @@ class Casjc_admin_page():
             self.Casjc_logout()
             return None
         except exceptions.TimeoutException:
+            casjc_log.logging.info("没有获取到响应消息")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
             self.Casjc_logout()
             return None
@@ -180,7 +185,7 @@ class Casjc_admin_page():
             print(ordernum)
             #如果条数0，退出
             if len(listnum) == 0:
-                print ("没有待生成合同或待审批订单0")
+                casjc_log.logging.info("没有待生成合同或待审批订单")
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有待生成合同或待审批订单"]
                 return None
             mytmp = 0
@@ -192,11 +197,11 @@ class Casjc_admin_page():
                     mytmp = 1
                     break
             if mytmp == 0:
-                print ("列表第一页没有找到符合的订单号")
+                casjc_log.logging.info("列表第一页没有找到符合的订单号")
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "待审批列表第一页没有找到符合的订单号"]
                 return None            
         except exceptions.TimeoutException:
-            print ("没有待生成合同或待审批订单1")
+            casjc_log.logging.info("没有待生成合同或待审批订单")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有待生成合同或待审批订单"]
             return None
 
@@ -217,7 +222,9 @@ class Casjc_console_page():
         self.hailong.find_elements_by_css_selector('a[href="/login"]')[0].click()
         time.sleep(casjc_config.show_time)
         self.hailong.find_element_by_css_selector("input[type='text']").send_keys(self.uname)
+        casjc_log.logging.info("官网登录-输入用户名:" + self.uname)
         self.hailong.find_element_by_css_selector('input[type="password"]').send_keys(self.upasswd)
+        casjc_log.logging.info("官网登录-输入密码:" + self.upasswd)
         self.hailong.find_element_by_tag_name('button').click()
         #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入首页
         try:
@@ -227,11 +234,13 @@ class Casjc_console_page():
                 #casjc_config.casjc_result['控制台用户登录'+ time.strftime("%M%S",time.localtime())] = [self.uname, "登录成功"]
                 return None
             else:
+                casjc_log.logging.info("控制台登录异常")
                 casjc_config.casjc_result['控制台用户登录'+ time.strftime("%M%S",time.localtime())] = [self.uname, "登录失败,测试终止"]
                 self.hailong.quit()
                 sys.exit()
                 return None
         except exceptions.TimeoutException:
+            casjc_log.logging.info("控制台登录异常")
             casjc_config.casjc_result['控制台用户登录'+ time.strftime("%M%S",time.localtime())] = [self.uname, "登录失败,测试终止"]
             self.hailong.quit()
             sys.exit()
@@ -251,12 +260,12 @@ class Casjc_console_page():
             time.sleep(casjc_config.short_time)
             #弹出确认提示框，点击确定
             self.hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
-            print ("退出登录成功")
+            casjc_log.logging.info(aname + " 退出登录成功")
             time.sleep(casjc_config.show_time)
             self.hailong.quit()
             return None
         except:
-            print ("退出登录异常")
+            casjc_log.logging.info(aname + " 退出登录异常")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "退出登录异常"]
             self.hailong.quit()
             return None
@@ -275,7 +284,7 @@ class Casjc_console_page():
             casjc_config.casjc_result['打开控制台'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("console",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            print("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
             sys.exit()
             return None
 
@@ -283,6 +292,7 @@ class Casjc_console_page():
         try:
             WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
             if len(self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+                casjc_log.logging.info("获取请求响应消息为空")
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
                 self.console_logout()
                 return None
@@ -290,6 +300,7 @@ class Casjc_console_page():
             self.console_logout()
             return None
         except exceptions.TimeoutException:
+            casjc_log.logging.info("没有获取到请求响应消息")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
             self.hailong.quit()
             return None

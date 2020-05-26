@@ -10,6 +10,7 @@ import requests
 
 import casjc_config
 import casjc_mode
+import casjc_log
 
     
 #用户登陆
@@ -21,6 +22,7 @@ def Casjc_www_login(uname="", upasswd=""):
     hailong.get(myconfig['consoleUrl'])
     hailong.maximize_window()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[href="/login"]')))
+    casjc_log.logging.info(title + " 点击登录按钮，进入登录页面")
     hailong.find_element_by_css_selector('a[href="/login"]').click()
     time.sleep(casjc_config.show_time)
     hailong.find_element_by_css_selector("input[type='text']").send_keys(uname)
@@ -30,15 +32,18 @@ def Casjc_www_login(uname="", upasswd=""):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="console"]')))
         if hailong.find_elements_by_css_selector('div[class="console"]')[0].text == "控制台":
+            casjc_log.logging.info(title + " 登录成功")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录成功" ]
             if __name__ == "__main__":
                 hailong.quit()
             return hailong
         else:
+            casjc_log.logging.info(title + " 没有找到页面元素关键字<控制台>,登录异常")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录失败" ]
             hailong.quit()
             return None
     except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 没有找到页面元素<控制台>,登录失败")
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录失败" ]
         hailong.quit()
         return None
@@ -50,14 +55,18 @@ def Casjc_www_mail_regist(uurl):
     hailong.get(uurl)
     hailong.maximize_window()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[href="/register"]')))
+    casjc_log.logging.info(title + " 点击注册按钮，进入注册页面")
     hailong.find_element_by_css_selector('a[href="/register"]').click()
     time.sleep(casjc_config.show_time)
     #输入用户账户
     account = "uireg" + time.strftime("%m%d%H%M%S",time.localtime())
+    casjc_log.logging.info(title + " 输入用户账号" + account)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys(account)
     #输入密码
+    casjc_log.logging.info(title + " 输入密码")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys(casjc_config.regpasswd)
     #输入确认密码
+    casjc_log.logging.info(title + " 输入确认密码")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(casjc_config.regpasswd)
     #输入邮箱
     tmpmail = casjc_mode.Casjc_mail()
@@ -66,11 +75,13 @@ def Casjc_www_mail_regist(uurl):
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "无法请求24mail.chacuo.net,不能自动注册邮箱"]
         hailong.quit()
         return None
+    casjc_log.logging.info(title + " 输入邮箱" + tmpmail[0])
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(tmpmail[0])
     #点击页面使邮箱输入框失去焦点
     hailong.find_element_by_css_selector('div[class="wrap-reg"]').click()
     time.sleep(casjc_config.show_time)
-    #点击获取验证码按钮    
+    #点击获取验证码按钮
+    casjc_log.logging.info(title + " 点击获取验证码按钮")
     hailong.find_element_by_css_selector('div[class="yzm"]').click()
     time.sleep(casjc_config.short_time)
     mailcode = casjc_mode.Casjc_mailcode(tmpmail)
@@ -79,17 +90,21 @@ def Casjc_www_mail_regist(uurl):
         hailong.quit()
         return None
     #输入验证码
+    casjc_log.logging.info(title + " 输入验证码" + mailcode)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys(mailcode)
     #点击注册按钮
+    casjc_log.logging.info(title + " 点击注册按钮")
     hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     time.sleep(casjc_config.show_time)
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="nav-login"]')))
+        casjc_log.logging.info(title + " 注册成功")
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "邮箱: " + tmpmail[0] + " 注册成功"]
         time.sleep(casjc_config.show_time)
         hailong.quit()
         return account
     except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 页面元素未找到,注册异常")
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "邮箱: " + tmpmail[0] + " 注册失败"]
         hailong.quit()
         return None
@@ -101,17 +116,22 @@ def Casjc_www_phone_regist(uurl):
     hailong.get(uurl)
     hailong.maximize_window()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[href="/register"]')))
+    casjc_log.logging.info(title + " 点击注册按钮，进入注册页面")
     hailong.find_element_by_css_selector('a[href="/register"]').click()
     time.sleep(casjc_config.show_time)
     #点击手机号注册tab
+    casjc_log.logging.info(title + " 点击手机号注册tab，进入手机号注册页面")
     hailong.find_element_by_id('tab-phone').click()
     time.sleep(casjc_config.show_time)
     #输入用户账户
     account = "uireg" + time.strftime("%m%d%H%M%S",time.localtime())
+    casjc_log.logging.info(title + " 输入用户账户" + account)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys(account)
     #输入密码
+    casjc_log.logging.info(title + " 输入密码")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[6].send_keys(casjc_config.regpasswd)
     #输入确认密码
+    casjc_log.logging.info(title + " 输入确认密码")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[7].send_keys(casjc_config.regpasswd)
     #获取手机号
     num = 1
@@ -125,19 +145,21 @@ def Casjc_www_phone_regist(uurl):
         dd = {}
         dd["mobile"] = tmpphone[0]
         r = requests.post("http://11.2.77.3:30089/portal-test/user/reg/exist/mobile", data=dd)
-        print(r.content)
         if r.json()['data'] == False:
             break           
         if num == 14:
+            casjc_log.logging.info(title + " yunjiema.net,没有找到可用手机号码")
             casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "yunjiema.net,没有找到可用手机号码"]
             hailong.quit()
             return None
     #输入手机号
+    casjc_log.logging.info(title + " 输入手机号" + tmpphone[0])
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[8].send_keys(tmpphone[0])
     #点击页面使邮箱输入框失去焦点
     hailong.find_element_by_css_selector('div[class="wrap-reg"]').click()
     time.sleep(casjc_config.show_time)
-    #点击获取验证码按钮    
+    #点击获取验证码按钮
+    casjc_log.logging.info(title + " 点击获取验证码按钮")
     hailong.find_element_by_css_selector('div[class="yzm"]').click()
     time.sleep(casjc_config.wait_time)
     #输入验证码
@@ -146,16 +168,20 @@ def Casjc_www_phone_regist(uurl):
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "手机号: " + tmpphone[0] +" 发送验证码后，240秒没有收到验证码"]
         hailong.quit()
         return None
+    casjc_log.logging.info(title + " 输入验证码" + phonecode)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[9].send_keys(phonecode)
     #点击注册按钮
+    casjc_log.logging.info(title + " 点击注册按钮")
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary"]')[1].click()
     time.sleep(casjc_config.show_time)
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="nav-login"]')))
+        casjc_log.logging.info(title + " 注册成功")
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "手机号: " + str(tmpphone[0]) + " 注册成功"]
         hailong.quit()
         return None
     except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 页面元素未找到，注册异常")
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "手机号: " + str(tmpphone[0]) + " 注册失败"]
     hailong.quit()
     return None
@@ -167,6 +193,7 @@ def Casjc_www_try(uname="aa123", upasswd="123456aA~"):
     hailong.get(myconfig['consoleUrl'])
     hailong.maximize_window()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '申请试用')))
+    casjc_log.logging.info(title + " 点击申请试用按钮")
     hailong.find_element_by_link_text('申请试用').click()
     time.sleep(casjc_config.short_time)
     #弹出提示框,选择马上登录
@@ -180,15 +207,18 @@ def Casjc_www_try(uname="aa123", upasswd="123456aA~"):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="console"]')))
         if hailong.find_elements_by_css_selector('div[class="console"]')[0].text == "控制台":
+            casjc_log.logging.info(title + " 登录成功")
             casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录成功"]
             if __name__ == "__main__":
                 hailong.quit()
             return hailong
         else:
+            casjc_log.logging.info(title + " 页面元素未找到关键字<控制台>,登录异常")
             casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录失败"]
             hailong.quit()
             return None
     except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 页面元素未找到,登录失败")
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录失败"]
         hailong.quit()
         return None
@@ -209,7 +239,7 @@ if __name__ == "__main__":
     start_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     Casjc_www_login()
     Casjc_www_mail_regist(myconfig['consoleUrl'])
-    #Casjc_www_phone_regist(myconfig['consoleUrl'])
+    Casjc_www_phone_regist(myconfig['consoleUrl'])
     Casjc_www_try()
     end_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)

@@ -6,6 +6,7 @@ import win32con
 import requests
 from bs4 import BeautifulSoup
 import pymysql
+import casjc_log
 
 
 #上传本地文件
@@ -35,6 +36,7 @@ def Casjc_upload(filePath, browser_type="chrome"):
     # 打开按钮
     button = win32gui.FindWindowEx(dialog, 0, 'Button', "打开(&O)")  # 二级
     # 输入文件的绝对路径，点击“打开”按钮
+    casjc_log.logging.info("上传本地文件" + filePath)
     win32gui.SendMessage(edit, win32con.WM_SETTEXT, None, filePath)  # 发送文件路径
     win32gui.SendMessage(dialog, win32con.WM_COMMAND, 1, button)  # 点击打开按钮
 
@@ -59,7 +61,7 @@ def Casjc_mail():
         #print((email,tmp,token))
         return((email,tmp,token))
     except requests.exceptions.ConnectionError:
-        print("无法请求24mail.chacuo.net")
+        casjc_log.logging.info("无法请求24mail.chacuo.net")
         return None
         
 
@@ -79,7 +81,8 @@ def Casjc_mailcode(*res):
     for i in range(20):
         time.sleep(10)
         res2 = requests.post(url, headers=reheader, params=eparam)
-        print(res2.text)
+        casjc_log.logging.info(res2.text)
+        casjc_log.logging.info("等待%d秒没有获取到邮箱验证码"%(i*10))
         if res2.json()['data'][0]['list']:
             mid = res2.json()['data'][0]['list'][0]['MID']
             #print(mid)
@@ -95,8 +98,11 @@ def Casjc_mailcode(*res):
             #获取到的验证码
             ccd = ehtml.find_all('span')[1]
             ccd = ccd.get_text()
+            casjc_log.logging.info("获取到邮箱验证码" + str(ccd))
             #print(ccd)
             return ccd
+    casjc_log.logging.info("等待200秒没有获取邮箱到验证码")
+    return None
 
 #临时手机号
 def Casjc_phone(num=0):
@@ -110,10 +116,10 @@ def Casjc_phone(num=0):
         #print(html)
         tmp = html.find_all(class_="number-boxes-item-number")[num].string
         url = url + "86" + tmp[4:] + "/"
-        print(url)
+        casjc_log.logging.info("获取可用手机号: " + url)
         return (tmp[4:],url)
     except requests.exceptions.ConnectionError:
-        print("无法请求yunjiema.net")
+        casjc_log.logging.info("无法请求yunjiema.net")
         return None
     
 
@@ -122,22 +128,24 @@ def Casjc_phonecode(url):
     ug = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
     header = {}
     header['User-Agent'] = ug
-    tt = 0
-    while tt<30:
+    tt = 1
+    while tt<31:
         r = requests.get(url, headers=header)
         html = BeautifulSoup(r.content, features='lxml')
         #print(html)
         tmp = html.find_all(class_="col-xs-12 col-md-8")
+        casjc_log.logging.info("等待%d秒没有获取到手机验证码"%(tt * 8))
         for i in tmp:
             if "国科晋云" in i.text:
-                print(i.text)
+                casjc_log.logging.info("获取手机号收到的验证码信息: " + i.text)
                 l1 = re.compile('：(\d{6})，')
                 l2 = l1.findall(i.text)
-                print(l2)
+                casjc_log.logging.info(l2)
+                casjc_log.logging.info("获取到手机证码" + str(l2[0]))
                 return l2[0]
         time.sleep(8)
         tt += 1
-    print("爬取300秒没有找到国科晋云验证码")
+    casjc_log.logging.info("等待240秒没有找到国科晋云验证码")
     return None
  
 
@@ -149,6 +157,7 @@ def Run_result(*resdic):
     sql = "insert into uitestresult(mode,stime,etime,result,exectime,env) value('{0}','{1}','{2}','{3}','{4}','{5}')".format(resdic[0][0],resdic[0][1],resdic[0][2],resdic[0][3],tt,resdic[0][4])
     cursor.execute(sql)
     con.commit()
+    casjc_log.logging.info("执行结果插入到数据库")
     cursor.close()
     con.close()
     return None
