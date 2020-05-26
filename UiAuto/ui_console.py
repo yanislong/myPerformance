@@ -520,8 +520,56 @@ def Casjc_console_try(env=""):
         hailong.quit()
         return None
 
-
-
+#控制台-工单-提交工单
+def Casjc_console_order():
+    title = "控制台-工单-提交工单"
+    #登录控制台
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    aaa.console()
+    #点击用户管理菜单
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="rightBox"]')))
+        time.sleep(casjc_config.short_time)
+        hailong.find_element_by_xpath('//div[@class="rightBox"]/div[@class="navInner navTitle"]/span[3]').click()
+        time.sleep(casjc_config.short_time)
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
+        aaa.console_logout(uname)
+        return None
+    #等待页面元素,确认是否进入我的工单页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="btnLeft"]')))
+    time.sleep(casjc_config.short_time)
+    #点击提交工单
+    hailong.find_element_by_css_selector('div[class="btnLeft"]').click()
+    time.sleep(casjc_config.short_time)
+    #等待页面元素,确认是否进入提交工单页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="btnBox"]')))
+    time.sleep(casjc_config.short_time)
+    #点击高性能计算提问按钮
+    hailong.find_elements_by_css_selector('p[class="btnBox"]')[0].click()
+    time.sleep(casjc_config.short_time)
+    #等待页面元素，创建工单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="createOrder"]')))
+    time.sleep(casjc_config.short_time)
+    #点击高性能计算提问按钮
+    hailong.find_element_by_css_selector('div[class="createOrder"]').click()
+    time.sleep(casjc_config.short_time)
+    #等待页面元素
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="formWrap"]')))
+    time.sleep(casjc_config.short_time)
+    #输入问题描述
+    hailong.find_element_by_css_selector('textarea[class="el-textarea__inner"]').send_keys("hello")
+    #输入联系电话
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("13112341234")
+    time.sleep(casjc_config.short_time)
+    hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
+    casjc_page.admin_result(title,uname,)
+    return None
 
 
 if __name__ == "__main__":
@@ -540,6 +588,7 @@ if __name__ == "__main__":
         env = "test"
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
+    '''
     Casjc_console_upfile()
     Casjc_console_webshell()
     Casjc_console_user()
@@ -549,6 +598,8 @@ if __name__ == "__main__":
     Casjc_console_updatepw()
     Casjc_console_info()
     Casjc_console_try(env)
+    '''
+    Casjc_console_order()
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
