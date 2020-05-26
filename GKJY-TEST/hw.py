@@ -447,6 +447,8 @@ def uiauto():
 
 @app.route('/uiauto_redirect_w', methods=['GET','POST'])
 def uiauto_redirect():
+    get_mode = request.form["m"]
+    print(get_mode)
     sk = socket.socket()
     address = (config.runui_ip,config.runui_port)
     print(config.runui_ip)
@@ -455,29 +457,42 @@ def uiauto_redirect():
    # inp = input('>>>>>.')
    # if inp == 'exit':
    #     break
-    inp = "ui_www.py"
+    if get_mode == "dev":
+        inp = "ui_www.py dev"
+    else:
+        inp = "ui_www.py test"
     sk.send(bytes(inp,'utf8'))
     sk.close()
     return redirect('uiauto_www')
 
 @app.route('/uiauto_redirect_c', methods=['GET','POST'])
 def uiauto_redirect_c():
+    get_mode = request.form["m"]
+    print(get_mode)
     sk = socket.socket()
     address = (config.runui_ip,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
-    inp = "ui_console.py"
+    if get_mode == "dev":
+        inp = "ui_console.py dev"
+    else:
+        inp = "ui_console.py test"
     sk.send(bytes(inp,'utf8'))
     sk.close()
     return redirect('uiauto_www')
 
 @app.route('/uiauto_redirect_a', methods=['GET','POST'])
 def uiauto_redirect_a():
+    get_mode = request.form["m"]
+    print(get_mode)
     sk = socket.socket()
     address = (config.runui_ip,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
-    inp = "ui_admin.py"
+    if get_mode == "dev":
+        inp = "ui_admin.py dev"
+    else:
+        inp = "ui_admin.py test"
     sk.send(bytes(inp,'utf8'))
     sk.close()
     return redirect('uiauto_www')

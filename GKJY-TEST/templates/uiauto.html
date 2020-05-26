@@ -45,13 +45,14 @@
 </tr>
 </thead>
 <tbody>
-<form method="post" action="/uiauto_redirect_w">
 <tr>
-<td rowspan="4" style="width:200px">www官网</td><td>用户登录</td><td rowspan="4"><button>执行</button></td>
+<td rowspan="4" style="width:200px">www官网</td><td>用户登录</td><td rowspan="4">
+<form method="post" action="/uiauto_redirect_w"><input type="hidden" name="m" value="dev" /><button>执行dev</button></form>
+<form method="post" action="/uiauto_redirect_w"><input type="hidden" name="m" value="test" /><button>执行test</button></form></td>
+</td>
 </tr>
-</form>
 <tr><td>邮箱注册</td></tr>
-<tr><td>手机号注册(结果不可用)</td></tr>
+<tr><td>手机号注册</td></tr>
 <tr><td>通过首页试用按钮进行登录</td></tr>
 </tbody>
 </table>
@@ -62,11 +63,12 @@
 </tr>
 </thead>
 <tbody>
-<form method="post" action="/uiauto_redirect_c">
 <tr>
-<td rowspan="10" style="width:200px">console控制台</td><td>用户登录</td><td rowspan="10"><button>执行</button></td>
+<td rowspan="10" style="width:200px">console控制台</td><td>用户登录</td><td rowspan="10">
+<form method="post" action="/uiauto_redirect_c"><input type="hidden" name="m" value="dev" /><button>执行dev</button></form>
+<form method="post" action="/uiauto_redirect_c"><input type="hidden" name="m" value="test" /><button>执行test</button></form></td>
+</td>
 </tr>
-</form>
 <tr><td>登录webshell</td></tr>
 <tr><td>共享存储上传文件</td></tr>
 <tr><td>用户管理-新增企业用户</td></tr>
@@ -85,11 +87,11 @@
 </tr>
 </thead>
 <tbody>
-<form method="post" action="/uiauto_redirect_a">
 <tr>
-<td rowspan="22" style="width:200px">admin管理后台</td><td>新建企业单位</td><td rowspan="22"><button>执行</button></td>
+<td rowspan="22" style="width:200px">admin管理后台</td><td>新建企业单位</td><td rowspan="22">
+<form method="post" action="/uiauto_redirect_a"><input type="hidden" name="m" value="dev" /><button>执行dev</button></form>
+<form method="post" action="/uiauto_redirect_a"><input type="hidden" name="m" value="test" /><button>执行test</button></form></td>
 </tr>
-</form>
 <tr><td>编辑企业单位</td></tr>
 <tr><td>新建企业管理员</td></tr>
 <tr><td>新建企业普通用户</td></tr>
