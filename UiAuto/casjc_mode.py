@@ -135,7 +135,7 @@ def Casjc_phonecode(url):
                 l2 = l1.findall(i.text)
                 print(l2)
                 return l2[0]
-        time.sleep(10)
+        time.sleep(8)
         tt += 1
     print("爬取300秒没有找到国科晋云验证码")
     return None
@@ -154,6 +154,8 @@ def Run_result(*resdic):
     return None
 
 if __name__ == "__main__":
-    a = Casjc_phone()
+    #a = Casjc_phone()
     #Casjc_phonecode(a[1])
+    a =  r"c:\usr\AutoUi.pdf"
+    Casjc_upload(a)
 

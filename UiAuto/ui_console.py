@@ -566,9 +566,15 @@ def Casjc_console_order():
     hailong.find_element_by_css_selector('textarea[class="el-textarea__inner"]').send_keys("hello")
     #输入联系电话
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("13112341234")
-    time.sleep(casjc_config.short_time)
+    #点击上传附件按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="blurButton"]')))
+    hailong.find_element_by_css_selector('div[class="blurButton"]').click()
+    time.sleep(casjc_config.show_time)
+    #选择本地文件上传
+    casjc_mode.Casjc_upload(casjc_config.uppath)
+    time.sleep(casjc_config.show_time)
     hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
-    casjc_page.admin_result(title,uname,)
+    aaa.console_result(title,uname)
     return None
 
 
@@ -588,7 +594,6 @@ if __name__ == "__main__":
         env = "test"
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    '''
     Casjc_console_upfile()
     Casjc_console_webshell()
     Casjc_console_user()
@@ -598,7 +603,6 @@ if __name__ == "__main__":
     Casjc_console_updatepw()
     Casjc_console_info()
     Casjc_console_try(env)
-    '''
     Casjc_console_order()
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)

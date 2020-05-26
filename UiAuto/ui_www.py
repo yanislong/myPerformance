@@ -143,7 +143,7 @@ def Casjc_www_phone_regist(uurl):
     #输入验证码
     phonecode = casjc_mode.Casjc_phonecode(tmpphone[1])
     if not phonecode:
-        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "手机号: " + tmpphone[0] +" 发送验证码后，300秒没有收到验证码"]
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "手机号: " + tmpphone[0] +" 发送验证码后，240秒没有收到验证码"]
         hailong.quit()
         return None
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[9].send_keys(phonecode)
@@ -205,13 +205,12 @@ if __name__ == "__main__":
     except IndexError:
         myconfig = casjc_config.testPerson['console']
         env = "test"
-    print(myconfig)
     print (">> UI自动化脚本开始执行执行")
     start_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
-    #Casjc_www_login()
-    #Casjc_www_mail_regist(myconfig['consoleUrl'])
-    Casjc_www_phone_regist(myconfig['consoleUrl'])
-   # Casjc_www_try()
+    Casjc_www_login()
+    Casjc_www_mail_regist(myconfig['consoleUrl'])
+    #Casjc_www_phone_regist(myconfig['consoleUrl'])
+    Casjc_www_try()
     end_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
