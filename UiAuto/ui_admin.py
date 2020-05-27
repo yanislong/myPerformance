@@ -1019,6 +1019,57 @@ def Casjc_editent():
     aaa.admin_result(title,uname,newuser)
     return None
 
+
+#企业用户重置密码
+def Casjc_resset():
+    title = "企业用户重置密码"
+    #登录，点击用户系统菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入用户系统菜单")
+    aaa.admin_usersystem()
+    #进入用户管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入用户管理菜单")
+    hailong.find_elements_by_css_selector('div[class="el-submenu__title"]')[-1].click()
+    #点击企业用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/enterprise"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击企业用户菜单")
+    hailong.find_element_by_css_selector('li[data-index="/enterprise"]').click()
+    #点击用户列表更多按钮
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini el-popover__reference"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
+    except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮异常，退出登录")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常,用户列表没有找到编辑按钮"]
+        aaa.Casjc_logout(uname)
+        return None
+    #获取用账号
+    account = hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[0].text
+    casjc_log.logging.info(title + " 当前重置密码账号，" + account)
+    #点击重置密码按钮
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击重置密码按钮")
+    hailong.find_elements_by_css_selector('p[class="operator"]')[-4].click()
+    #等待页面元素，弹出确认提示框
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
+    #点击确认提示框的确认按钮
+    casjc_log.logging.info(title + " 点击确认提示框的确认按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname,account)
+    return None
+    
+
+
 #新建系统用户
 def Casjc_addsysuser():
     title = "新增系统用户"
@@ -1149,6 +1200,55 @@ def Casjc_editsysuser():
     return None
 
 
+#系统用户重置密码
+def Casjc_sysresset():
+    title = "系统用户重置密码"
+    #登录，点击用户系统菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入用户系统菜单")
+    aaa.admin_usersystem()
+    #进入用户管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入用户管理菜单")
+    hailong.find_elements_by_css_selector('div[class="el-submenu__title"]')[-1].click()
+    #点击系统用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/userManagement"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击系统用户菜单")
+    hailong.find_element_by_css_selector('li[data-index="/userManagement"]').click()
+    #点击用户列表更多按钮
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini el-popover__reference"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
+    except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮异常，退出登录")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常,用户列表没有找到编辑按钮"]
+        aaa.Casjc_logout(uname)
+        return None
+    #获取用账号
+    account = hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[0].text
+    casjc_log.logging.info(title + " 当前重置密码账号，" + account)
+    #点击重置密码按钮
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击重置密码按钮")
+    hailong.find_elements_by_tag_name('p')[39].click()
+    #等待页面元素，弹出确认提示框
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
+    #点击确认提示框的确认按钮
+    casjc_log.logging.info(title + " 点击确认提示框的确认按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname,account)
+    return None
+
+
 if __name__ == "__main__":
     try:
         if sys.argv[1] == "dev":
@@ -1162,11 +1262,15 @@ if __name__ == "__main__":
         env = "test"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
+    Casjc_addsysent()
+    Casjc_sysresset()
+    '''
     Casjc_create_ent()
     Casjc_edit_ent()
     Casjc_addsysent()
     Casjc_addent()
     Casjc_editent()
+    Casjc_resset()
     Casjc_addsysuser()
     Casjc_editsysuser()
     ctype = [casjc_config.restype1,casjc_config.restype2]
@@ -1188,6 +1292,7 @@ if __name__ == "__main__":
                 Casjc_contract_apply(i,xx)
             Casjc_change_config(xx)
             Casjc_config(y,xx)
+            '''
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    

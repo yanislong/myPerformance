@@ -134,7 +134,7 @@ def Casjc_www_phone_regist(uurl):
     casjc_log.logging.info(title + " 输入确认密码")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[7].send_keys(casjc_config.regpasswd)
     #获取手机号
-    num = 1
+    num = 2
     while num<15:
         tmpphone = casjc_mode.Casjc_phone(num)
         num += 1
@@ -235,7 +235,7 @@ if __name__ == "__main__":
     except IndexError:
         myconfig = casjc_config.testPerson['console']
         env = "test"
-    casjc_log.logging.info("> " * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
+    casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     Casjc_www_login()
     Casjc_www_mail_regist(myconfig['consoleUrl'])

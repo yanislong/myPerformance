@@ -673,7 +673,7 @@ if __name__ == "__main__":
         myconfig = casjc_config.testPerson['console']
         myconfig2 = casjc_config.testPerson['admin']
         env = "test"
-    casjc_log.logging.info("> " * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
+    casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     Casjc_console_upfile()
     Casjc_console_webshell()    
