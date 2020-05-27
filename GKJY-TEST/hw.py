@@ -5,7 +5,7 @@ from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect, Response
 from werkzeug import secure_filename
 from flask import jsonify
-import os, json, sys, pymysql, subprocess, base64, binascii
+import os, random, json, sys, pymysql, subprocess, base64, binascii
 sys.path.append(os.getcwd() + '/run_test')
 sys.path.append(os.getcwd() + '/run_test/excel')
 sys.path.append(os.getcwd() + '/run_test/lhlmysql')
@@ -510,7 +510,8 @@ def uiauto_www():
     mydata = lhlSql()
     www_result = mydata.getUiautoResult(get_mode)
     #print(www_result)
-    return render_template('uiauto_result.html', result=(www_result))
+    logurl = config.runui_ip
+    return render_template('uiauto_result.html', result=(www_result,logurl, random.random()))
 
 
 if __name__ == "__main__":

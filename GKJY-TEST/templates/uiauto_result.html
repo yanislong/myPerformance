@@ -33,6 +33,14 @@
    /* tr:nth-child(odd){background:#F4F4F4;}*/
     tr:nth-child(even){background:#F4F4F4;}
 </style>
+<script language="javascript">
+one=function()
+{
+/*document.getElementById('ifrmid').contentWindow.location.reload(true)*/
+window.open(document.all.ifrmname.src,'ifrmname','')
+}
+setInterval("one()",5000)
+</script>
 </head>
 <body>
 <h1>先进计算中心统一服务系统UI自动化测试平台</h1>
@@ -40,10 +48,12 @@
  || <a href="uiauto">UI自动化</a>
  || <a href="rule">字段规则</a>
 <hr />
-<p>*当前显示为上一次执行结果，最新结果大约4-10分钟后刷新页面显示，根据列表id值判断是否更新，增加1 *</p>
+<p>* 黄色窗口内显示后台自动化脚本执行情况，执行完毕后通过模板筛选模块，查看执行结果 *</p>
 <!--p>可以通过腾讯远程会议查看执行过程，会议id: 963 270 205 </p-->
-<img style="padding: 10px" src="../static/image/wait.gif" height="64" width="64">
-<div id="loadText">自动化脚本正在执行，请稍后！</div>
+<!--img style="padding: 10px" src="../static/image/wait.gif" height="64" width="64">
+<div id="loadText">自动化脚本正在执行，请稍后！</div-->
+<iframe id="ifrmid" name="ifrmname" src="http://{{result[1]}}/casjc.log?cache=0" width="90%" style="background-color: #FAFAD2"></iframe>
+<input type="button" name="button" value="手动刷新日志" onclick="window.open(document.all.ifrmname.src,'ifrmname','')">
 <form action="/uiauto_www" method="get" style="float:left">
 模块:<input list="namelist" name="imode" autocomplete="off" />
 <datalist id="namelist">
@@ -62,7 +72,7 @@
 <tbody>
 <tr>
 </tr>
-{% for i in result %}
+{% for i in result[0] %}
 <tr>
 <td>{{i[0]}}</td>
 <td>{{i[6]}}</td>
