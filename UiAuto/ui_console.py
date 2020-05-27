@@ -673,7 +673,7 @@ if __name__ == "__main__":
         myconfig = casjc_config.testPerson['console']
         myconfig2 = casjc_config.testPerson['admin']
         env = "test"
-    print (">> UI自动化脚本开始执行执行")
+    casjc_log.logging.info("> " * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     Casjc_console_upfile()
     Casjc_console_webshell()    
@@ -688,6 +688,6 @@ if __name__ == "__main__":
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
-    print (">> UI自动化脚本执行完成")
     print (json.dumps(casjc_config.casjc_result,ensure_ascii=False))
     casjc_mode.Run_result(("console",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False),env))
+    casjc_log.logging.info( ">" * 15 + " 模块名: console, 本次UI自动化脚本执行完成，通过页面模块筛选查看执行结果 " + "<" * 15)

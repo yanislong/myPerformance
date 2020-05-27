@@ -182,7 +182,7 @@ class Casjc_admin_page():
             time.sleep(casjc_config.short_time)
             #获取第一页列表数据条数
             listnum = self.hailong.find_elements_by_css_selector('tr[class="el-table__row"]')
-            print(ordernum)
+            casjc_log.logging.info(title + " 列表当前页数据条数为:%d 条数据"%len(listnum))
             #如果条数0，退出
             if len(listnum) == 0:
                 casjc_log.logging.info("没有待生成合同或待审批订单")
@@ -192,6 +192,7 @@ class Casjc_admin_page():
             #循环遍历第一页列表是否有符合的订单号，如果有点击生成合同，没有退出
             for i in range(len(listnum)):
                 if self.hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell el-tooltip"][1]').text == ordernum:
+                    casjc_log.logging.info(title + " %s找到预期单号，点击生成或审批按钮" %str(ordernum))
                     self.hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[i].click()
                     time.sleep(casjc_config.short_time)
                     mytmp = 1

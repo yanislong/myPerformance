@@ -235,7 +235,7 @@ if __name__ == "__main__":
     except IndexError:
         myconfig = casjc_config.testPerson['console']
         env = "test"
-    print (">> UI自动化脚本开始执行执行")
+    casjc_log.logging.info("> " * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     Casjc_www_login()
     Casjc_www_mail_regist(myconfig['consoleUrl'])
@@ -247,3 +247,4 @@ if __name__ == "__main__":
     print (">> UI自动化脚本执行完成")
     print(casjc_config.casjc_result)
     casjc_mode.Run_result(("www",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False),env))
+    casjc_log.logging.info( ">" * 15 + " 模块名: www, 本次UI自动化脚本执行完成，通过页面模块筛选查看执行结果 " + "<" * 15)

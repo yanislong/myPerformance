@@ -1,9 +1,0 @@
-2020-05-26 17:27:47 Tue - INFO - casjc_page.py - console_login - line: 225 - 官网登录-输入用户名:aa123
-2020-05-26 17:27:48 Tue - INFO - casjc_page.py - console_login - line: 227 - 官网登录-输入密码:123456aA~
-2020-05-26 17:27:54 Tue - INFO - ui_console.py - Casjc_console_upfile - line: 26 - 数据存储-上传文件 进入控制台
-2020-05-26 17:28:06 Tue - INFO - ui_console.py - Casjc_console_upfile - line: 35 - 数据存储-上传文件 点击高性能计算
-2020-05-26 17:28:10 Tue - INFO - ui_console.py - Casjc_console_upfile - line: 42 - 数据存储-上传文件 点击共享存储菜单
-2020-05-26 17:28:13 Tue - INFO - ui_console.py - Casjc_console_upfile - line: 46 - 数据存储-上传文件 点击上传按钮
-2020-05-26 17:28:14 Tue - INFO - casjc_mode.py - Casjc_upload - line: 39 - 上传本地文件c:\usr\AutoUi.pdf
-2020-05-26 17:28:40 Tue - INFO - casjc_page.py - console_logout - line: 263 - aa123 退出登录成功
-2020-05-26 17:28:46 Tue - INFO - casjc_mode.py - Run_result - line: 160 - 执行结果插入到数据库
