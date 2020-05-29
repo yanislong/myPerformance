@@ -14,30 +14,49 @@ import casjc_log
  
 
 #申请资源
-def Casjc_res(ptype="fixed", ctype="share"):
+def Casjc_res(*appcon):
     """
-    ctype=share 申请共享型计算
-    ctype=store 申请数据存储
-    ptype=fixed 固定方式
-    ptype=flexi 灵活方式
+    0 固定方式
+    1 灵活方式
+    "gb" 高性能计算-标准型
+    "gg" 高性能计算-共享型
+    "yy" 云计算-云主机
+    "sw" 数据存储-文件存储
+    "sy" 数据存储-云硬盘
+    "wg" 网络资源-公网IP
     """
-    if ctype == "share":
-        if ptype == "fixed":
-            title = "申请资源-固定方式-共享型"
-            casjc_log.logging.info(title)
-        elif ptype == "flexi":
-            title = "申请资源-灵活方式-共享型"
-            casjc_log.logging.info(title)
-    elif ctype == "store":
-        if ptype == "fixed":
-            title = "申请资源-固定方式-数据存储"
-            casjc_log.logging.info(title)
-        elif ptype == "flexi":
-            title = "申请资源-灵活方式-数据存储"
-            casjc_log.logging.info(title)
-    else:
-        title = "申请资源"
-        casjc_log.logging.info(title)
+    title = "申请资源"
+    if not appcon:
+        casjc_log.logging.info(title + " 没有传递appcon参数,终止执行")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = ["", "没有传递appcon参数,终止执行"]
+        return None    
+    if appcon[0][0] == 0:
+        if appcon[0][1] == "gb":
+            title = "申请资源-固定方式-高性能计算-标准型"
+        if appcon[0][1] == "gg":
+            title = "申请资源-固定方式-高性能计算-共享型"
+        if appcon[0][1] == "yy":
+            title = "申请资源-固定方式-云计算-云主机"
+        if appcon[0][1] == "sw":
+            title = "申请资源-固定方式-数据存储-文件存储"
+        if appcon[0][1] == "sy":
+            title = "申请资源-固定方式-数据存储-云硬盘"
+        if appcon[0][1] == "wg":
+            title = "申请资源-固定方式-网络资源-公网IP"
+    elif appcon[0][0] == 1:
+        if appcon[0][1] == "gb":
+            title = "申请资源-灵活方式-高性能计算-标准型"
+        if appcon[0][1] == "gg":
+            title = "申请资源-灵活方式-高性能计算-共享型"
+        if appcon[0][1] == "yy":
+            title = "申请资源-灵活方式-云计算-云主机"
+        if appcon[0][1] == "sw":
+            title = "申请资源-灵活方式-数据存储-文件存储"
+        if appcon[0][1] == "sy":
+            title = "申请资源-灵活方式-数据存储-云硬盘"
+        if appcon[0][1] == "wg":
+            title = "申请资源-灵活方式-网络资源-公网IP"
+    casjc_log.logging.info(title)
     #登录，点击资源管理菜单
     uname = myconfig['user2']
     upasswd = myconfig['passwd2']
@@ -93,13 +112,38 @@ def Casjc_res(ptype="fixed", ctype="share"):
     time.sleep(casjc_config.short_time)
     #li标签列表数据长度,最后一个是灵活配置
     listelement = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-    #选择配置方式
-    if ptype == "fixed":
+    #判断配置方式，如果appcon[0][0]是0固定方式，如果是1灵活方式
+    if appcon[0][0] == 0:
         casjc_log.logging.info(title + " 选择配置方式，固定配置")
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()#固定配置
         #填写基本信息完成，提交下一步
         hailong.find_elements_by_tag_name('button')[1].click()
-        time.sleep(casjc_config.show_time)
+        time.sleep(casjc_config.short_time)
+        #进入提交资源申请页面
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="tableBox"]')))
+        if appcon[0][1] == "gb":
+            n = 1
+            #print(hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[0].text.split("\n")[0])
+            #hailong.find_elements_by_xpath('//div[@class="boxOne"][' + n + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div')[0].click()
+        elif appcon[0][1] == "gg":
+            n = 2
+        elif appcon[0][1] == "yy":
+            n = 3
+        elif appcon[0][1] == "sw":
+            n = 4
+        #elif appcon[0][1] == "sy":
+        #    n = 5
+       # elif appcon[0][1] == "wg":
+       #     n = 6
+       #输出当前执行资源类型
+        print(n)
+        a = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div')
+        print(len(a))
+        print(hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[n-1].text.split("\n")[0])
+        hailong.find_elements_by_xpath('//div[@class="boxOne"]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div')[n-1].click()
+    time.sleep(5)
+    '''
+    elif "a" == 1:       
         #输入资源有效期
         aa = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-input el-input--small el-input-group el-input-group--append')))
@@ -136,16 +180,6 @@ def Casjc_res(ptype="fixed", ctype="share"):
             time.sleep(casjc_config.short_time)
             #输入数据存储TB数量
             hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[36].send_keys('1')
-            '''
-            n = 0
-            for i in aa:
-                print n
-                n += 1
-                try:
-                    i.send_keys(str(n))
-                except:
-                    pass
-            '''
             time.sleep(1)
             #输入数据存储折后单价
             hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].clear()
@@ -154,7 +188,8 @@ def Casjc_res(ptype="fixed", ctype="share"):
         elif ctype == "network":
             #网络资源
             aa[42].send_keys('1')
-    elif ptype == "flexi":
+    #判断配置方式，如果appcon[0][0]是0固定方式，如果是1灵活方式
+    elif appcon[0][0] == 1:
         casjc_log.logging.info(title + " 选择配置方式，灵活配置")
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-1].click()#灵活配置
         #填写基本信息完成，提交下一步
@@ -233,6 +268,7 @@ def Casjc_res(ptype="fixed", ctype="share"):
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "申请资源失败,操作异常" + " 甲方账号: " + jiafang]
         aaa.Casjc_logout()
         return None
+        '''
 
 
 
@@ -813,6 +849,210 @@ def Casjc_edit_ent():
         return None
 
 
+#费用管理-新增计费
+def Casjc_addCost(*res):
+    '''
+    srt = (6,-1)#高性能计算-共享
+    srt = (6,-2)#高性能计算-标准
+    srt = (8,-1)#数据存储-数据存储
+    srt = (9,-1)#网络资源-网络资源
+    '''
+    title = "新增计费"
+    if not res:
+        casjc_log.logging.info(title + " 没有传递res参数,终止执行")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = ["", "没有传递res参数，退出登录"]
+        return None
+    #登录，点击运营中心菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入运营中心菜单")
+    aaa.admin_operationcenter()
+    #进入费用管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/costList"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入费用管理菜单")
+    hailong.find_element_by_css_selector('li[data-index="/costList"]').click()
+    time.sleep(casjc_config.short_time)
+    #点击新增计费按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="list-header"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击新增计费按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
+    #进入新增计费页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-card__body"]')))
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'input[class="el-input__inner"]')))
+    time.sleep(casjc_config.short_time)
+    #选择产品服务
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
+    time.sleep(casjc_config.short_time)
+    if 1:
+        #获取产品服务
+        ss = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[res[0][0]].text
+        casjc_log.logging.info(title + " 选择产品服务," + ss)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[res[0][0]].click()
+        #选择资源类型,-1共享型
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+        time.sleep(casjc_config.short_time)
+        #获取资源类型
+        tt = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[res[0][1]].text
+        casjc_log.logging.info(title + " 选择资源类型," + tt)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[res[0][1]].click()
+        #输入计算资源
+        casjc_log.logging.info(title + " 输入计算资源")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("计算资源")       
+        newuser = "资源名称" + time.strftime("%H%M%S")
+        casjc_log.logging.info(title + " 产品服务: " + ss + " -- 资源类型: " + tt + " 输入资源名称," + newuser)
+        #输入资源名称
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(newuser)
+        #输入技术规格
+        casjc_log.logging.info(title + " 输入技术规格")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("技术规格")
+        #选择集群，6硅立方东侧      
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 选择集群," + hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[6].text)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[6].click()
+        #如果是高性能计算-标准型,输入节点范围
+        if int(res[0][1]) == -2 or int(res[0][0]) == 8 or int(res[0][0]) == 9:
+            casjc_log.logging.info(title + " 选择集群")
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[6].send_keys("test")
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[7].send_keys("100")
+            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[8].send_keys("120")
+        #选择计价单位
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].click()
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 选择计价单位," + hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #选择计价周期
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-2].click()
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 选择计价周期," + hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #输入单价
+        price = "100"
+        casjc_log.logging.info(title + " 输入单价," + price)
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys(price)
+    hailong.find_element_by_css_selector('button[class="el-button el-button--primary el-button--small"]').click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname," 产品服务: " + ss + " -- 资源类型: " + tt + " -- 资源名称: " + newuser)
+    return newuser
+
+#费用管理-编辑计费
+def Casjc_editCost(cname=""):
+    title = "编辑计费"
+    if not cname:
+        casjc_log.logging.info(title + " 没有传递cname参数,计费管理的资源名称")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = ["", "没有给予资源名称，退出登录"]
+        return None      
+    #登录，点击运营中心菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入运营中心菜单")
+    aaa.admin_operationcenter()
+    #进入费用管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/costList"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入费用管理菜单")
+    hailong.find_element_by_css_selector('li[data-index="/costList"]').click()
+    time.sleep(casjc_config.short_time)
+    #获取费用管理列表页有多少条数据
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'span[class="el-pagination__total"]')))
+    except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 页面元素未找到，或费用管理列表没有数据，退出登录")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常"]
+        aaa.Casjc_logout()
+        return None
+    totalnum = hailong.find_element_by_css_selector('span[class="el-pagination__total"]').text
+    casjc_log.logging.info(title + " 费用管理列表数据条数，" + totalnum)
+    #进入费用管理列表最后一页
+    casjc_log.logging.info(title + " 进入费用管理列表最后一页")
+    hailong.find_elements_by_css_selector('li[class="number"]')[-1].click()
+    time.sleep(casjc_config.short_time)
+    #获取当前预编辑计费资源名称
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'tr[class="el-table__row"]')))
+    newuser = hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[-9].text
+    if newuser != cname:
+        casjc_log.logging.info(title + " 最后一条数据不是预期要编辑的计费")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "最后一条数据不是预期要编辑的计费，退出登录"]
+        aaa.Casjc_logout()
+        return None
+    casjc_log.logging.info(title + " 当前准备要编辑的计费的资源名称为，" + newuser)
+    #编辑最后一条费用管理记录
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    casjc_log.logging.info(title + " 编辑最后一条费用管理记录")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-2].click()
+    #进入编辑页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-card__body"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入编辑页面，点击确定按钮")
+    hailong.find_element_by_css_selector('button[class="el-button el-button--primary el-button--small"]').click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname,newuser)
+    return None
+
+
+#费用管理-删除计费
+def Casjc_delCost(cname=""):
+    title = "删除计费"
+    if not cname:
+        casjc_log.logging.info(title + " 没有传递cname参数,计费管理的资源名称")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = ["", "没有给予资源名称，退出登录"]
+        return None 
+    #登录，点击运营中心菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入运营中心菜单")
+    aaa.admin_operationcenter()
+    #进入费用管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/costList"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入费用管理菜单")
+    hailong.find_element_by_css_selector('li[data-index="/costList"]').click()
+    time.sleep(casjc_config.short_time)
+    #获取费用管理列表页有多少条数据
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'span[class="el-pagination__total"]')))
+    except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 页面元素未找到，或费用管理列表没有数据，退出登录")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常"]
+        aaa.Casjc_logout()
+        return None
+    totalnum = hailong.find_element_by_css_selector('span[class="el-pagination__total"]').text
+    casjc_log.logging.info(title + " 费用管理列表数据条数，" + totalnum)
+    #进入费用管理列表最后一页
+    casjc_log.logging.info(title + " 进入费用管理列表最后一页")
+    hailong.find_elements_by_css_selector('li[class="number"]')[-1].click()
+    time.sleep(casjc_config.short_time)
+    #获取当前预删除计费资源名称
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'tr[class="el-table__row"]')))
+    newuser = hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[-9].text
+    if newuser != cname:
+        casjc_log.logging.info(title + " 最后一条数据不是预期要删除的计费")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "最后一条数据不是预期要删除的计费，退出登录"]
+        aaa.Casjc_logout()
+        return None
+    casjc_log.logging.info(title + " 当前准备要删除的计费的资源名称为，" + newuser)
+    #删除最后一条费用管理记录
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    casjc_log.logging.info(title + " 删除最后一条费用管理记录")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-1].click()
+    #弹出删除确认提示框，点击确定
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box"]')))
+    casjc_log.logging.info(title + " 弹出删除确认提示框，点击确定")
+    hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname,newuser)
+    return None
 
 
 #新建企业管理用户
@@ -1250,6 +1490,10 @@ def Casjc_sysresset():
 
 
 if __name__ == "__main__":
+    #srt = (6,-1)#高性能计算-共享
+    #srt = (6,-2)#高性能计算-标准
+    #srt = (8,-1)#数据存储-数据存储
+    #srt = (9,-1)#网络资源-网络资源
     try:
         if sys.argv[1] == "dev":
             myconfig = casjc_config.devPerson['admin']
@@ -1262,17 +1506,28 @@ if __name__ == "__main__":
         env = "test"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    Casjc_addsysent()
-    Casjc_sysresset()
+    #计费管理中的服务和类型
+    rstall = [(6,-1),(6,-2),(8,-1),(9,-1)]
+    #申请资源中的配置方式与资源类型
+    #appcon = [(0,"gb"),(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gb"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    appcon = [(0,"gb"),(0,"gg"),(0,"yy"),(0,"sw"),(1,"gb"),(1,"gg"),(1,"yy"),(1,"sw")]
+    for ac in appcon:
+        Casjc_res(ac)
+    sys.exit()
     '''
     Casjc_create_ent()
     Casjc_edit_ent()
+    for srt in rstall:
+        res = Casjc_addCost(srt)
+        Casjc_editCost(res)
+        Casjc_delCost(res)
     Casjc_addsysent()
     Casjc_addent()
     Casjc_editent()
     Casjc_resset()
     Casjc_addsysuser()
     Casjc_editsysuser()
+    '''
     ctype = [casjc_config.restype1,casjc_config.restype2]
     ptype = [casjc_config.contype2,casjc_config.contype1]
     #ctype = []
@@ -1292,7 +1547,6 @@ if __name__ == "__main__":
                 Casjc_contract_apply(i,xx)
             Casjc_change_config(xx)
             Casjc_config(y,xx)
-            '''
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    
