@@ -2,7 +2,7 @@
 
 from multiprocessing.managers import BaseManager
 from multiprocessing import Process, freeze_support
-import time, sys, queue, os, re, json, logging
+import time, sys, queue, os, re, json, logging, random
 import threading, queue
 import socket
 import requests
@@ -13,7 +13,8 @@ def prun(cname,result,errnum,tn,mytoken,testdata,k):
     cname = cname + "_" + str(os.getpid())
     threadingPool = []
     for i in range(tn):
-        t = threading.Thread(target=modifyUserInfo,args=(cname,result,errnum,mytoken,testdata,k))
+        #t = threading.Thread(target=modifyUserInfo,args=(cname,result,errnum,mytoken,testdata,k))
+        t = threading.Thread(target=submitWork,args=())
         threadingPool.append(t)
         t.start()
     for j in threadingPool:
@@ -29,9 +30,12 @@ def login():
     data['password'] = testdata['passwd']
     res = requests.post(url, headers=header, data=data)
    # print(res.text)
-    l1 = re.compile('token":"(.*?)"')
-    l2 = l1.findall(res.text)
-    return l2[0]
+    tt = res.json()['data']['token']
+    print(tt)
+    #l1 = re.compile('token":"(.*?)"')
+    #l2 = l1.findall(res.text)
+    #return l2[0]
+    return tt
 
 #请求修改用户资料接口
 def modifyUserInfo(cname=None,result=None,errnum=None,mytoken=None,testdata=None,k=None):
@@ -41,15 +45,15 @@ def modifyUserInfo(cname=None,result=None,errnum=None,mytoken=None,testdata=None
     header['Cookie'] = "JSESSIONID=" + mytoken
     header["Content-Type"] = "application/json;charset=UTF-8"
     data = {}
-    data["id"] = "10111"
+    data["id"] = "10564"
     data["account"] = testdata['username']
-    data["name"] = ""
+    data["name"] = "型男" + str(random.randint(100,999))
     data["kjyPassport"] = ""
     data["email"] = ""
     data["userType"] = "0"
     data["phone"] = ""
     data["companyId"] = "1"
-    data["roleId"] = "2"
+    data["roleId"] = "10186"
     data["firstLogin"] = "1"
     try:
         res = requests.post(url, headers=header, data=json.dumps(data), timeout=(61,121))
@@ -75,18 +79,68 @@ def modifyUserInfo(cname=None,result=None,errnum=None,mytoken=None,testdata=None
         #logging.debug(str(res.status_code) + res.text + str(res.elapsed.total_seconds()))
         return None
 
+def submitWork(hd=None):
+    """提交工单"""
+    url = "http://" + testdata['url1'] + "/portal/workSheet/submitWorkSheet"
+    '''
+    data = OrderedDict([("phone",("","13112341234")),
+            ("problemDescribe",(None,"test")),
+            ("email",(None,"335916781@qq.com")),
+            ("priority",(None,22)),
+            ("status",(None,1)),
+            ("userId",(None,"10046")),
+            ("problemDescribe",(None,11)),
+            ("workSheetTypeId",(None,3))])
+    '''
+    data = {"JSESSIONID":(None,mytoken),"phone":(None,"13112341234"), "problemDescribe":(None,"test"), "email":(None,"335916781@qq.com"), "priority":(None, "22"),"status":(None,"1"), "userId":(None,"10564"),"problemDescribe":(None,11),"workSheetTypeId":(None,3),"workSheetProblemId":(None,"8")}
+    print(url)
+    try:
+        res = requests.post(url, headers=hd, files=data, timeout=(61,121))
+#        print(res.request.body)
+#        print(res.request.headers)
+    except requests.exceptions.ConnectTimeout:
+        print("requests.exceptions.ConnectTimeout")
+        porerr.put('506')
+        return None
+    except requests.exceptions.Timeout:
+        print("requests.exceptions.Timeout")
+        porerr.put('507')
+        return None
+    except requests.exceptions.ConnectionError:
+        print("requests.exceptions.ConnectionError")
+        porerr.put('508')
+        return None
+   # except ChunkedEncodingError:
+   #     print("ChunkedEncodingError")
+   #     porerr.put('509')
+   #     return None
+    if str(res.status_code) == "200":
+        sec = res.elapsed.total_seconds()
+        if random.randint(1,100) == 1:
+            c.put(sec)
+        print(res.content)
+        return None
+    else:
+        print(res.status_code)
+        porerr.put(res.status_code)
+        return None
+
+
+
+
 if __name__ == "__main__":
     portest = queue.Queue()
     #服务端地址
-    server_addr = '10.0.117.135'
+    #server_addr = '10.0.117.135'
+    server_addr = '192.168.18.128'
     #进程池
     processpool = []
     #获取客户端主ip
     clientName = socket.getfqdn(socket.gethostname())
     #测试环境配置
- #   testdata = {"url1":"1.71.191.200","url2":"192.168.15.21","username":"gege123","passwd":"123456"}
+    testdata = {"url1":"1.71.191.200","url2":"11.2.77.3","username":"testpro","passwd":"123456aA~"}
     #怀柔环境配置
-    testdata = {"url1":"159.226.90.74","url2":"159.226.90.74","username":"u3359167","passwd":"123456"}
+    #testdata = {"url1":"159.226.90.74","url2":"159.226.90.74","username":"u3359167","passwd":"123456"}
     #日志配置
     LOG_FORMAT= "%(asctime)s %(levelname)s %(message)s" 
     DATE_FORMAT = "%Y-%m-%d %H:%M:%S %a" 
@@ -95,12 +149,7 @@ if __name__ == "__main__":
         os.makedirs('log')
     logging.basicConfig(level=logging.DEBUG,format=LOG_FORMAT,datefmt=DATE_FORMAT,filename='./log/' + FNAME + '.log') 
     #获取用户登录session
-
-    try:
-        mytoken = login()
-    except:
-        print("登录失败，请检查网络或请求参数")
-        sys.exit()
+    mytoken = login()
     # 创建类似的QueueManager:
     class QueueManager(BaseManager):
         pass

@@ -45,11 +45,11 @@ err = manager.get_err_queue()
 # 放几个任务进去:
 while True:
     try:
-        processNumber = int(input("please input process Numbers:\n"))
-        iterationTimes = int(input("please input iteration Times:\n"))
-        waitingTime = int(input("please input waiting time:\n"))
-        threadNumber = int(input("please input threading Numbers:\n"))
-        ccn = int(input("please input client connect Numbers:\n"))
+        processNumber = int(input("please input process Numbers:(输入进程数量)\n"))
+        iterationTimes = int(input("please input iteration Times:(输入迭代次数)\n"))
+        waitingTime = int(input("please input waiting time:(输入等待时间)\n"))
+        threadNumber = int(input("please input threading Numbers:(输入线程数量)\n"))
+        ccn = int(input("please input client connect Numbers:(输入客户端链接数量)\n"))
         break
     except:
         print("input errer, only input numbers")

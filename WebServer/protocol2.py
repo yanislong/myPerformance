@@ -30,7 +30,7 @@ def run():
     send(request2)
     request2.show()
     
-    request3 = IP(dst=host)/TCP(dport=port,sport=sp,flags='PA',ack=response[1].seq+1,seq=response[1].ack)/Raw('GET / HTTP/1.1\r\nHost: 11.2.77.3:30088\r\n\r\n') #定义http请求包
+    request3 = IP(dst=host)/TCP(dport=port,sport=sp,flags='PA',ack=response[1].seq+1,seq=response[1].ack)/Raw('GET / HTTP/1.1\r\nHost: 11.2.77.3:30088\r\n\r\nHost_a: 123') #定义http请求包
     #request3 = IP(dst=host)/TCP(dport=port,sport=sp,flags='PA',ack=response[1].seq+1,seq=response[1].ack)/Raw('GET / HTTP/1.1\r\nHost: 10.0.20.91:8088\r\n\r\n') #定义http请求包
     
     #send(request3)
