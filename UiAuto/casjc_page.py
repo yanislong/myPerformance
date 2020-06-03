@@ -52,7 +52,9 @@ class Casjc_admin_page():
                 sys.exit()
                 return None
         except exceptions.TimeoutException:
-            casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = [ self.uname, "登录失败,测试终止"]
+            imagename = "后台登录" + time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = [ self.uname, "登录失败,测试终止,查看截图 %s" %imagename]
             self.hailong.quit()
             sys.exit()
             return None
@@ -75,7 +77,9 @@ class Casjc_admin_page():
             self.hailong.quit()
             return None
         except:
-            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "退出登录异常"]
+            imagename = "后台退出" + time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "退出登录异常,后台退出 %s" %imagename]
             self.hailong.quit()
             return None
         
@@ -87,12 +91,14 @@ class Casjc_admin_page():
             self.hailong.find_element_by_link_text('首页').click()
             time.sleep(casjc_config.short_time)
         except:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
             end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())   
             casjc_config.casjc_result['打开首页菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序, 查看截图 %s" %imagename)
             sys.exit()
             return None
 
@@ -102,12 +108,14 @@ class Casjc_admin_page():
             self.hailong.find_element_by_link_text('资源管理').click()
             time.sleep(casjc_config.short_time)
         except:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
             end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())   
             casjc_config.casjc_result['打开资源管理菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序,查看截图 %s" %imagename)
             sys.exit()
             return None
 
@@ -117,12 +125,14 @@ class Casjc_admin_page():
             self.hailong.find_element_by_link_text('运营中心').click()
             time.sleep(casjc_config.short_time)
         except:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
             end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())   
             casjc_config.casjc_result['打开运营中心菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序,查看截图 %s" %imagename)
             sys.exit()
             return None
         
@@ -132,12 +142,14 @@ class Casjc_admin_page():
             self.hailong.find_element_by_link_text('应用中心').click()
             time.sleep(casjc_config.short_time)
         except:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
             end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())   
             casjc_config.casjc_result['打开应用中心菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序,查看截图 %s" %imagename)
             sys.exit()
             return None
 
@@ -147,12 +159,14 @@ class Casjc_admin_page():
             self.hailong.find_element_by_link_text('用户系统').click()
             time.sleep(casjc_config.short_time)
         except:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
             end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())   
             casjc_config.casjc_result['打开用户系统菜单'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("admin",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序,查看截图 %s" %imagename)
             sys.exit()
             return None
 
@@ -168,7 +182,9 @@ class Casjc_admin_page():
             self.Casjc_logout()
             return None
         except exceptions.TimeoutException:
-            casjc_log.logging.info("没有获取到响应消息")
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info("没有获取到响应消息,查看截图 %s" %imagename)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
             self.Casjc_logout()
             return None
@@ -202,7 +218,9 @@ class Casjc_admin_page():
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "待审批列表第一页没有找到符合的订单号"]
                 return None            
         except exceptions.TimeoutException:
-            casjc_log.logging.info("没有待生成合同或待审批订单")
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info("没有待生成合同或待审批订单,查看截图 %s" %imagename)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有待生成合同或待审批订单"]
             return None
 
@@ -241,7 +259,9 @@ class Casjc_console_page():
                 sys.exit()
                 return None
         except exceptions.TimeoutException:
-            casjc_log.logging.info("控制台登录异常")
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info("控制台登录异常,查看截图 %s" %imagename)
             casjc_config.casjc_result['控制台用户登录'+ time.strftime("%M%S",time.localtime())] = [self.uname, "登录失败,测试终止"]
             self.hailong.quit()
             sys.exit()
@@ -266,7 +286,9 @@ class Casjc_console_page():
             self.hailong.quit()
             return None
         except:
-            casjc_log.logging.info(aname + " 退出登录异常")
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info(aname + " 退出登录异常,查看截图 %s" %imagename)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "退出登录异常"]
             self.hailong.quit()
             return None
@@ -275,33 +297,39 @@ class Casjc_console_page():
     def console(self):
         try:
             WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="headerBarRight"]')))
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="console"]')))
             time.sleep(casjc_config.short_time)
             self.hailong.find_elements_by_css_selector('div[class="console"]')[0].click()
             time.sleep(casjc_config.show_time)
             return None
         except:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
             end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())   
             casjc_config.casjc_result['打开控制台'+ time.strftime("%M%S",time.localtime())] = [self.uname, "页面异常,测试终止"]
             casjc_mode.Run_result(("console",start_time,end_time,json.dumps(casjc_config.casjc_result,ensure_ascii=False)))
             self.hailong.quit()
-            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+            casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序,查看截图 %s" %imagename)
             sys.exit()
             return None
 
     def console_result(self, title, aname="", anumber=""):
         try:
             WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
-            if len(self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            resultmessage = self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text
+            if len(resultmessage) == 0:
                 casjc_log.logging.info("获取请求响应消息为空")
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
                 self.console_logout()
                 return None
-            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text]
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + resultmessage]
             self.console_logout()
             return None
         except exceptions.TimeoutException:
-            casjc_log.logging.info("没有获取到请求响应消息")
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info("没有获取到请求响应消息,查看截图 %s" %imagename)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
             self.hailong.quit()
             return None

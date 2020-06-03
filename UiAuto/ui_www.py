@@ -43,7 +43,9 @@ def Casjc_www_login(uname="", upasswd=""):
             hailong.quit()
             return None
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 没有找到页面元素<控制台>,登录失败")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 没有找到页面元素<控制台>,登录失败,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "官网登录失败" ]
         hailong.quit()
         return None
@@ -104,7 +106,9 @@ def Casjc_www_mail_regist(uurl):
         hailong.quit()
         return account
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 页面元素未找到,注册异常")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 页面元素未找到,注册异常, %s "%imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "邮箱: " + tmpmail[0] + " 注册失败"]
         hailong.quit()
         return None
@@ -181,7 +185,9 @@ def Casjc_www_phone_regist(uurl):
         hailong.quit()
         return None
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 页面元素未找到，注册异常")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 页面元素未找到，注册异常,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = ["", "账号: " + account + "手机号: " + str(tmpphone[0]) + " 注册失败"]
     hailong.quit()
     return None
@@ -218,7 +224,9 @@ def Casjc_www_try(uname="aa123", upasswd="123456aA~"):
             hailong.quit()
             return None
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 页面元素未找到,登录失败")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 页面元素未找到,登录失败,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "登录失败"]
         hailong.quit()
         return None

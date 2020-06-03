@@ -33,9 +33,7 @@ def Casjc_console_upfile():
     time.sleep(casjc_config.short_time)
     #点击高性能计算
     casjc_log.logging.info(title + " 点击高性能计算")
-    aa = hailong.find_elements_by_css_selector('span[style="margin-left: 20px;"]')#[0].click
-    for i in aa:
-        i.click()
+    hailong.find_elements_by_xpath('//div[@class="childNav"]/span')[0].click()
     chain.move_to_element(tmp).perform()
     time.sleep(casjc_config.show_time)
     #点击共享存储菜单
@@ -196,9 +194,9 @@ def Casjc_console_group():
     aaa.console_result(title,uname,account)
     return None
 
-#控制台-用户管理-云存储调整配额
-def Casjc_console_quota():
-    title = "控制台-用户管理-云存储调整配额"
+#控制台-用户管理-云计算分配云主机
+def Casjc_console_cloudhost():
+    title = "控制台-用户管理-云计算分配云主机"
     #登录控制台
     uname = myconfig["entuser2"]
     upasswd = myconfig["entpasswd"]
@@ -220,12 +218,106 @@ def Casjc_console_quota():
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
         aaa.console_logout(uname)
         return None
-    #点击云存储tab
+    #点击云计算tab
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.ID, 'tab-second')))
     time.sleep(casjc_config.short_time)
-    casjc_log.logging.info(title + " 点击云存储tab")
+    casjc_log.logging.info(title + " 点击云计算tab")
+    hailong.find_element_by_id('tab-three').click()    
+    #等待云计算tab页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]')))
+    time.sleep(casjc_config.short_time)
+    #获取用户名称
+    account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell el-tooltip"]')[3].text
+    #点击分配云主机,点击列表第一行
+    casjc_log.logging.info(title + " 选择用户: %s ，点击分配云主机" %account)
+    hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell"]/button')[2].click()
+    #等待进入分配云主机页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="number-content"]')))
+    time.sleep(casjc_config.short_time)
+    #点击确定按钮
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
+    #获取请求结果
+    aaa.console_result(title,uname,account)
+    return None
+    
+
+#控制台-用户管理-云硬盘分配云硬盘
+def Casjc_console_volume():
+    title = "控制台-用户管理-云硬盘分配云硬盘"
+    #登录控制台
+    uname = myconfig["entuser2"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    casjc_log.logging.info(title + " 进入控制台")
+    aaa.console()
+    #点击用户管理菜单
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="rightBox"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户管理菜单")
+        hailong.find_element_by_xpath('//div[@class="rightBox"]/div[@class="navInner navTitle"]/span[1]').click()
+        time.sleep(casjc_config.short_time)
+    except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 点击用户管理菜单异常")
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
+        aaa.console_logout(uname)
+        return None
+    #点击云硬盘tab
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.ID, 'tab-second')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击云硬盘tab")
+    hailong.find_element_by_id('tab-four').click()    
+    #等待云硬盘tab页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]')))
+    time.sleep(casjc_config.short_time)
+    #获取用户名称
+    account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell el-tooltip"]')[3].text
+    #点击分配云硬盘,点击列表第一行
+    casjc_log.logging.info(title + " 选择用户：{0}，点击分配云硬盘".format(account))
+    hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell"]/button')[2].click()
+    #等待进入分配云硬盘页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="number-content"]')))
+    time.sleep(casjc_config.short_time)
+    #点击确定按钮
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
+    #获取请求结果
+    aaa.console_result(title,uname,account)
+    return None
+
+
+#控制台-用户管理-文件存储调整配额
+def Casjc_console_quota():
+    title = "控制台-用户管理-文件存储调整配额"
+    #登录控制台
+    uname = myconfig["entuser2"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    casjc_log.logging.info(title + " 进入控制台")
+    aaa.console()
+    #点击用户管理菜单
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="rightBox"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户管理菜单")
+        hailong.find_element_by_xpath('//div[@class="rightBox"]/div[@class="navInner navTitle"]/span[1]').click()
+        time.sleep(casjc_config.short_time)
+    except exceptions.TimeoutException:
+        casjc_log.logging.info(title + " 点击用户管理菜单异常")
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
+        aaa.console_logout(uname)
+        return None
+    #点击文件存储tab
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.ID, 'tab-second')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击文件存储tab")
     hailong.find_element_by_id('tab-second').click()    
-    #等待云存储tab页面
+    #等待文件存储tab页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]')))
     time.sleep(casjc_config.short_time)
     #获取用户名称
@@ -246,7 +338,7 @@ def Casjc_console_quota():
     aaa.console_result(title,uname,account)
     return None
 
-#控制台-用户管理-云存储权限设置
+#控制台-用户管理-文件存储权限设置
 def Casjc_console_auth():
     title = "控制台-用户管理-云存储权限设置"
     #登录控制台
@@ -270,12 +362,12 @@ def Casjc_console_auth():
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
         aaa.console_logout(uname)
         return None
-    #点击云存储tab
+    #点击文件存储tab
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.ID, 'tab-second')))
     time.sleep(casjc_config.short_time)
-    casjc_log.logging.info(title + " 点击云存储tab")
+    casjc_log.logging.info(title + " 点击文件存储tab")
     hailong.find_element_by_id('tab-second').click()    
-    #等待云存储tab页面
+    #等待文件存储tab页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]')))
     time.sleep(casjc_config.short_time)
     #点击权限设置
@@ -678,7 +770,9 @@ if __name__ == "__main__":
     Casjc_console_upfile()
     Casjc_console_webshell()    
     Casjc_console_user()  
-    Casjc_console_group()  
+    Casjc_console_group()
+    Casjc_console_volume()
+    Casjc_console_cloudhost()
     Casjc_console_quota()
     Casjc_console_auth()
     Casjc_console_updatepw()

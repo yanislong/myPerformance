@@ -1,6 +1,7 @@
 import time, sys, json, random
 
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import *
 from selenium.common import exceptions
 from selenium.webdriver.support.wait import WebDriverWait  
@@ -85,7 +86,7 @@ def Casjc_res(*appcon):
     ent = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
     #输入项目名称
     casjc_log.logging.info(title + " 输入项目名称")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys('love')
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys('love爱')
     #选择甲方用户
     casjc_log.logging.info(title + " 选择甲方用户")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
@@ -101,6 +102,7 @@ def Casjc_res(*appcon):
         return None
     #输入手机号
     casjc_log.logging.info(title + " 清空当前内容,输入手机号")
+    time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys('13112341234')
     #输入邮箱
@@ -108,14 +110,14 @@ def Casjc_res(*appcon):
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].clear()
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys('131@qq.com')
     #点击配置方式下拉框
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
-    time.sleep(casjc_config.short_time)
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
+    #time.sleep(casjc_config.short_time)
     #li标签列表数据长度,最后一个是灵活配置
-    listelement = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
+    #listelement = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
     #判断配置方式，如果appcon[0][0]是0固定方式，如果是1灵活方式
     if appcon[0][0] == 0:
         casjc_log.logging.info(title + " 选择配置方式，固定配置")
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()#固定配置
+        #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()
         #填写基本信息完成，提交下一步
         hailong.find_elements_by_tag_name('button')[1].click()
         time.sleep(casjc_config.short_time)
@@ -123,116 +125,80 @@ def Casjc_res(*appcon):
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="tableBox"]')))
         if appcon[0][1] == "gb":
             n = 1
-            #print(hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[0].text.split("\n")[0])
-            #hailong.find_elements_by_xpath('//div[@class="boxOne"][' + n + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div')[0].click()
         elif appcon[0][1] == "gg":
             n = 2
         elif appcon[0][1] == "yy":
             n = 3
         elif appcon[0][1] == "sw":
             n = 4
-        #elif appcon[0][1] == "sy":
-        #    n = 5
-       # elif appcon[0][1] == "wg":
-       #     n = 6
-       #输出当前执行资源类型
-        print(n)
-        a = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div')
-        print(len(a))
-        print(hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[n-1].text.split("\n")[0])
-        hailong.find_elements_by_xpath('//div[@class="boxOne"]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div')[n-1].click()
-    time.sleep(5)
-    '''
-    elif "a" == 1:       
-        #输入资源有效期
-        aa = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')
-        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-input el-input--small el-input-group el-input-group--append')))
-        if ctype == "share":
-            #共享型,输入资源有效期
-            #aa[18].send_keys('1')
-            hailong.find_elements_by_xpath('//div[@class="el-input el-input--small el-input-group el-input-group--append"]/input[@class="el-input__inner"]')[1].send_keys('1')
-            #选择共享型资源有效期时间范围
-            hailong.find_elements_by_css_selector('input[readonly="readonly"]')[1].click()
-            time.sleep(casjc_config.short_time)
-            bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-            bb[11].click()
-            #展开共享型资源规格
-            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[5].click()
-            time.sleep(casjc_config.short_time)
-            #输入共享型四路计算节点核心时数量
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[20].send_keys('1')
-            time.sleep(casjc_config.short_time)
-            #输入共享型四路计算节点核心时折后单价
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].clear()
-            time.sleep(casjc_config.short_time)
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].send_keys('0.16')
-        elif ctype == "store":
-            #数据存储,输入资源有效期
-            #aa[34].send_keys('1')
-            hailong.find_elements_by_xpath('//div[@class="el-input el-input--small el-input-group el-input-group--append"]/input[@class="el-input__inner"]')[2].send_keys('1')
-            #选择数据存储有效期时间范围
-            hailong.find_elements_by_css_selector('input[readonly="readonly"]')[2].click()
-            time.sleep(casjc_config.short_time)
-            bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-            bb[11].click()
-            #展开数据存储
-            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[7].click()
-            time.sleep(casjc_config.short_time)
-            #输入数据存储TB数量
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[36].send_keys('1')
-            time.sleep(1)
-            #输入数据存储折后单价
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].clear()
-            time.sleep(casjc_config.short_time)
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[37].send_keys('0.16')
-        elif ctype == "network":
-            #网络资源
-            aa[42].send_keys('1')
+        elif appcon[0][1] == "sy":
+            n = 5
+        elif appcon[0][1] == "wg":
+            n = 6
+        #输出当前执行资源类型
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[n-1].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入数量
+        casjc_log.logging.info(title + " 输入资源数量")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys('10')
+        #输入有效期天数
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys('10')
+        #输入折后单价
+        casjc_log.logging.info(title + " 输入折后单价")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[7]/div/div/div/input').clear()
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[7]/div/div/div/input').send_keys('10')
     #判断配置方式，如果appcon[0][0]是0固定方式，如果是1灵活方式
     elif appcon[0][0] == 1:
         casjc_log.logging.info(title + " 选择配置方式，灵活配置")
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-1].click()#灵活配置
+        #目前配置方式只有一种，灵活配置不需在选择
+        #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-1].click()
         #填写基本信息完成，提交下一步
         hailong.find_elements_by_tag_name('button')[1].click()
-        time.sleep(casjc_config.show_time)
-        if ctype == "share":
-            #共享型
-            #展开共享型资源规格
-            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[5].click()
-            time.sleep(casjc_config.short_time)
-            #输入共享型四路计算节点核心时折后单价
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[12].clear()
-            time.sleep(casjc_config.short_time)
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[12].send_keys('0.16')
-            #输入报价总额
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys('100')
-        elif ctype == "store":
-            #数据存储
-            #展开规格，采用专用硬件的点对点离线数据迁移
-            hailong.find_elements_by_css_selector('div[class="el-table__expand-icon"]')[7].click()
-            time.sleep(casjc_config.short_time)
-            #输入采用专用硬件的点对点离线数据迁移折后单价
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].clear()
-            time.sleep(casjc_config.short_time)
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[21].send_keys('0.16')
-            #输入报价总额
-            hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys('100')
-        elif ctype == "network":
-            #网络资源
-            aa[42].send_keys('1')
-    else:
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()#固定配置
-        #填写基本信息完成，提交下一步
-        hailong.find_elements_by_tag_name('button')[1].click()
-        time.sleep(casjc_config.show_time)
-    if hailong.find_elements_by_css_selector('div[class="title"]')[0].text == u"高性能计算-标准型\n资源有效期":
-        casjc_log.logging.info(title + " 进入提交资源申请界面成功")
-    else:
-        casjc_log.logging.info(title + " 进入提交资源申请界面失败")
-    time.sleep(casjc_config.short_time)
-    #提交资源申请
-    casjc_log.logging.info(title + " 点击提交资源申请按钮")
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
+        time.sleep(casjc_config.short_time)
+        #进入提交资源申请页面
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="tableBox"]')))
+        if appcon[0][1] == "gb":
+            n = 1
+        elif appcon[0][1] == "gg":
+            n = 2
+        elif appcon[0][1] == "yy":
+            n = 3
+        elif appcon[0][1] == "sw":
+            n = 4
+        elif appcon[0][1] == "sy":
+            n = 5
+        elif appcon[0][1] == "wg":
+            n = 6
+        #输出当前执行资源类型
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[n-1].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入有效期天数
+        daynum = 1
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(str(daynum))
+        #输入折后单价
+        pric = 2
+        casjc_log.logging.info(title + " 输入折后单价")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(str(pric))
+        #输入报价总额
+        totalpric = daynum * pric + 2
+        hailong.find_element_by_xpath('//div[@class="footer-infor"]/span[2]/div/input').send_keys(str(totalpric))
+        time.sleep(casjc_config.short_time)
+        #点击提交申请按钮
+        casjc_log.logging.info(title + " 点击提交申请按钮")
+        hailong.find_element_by_css_selector('button[class="el-button el-button--primary el-button--small"]').click()
     #获取提交返回结果
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
@@ -250,25 +216,29 @@ def Casjc_res(*appcon):
                 ordernum = hailong.find_elements_by_tag_name('p')[2].text
                 orderavg = hailong.find_element_by_xpath('//div[@class="aggregate"]/span[1]').text
             except exceptions.TimeoutException:
-                casjc_log.logging.info(title + " 提交申请资源异常，未找到页面元素")
+                imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+                hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+                casjc_log.logging.info(title + " 提交申请资源异常，未找到页面元素,查看截图 %s" %imagename)
                 casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "获取单号或平均价折扣失败，或没有进入提交成功页面"  + " 甲方账号: " + jiafang]
                 hailong.quit()
                 return None
             casjc_log.logging.info(title + " 提交申请资源成功," + ordernum)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text +  " 甲方账号: " + jiafang + orderavg]
             aaa.Casjc_logout()
-            return ordernum[4:]
+            #申请成功后返回订单号，和资源类型
+            return ordernum[4:],appcon[0][1]
         else:
             casjc_log.logging.info(title + " 提交申请资源响应异常")
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, hailong.find_element_by_css_selector('p[class="el-message__content"]').text + " 甲方账号: " + jiafang]
             aaa.Casjc_logout()
             return None
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 提交申请资源异常，页面元素未找到")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 提交申请资源异常，页面元素未找到,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "申请资源失败,操作异常" + " 甲方账号: " + jiafang]
         aaa.Casjc_logout()
         return None
-        '''
 
 
 
@@ -297,7 +267,9 @@ def Casjc_price(priceuser="", ordernum=""):
             hailong.find_elements_by_css_selector('li[data-index="/approveWat"')[0].click()
             time.sleep(casjc_config.short_time)
         except exceptions.TimeoutException:
-            casjc_log.logging.info(title + " 进入资源审批菜单异常")
+            imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+            hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info(title + " 进入资源审批菜单异常,查看截图 %s" % imagename)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常"]
             aaa.Casjc_logout()
             return None
@@ -312,10 +284,12 @@ def Casjc_price(priceuser="", ordernum=""):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'textarea[class="el-textarea__inner')))
     except exceptions.TimeoutException:
-            casjc_log.logging.info(title + " 没有找到价格审批页面审批意见元素,退出审批")
-            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到价格审批页面审批意见元素"]
-            aaa.Casjc_logout()
-            return None
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 没有找到价格审批页面审批意见元素,退出审批,查看截图 %s" %imagename)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到价格审批页面审批意见元素"]
+        aaa.Casjc_logout()
+        return None
     #输入审批意见
     casjc_log.logging.info(title + " 输入审批意见")
     hailong.find_element_by_css_selector('textarea[class="el-textarea__inner"]').send_keys(u"UI自动化审批")
@@ -338,7 +312,9 @@ def Casjc_price(priceuser="", ordernum=""):
         casjc_log.logging.info(title + " 点击审批通过按钮")
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 点击审批通过异常")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击审批通过异常,查看截图 %s" % imagename)
     #获取提交返回结果
     aaa.admin_result(title,uname,ordernum)
     return None
@@ -376,7 +352,9 @@ def Casjc_contract(ordernum):
         #等待页面元素，确认是否进入生产合同详情页
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="title"]')))    
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 没有找到生成合同页面附件列表元素,退出生成合同")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 没有找到生成合同页面附件列表元素,退出生成合同,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到生成合同页面附件列表元素"]
         aaa.Casjc_logout()
         return None
@@ -463,12 +441,16 @@ def Casjc_contract_apply(appuser,ordernum):
             #等待页面元素，确认是否进入生产合同详情页
             WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'label[class="el-checkbox"]')))    
         except exceptions.TimeoutException:
-            casjc_log.logging.info(title + " 没有找到合同审批页面复选框元素,操作异常退出审批")
+            imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+            hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info(title + " 没有找到合同审批页面复选框元素,操作异常退出审批,查看截图 %s" %imagename)
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到合同审批页面复选框元素"]
             aaa.Casjc_logout()
             return None
     except:
-        casjc_log.logging.info(title + " 没有找到资源审批页面元素，操作异常退出审批")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 没有找到资源审批页面元素，操作异常退出审批,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常"]
         aaa.Casjc_logout()
         return None
@@ -478,7 +460,9 @@ def Casjc_contract_apply(appuser,ordernum):
         casjc_log.logging.info(title + " 勾选合同审批复选框")
         hailong.find_element_by_css_selector('label[class="el-checkbox"]').click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 勾选合同审批页面复选框异常，退出审批")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 勾选合同审批页面复选框异常，退出审批, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常"]
         aaa.Casjc_logout()
         return None
@@ -504,7 +488,9 @@ def Casjc_contract_apply(appuser,ordernum):
         casjc_log.logging.info(title + " 点击审批通过按钮")
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
-        casjc_log.logging.info(title + " 点击审批通过按钮异常")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击审批通过按钮异常，查看截图 %s" %imagename)
         ordernum = "合同审批按钮点击异常"
   #获取提交返回结果
     aaa.admin_result(title,uname,ordernum)
@@ -512,9 +498,11 @@ def Casjc_contract_apply(appuser,ordernum):
 
 
 
-#配置资源-固定配置-变更配置
-def Casjc_change_config(ordernum):
+#配置资源-确认参数
+def Casjc_change_config(*myorderes):
     title = "变更配置或确认参数"
+    orderes = myorderes[0]
+    ordernum = orderes[0]
     casjc_log.logging.info(title + " 本次预期要操作的订单，" + ordernum)
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
@@ -560,7 +548,9 @@ def Casjc_change_config(ordernum):
             aaa.Casjc_logout()
             return None            
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 配置资源列表页缺失元素，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 配置资源列表页缺失元素，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "配置资源列表页缺失元素"]
         aaa.Casjc_logout()
         return None
@@ -568,23 +558,135 @@ def Casjc_change_config(ordernum):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'thead[class="has-gutter')))
     except exceptions.TimeoutException:
-            casjc_log.logging.info(title + " 没有找到页面元素，退出登录")
-            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到页面元素"]
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 没有找到页面元素，退出登录,查看截图 %s" %imagename)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到页面元素"]
+        aaa.Casjc_logout()
+        return None
+    #云计算-云主机
+    if orderes[1] == "yy":
+        #选择集群
+        casjc_log.logging.info(title + " 选择集群")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        time.sleep(casjc_config.short_time)
+        #选择镜像
+        casjc_log.logging.info(title + " 选择镜像")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        print(hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text)
+        #输入数量
+        casjc_log.logging.info(title + " 输入数量")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].clear()
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("1")
+        #有效期开始时间
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
+        casjc_log.logging.info(title + " 选择有效期开始时间")
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #有效期结束时间
+        casjc_log.logging.info(title + " 选择有效期结束时间")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"][1]')
+        #aa[0].click()
+    #高性能计算-共享型
+    elif orderes[1] == "gg":
+        #输入数量(核心时)
+        casjc_log.logging.info(title + " 输入数量(核心时)")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].clear()
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("1")
+        #有效期开始时间
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+        casjc_log.logging.info(title + " 选择有效期开始时间")
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #有效期结束时间
+        casjc_log.logging.info(title + " 选择有效期结束时间")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
+        #aa[int(len(aa)/2)].click()
+    #数据存储-文件存储
+    elif orderes[1] == "sw":
+        #输入数量(TB)
+        casjc_log.logging.info(title + " 输入数量(TB)")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].clear()
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("1")
+        #有效期开始时间
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+        casjc_log.logging.info(title + " 选择有效期开始时间")
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #有效期结束时间
+        casjc_log.logging.info(title + " 选择有效期结束时间")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
+        #aa[int(len(aa)/2)].click()
+    #数据存储-云硬盘
+    elif orderes[1] == "sy":
+        #选择集群
+        casjc_log.logging.info(title + " 选择集群")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        time.sleep(casjc_config.short_time)
+        #选择云硬盘
+        casjc_log.logging.info(title + " 选择云硬盘")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+        time.sleep(casjc_config.short_time)
+        try:
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        except:
+            casjc_log.logging.info(title + " 没有找到云硬盘，退出操作")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有找到云硬盘"]
             aaa.Casjc_logout()
             return None
-    #有效期开始时间
-    casjc_log.logging.info(title + " 选择有效期开始时间")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
-    time.sleep(casjc_config.short_time)
-    hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
-    #有效期结束时间
-    casjc_log.logging.info(title + " 选择有效期结束时间")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
-    time.sleep(casjc_config.short_time)                                                                   
-    hailong.find_elements_by_css_selector('td[class="available"]')[-1].click()
-    #当月没有可选日期，用这个
-    #hailong.find_elements_by_css_selector('td[class="next-month"]')[-1].click()
-    #aa = hailong.find_elements_by_css_selector('td[class="next-month"]')
+        #输入数量（TB）
+        casjc_log.logging.info(title + " 输入数量(TB)")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].clear()
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("1")
+        #输入数量（块）
+        casjc_log.logging.info(title + " 输入数量(块)")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("1")
+        #有效期开始时间
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
+        casjc_log.logging.info(title + " 选择有效期开始时间")
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #有效期结束时间
+        casjc_log.logging.info(title + " 选择有效期结束时间")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"][1]')
+        #aa[0].click()
+    #网络资源-公网IP
+    elif orderes[1] == "wg":
+        #输入数量(个)
+        casjc_log.logging.info(title + " 输入数量(个)")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].clear()
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("1")
+        #有效期开始时间
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
+        casjc_log.logging.info(title + " 选择有效期开始时间")
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #有效期结束时间
+        casjc_log.logging.info(title + " 选择有效期结束时间")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
+        #aa[int(len(aa)/2)].click()
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
@@ -600,7 +702,9 @@ def Casjc_change_config(ordernum):
         casjc_log.logging.info(title + " 点击确认参数按钮")
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
-        casjc_log.logging.info(title + " 点击确认参数按钮异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击确认参数按钮异常，退出登录, 查看截图  %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "订单号:" + ordernum + " 操作异常"]
         aaa.Casjc_logout()
         return None
@@ -610,12 +714,14 @@ def Casjc_change_config(ordernum):
     hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
     #获取提交请求返回信息
     aaa.admin_result(title,uname,ordernum)
-    return None
+    return 1
 
 
-#配置资源-固定配置-配置资源
-def Casjc_config(ctype, ordernum):
+#配置资源
+def Casjc_config(*myorderes):
     title = "配置资源"
+    orderes = myorderes[0]
+    ordernum = orderes[0]
     casjc_log.logging.info(title + " 本次预期要操作的订单，" + ordernum)
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
@@ -667,61 +773,123 @@ def Casjc_config(ctype, ordernum):
             aaa.Casjc_logout()
             return None            
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 配置资源列表页缺失元素，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 配置资源列表页缺失元素，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "配置资源列表页缺失元素"]
         aaa.Casjc_logout()
         return None    
     #点击产品服务下拉列表
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[class="el-select-dropdown__item"]')))
+    hailong.find_elements_by_css_selector('i[class="el-select__caret el-input__icon el-icon-arrow-up"]')[1].click()
     time.sleep(casjc_config.short_time)
-    #选择产品服务 -3:高性能计算 -2:数据存储 -1:网络资源
-    if ctype == "share":
+    #选择产品服务 -4:高性能计算 -3:云计算 -2:数据存储 -1:网络资源
+    if orderes[1] == "gg" or orderes[1] == "gb":
         casjc_log.logging.info(title + " 选择产品服务-高性能计算")
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-3].click()
-    elif ctype == "store":
-        casjc_log.logging.info(title + " 选择产品服务-高性能计算")
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-3].click()
-    time.sleep(casjc_config.short_time)
-    #点击集群下拉列表
-    casjc_log.logging.info(title + " 点击集群下拉列表")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
-    time.sleep(casjc_config.short_time)
-    #选择集群 12-硅立方东侧 13-测试环境GPFS集群 14-北京硅谷 15-北京硅谷二区 16-北京服务区 17-demowyq
-    if ctype == "share":
-        #aa = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-        casjc_log.logging.info(title + " 选择集群，硅立方东侧")
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-6].click()
-    elif ctype == "store":
-        casjc_log.logging.info(title + " 选择集群，测试环境GPFS集群")
-        #aa = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-5].click()
-    #点击规格下拉列表
-    casjc_log.logging.info(title + " 点击规格下拉列表")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
-    time.sleep(casjc_config.short_time)
-    #选择规格
-    bb = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
-    casjc_log.logging.info(title + " 选择规格")
-    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
-    #点击有效期开始日期
-    casjc_log.logging.info(title + " 选择有效期开始日期")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
-    time.sleep(casjc_config.short_time)
-    #选择开始日期
-    hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
-    #点击有效期结束日期
-    casjc_log.logging.info(title + " 选择有效期结束日期")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
-    time.sleep(casjc_config.short_time)
-    #选择结束日期
-    hailong.find_elements_by_css_selector('td[class="available"]')[-1].click()
-    #当月没有可选日期，用这个
-    #aa = hailong.find_elements_by_css_selector('td[class="next-month"]')
-    #hailong.find_elements_by_css_selector('td[class="next-month"]')[-1].click()
-    #选择队列
-    if ctype == "share":
+        #选择高性能计算
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-4].click()
+        #点击计算资源下拉列表
+        casjc_log.logging.info(title + " 点击计算资源下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        #选择共享型
+        casjc_log.logging.info(title + " 选择共享型")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #点击集群下拉列表
+        casjc_log.logging.info(title + " 点击集群下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
+        time.sleep(casjc_config.short_time)
+        #选择硅立方东侧
+        casjc_log.logging.info(title + " 选择硅立方东侧")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #点击规格下拉列表
+        casjc_log.logging.info(title + " 点击规格下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
+        time.sleep(casjc_config.short_time)
+        #选择规格
+        casjc_log.logging.info(title + " 选择规格")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #选择队列
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.ID, 'low')))
         hailong.find_element_by_id('low').click()
+    elif orderes[1] == "yy":
+        casjc_log.logging.info(title + " 选择产品服务-云计算")
+        #选择云计算
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-3].click()
+        #点击计算资源下拉列表
+        casjc_log.logging.info(title + " 点击计算资源下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        #选择云主机
+        casjc_log.logging.info(title + " 选择云主机")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    elif orderes[1] == "sw":
+        casjc_log.logging.info(title + " 选择产品服务-数据存储")
+        #选择数据存储
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
+        #点击计算资源下拉列表
+        casjc_log.logging.info(title + " 点击计算资源下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        #选择云硬盘
+        casjc_log.logging.info(title + " 选择云硬盘")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
+        #点击集群下拉列表
+        casjc_log.logging.info(title + " 点击集群下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
+        time.sleep(casjc_config.short_time)
+        #选择硅立方东侧
+        casjc_log.logging.info(title + " 选择硅立方东侧")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #点击规格下拉列表
+        casjc_log.logging.info(title + " 点击规格下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
+        time.sleep(casjc_config.short_time)
+        #选择规格
+        casjc_log.logging.info(title + " 选择规格")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    elif orderes[1] == "sy":
+        casjc_log.logging.info(title + " 选择产品服务-数据存储")
+        #选择数据存储
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
+        #点击计算资源下拉列表
+        casjc_log.logging.info(title + " 点击计算资源下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        #选择云硬盘
+        casjc_log.logging.info(title + " 选择云硬盘")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    elif orderes[1] == "wg":
+        #选择网络资源
+        casjc_log.logging.info(title + " 选择产品服务-网络资源")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #点击计算资源下拉列表
+        casjc_log.logging.info(title + " 点击计算资源下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+        time.sleep(casjc_config.short_time)
+        #选择公网IP
+        casjc_log.logging.info(title + " 选择公网IP")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #点击规格下拉列表
+        casjc_log.logging.info(title + " 点击规格下拉列表")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
+        time.sleep(casjc_config.short_time)
+        #选择规格
+        casjc_log.logging.info(title + " 选择规格")
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        #选择有效期开始日期
+        casjc_log.logging.info(title + " 选择有效期开始日期")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #选择有效期结束日期
+        casjc_log.logging.info(title + " 选择有效期结束日期")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
+        time.sleep(casjc_config.short_time)
+        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        #aa = hailong.find_elements_by_xpath('//tr[@class="el-date-table__row"]/td[@class="available"]/div/span')
+        #print(aa[int(len(aa)/2)].text)
+        #aa[int(len(aa)/2)].click()
+    time.sleep(casjc_config.short_time)
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
@@ -737,7 +905,9 @@ def Casjc_config(ctype, ordernum):
         casjc_log.logging.info(title + " 点击确认配置")
         hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
     except:
-        casjc_log.logging.info(title + " 点击确认参数按钮异常")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击确认参数按钮异常,查看截图 %s " %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 订单号:" + ordernum + " 操作异常"]
         aaa.Casjc_logout()
         return None
@@ -815,7 +985,9 @@ def Casjc_edit_ent():
         casjc_log.logging.info(title + " 点击编辑企业单位按钮")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 点击编辑企业单位按钮异常,退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击编辑企业单位按钮异常,退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result['编辑企业单位'] = [uname, "操作异常,没有找到编辑按钮"]
         aaa.Casjc_logout()
         return None
@@ -843,7 +1015,9 @@ def Casjc_edit_ent():
         aaa.Casjc_logout()
         return None
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 页面元素未找到，编辑异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 页面元素未找到，编辑异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常"]
         aaa.Casjc_logout()
         return None
@@ -965,7 +1139,9 @@ def Casjc_editCost(cname=""):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'span[class="el-pagination__total"]')))
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 页面元素未找到，或费用管理列表没有数据，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 页面元素未找到，或费用管理列表没有数据，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常"]
         aaa.Casjc_logout()
         return None
@@ -1023,7 +1199,9 @@ def Casjc_delCost(cname=""):
     try:
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'span[class="el-pagination__total"]')))
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 页面元素未找到，或费用管理列表没有数据，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 页面元素未找到，或费用管理列表没有数据，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常"]
         aaa.Casjc_logout()
         return None
@@ -1104,7 +1282,9 @@ def Casjc_addsysent():
         time.sleep(casjc_config.show_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_log.logging.info(title + " 选择企业单位异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择企业单位异常，退出登录,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "选择企业单位异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1115,7 +1295,9 @@ def Casjc_addsysent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_log.logging.info(title + " 选择角色异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择角色异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "选择角色异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1175,7 +1357,9 @@ def Casjc_addent():
         time.sleep(casjc_config.show_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_log.logging.info(title + " 选择企业单位异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择企业单位异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "选择企业单位异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1186,7 +1370,9 @@ def Casjc_addent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
     except:
-        casjc_log.logging.info(title + " 选择角色异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择角色异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "选择角色异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1197,7 +1383,9 @@ def Casjc_addent():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except:
-        casjc_log.logging.info(title + " 选择管理的企业管理员异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择管理的企业管理员异常，退出登录, 查看截图 %s" % imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "选择关联企业管理员异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1237,7 +1425,9 @@ def Casjc_editent():
         casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常,用户列表没有找到编辑按钮"]
         aaa.Casjc_logout(uname)
         return None
@@ -1288,7 +1478,9 @@ def Casjc_resset():
         casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常,用户列表没有找到编辑按钮"]
         aaa.Casjc_logout(uname)
         return None
@@ -1365,7 +1557,9 @@ def Casjc_addsysuser():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[role="menuitem"]')[-1].click()
     except IndexError:
-        casjc_log.logging.info(title + " 选择组织机构异常,退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择组织机构异常,退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "选择组织机构异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1376,7 +1570,9 @@ def Casjc_addsysuser():
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
     except:
-        casjc_log.logging.info(title + " 选择角色异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 选择角色异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 选择角色异常"]
         aaa.Casjc_logout(uname)
         return None
@@ -1416,7 +1612,9 @@ def Casjc_editsysuser():
         casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮异常，退出登录, 查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常,用户列表没有找到编辑按钮"]
         aaa.Casjc_logout(uname)
         return None
@@ -1468,7 +1666,9 @@ def Casjc_sysresset():
         casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
     except exceptions.TimeoutException:
-        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮异常，退出登录")
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮异常，退出登录,查看截图 %s" %imagename)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常,用户列表没有找到编辑按钮"]
         aaa.Casjc_logout(uname)
         return None
@@ -1509,18 +1709,16 @@ if __name__ == "__main__":
     #计费管理中的服务和类型
     rstall = [(6,-1),(6,-2),(8,-1),(9,-1)]
     #申请资源中的配置方式与资源类型
-    #appcon = [(0,"gb"),(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gb"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    appcon = [(0,"gb"),(0,"gg"),(0,"yy"),(0,"sw"),(1,"gb"),(1,"gg"),(1,"yy"),(1,"sw")]
-    for ac in appcon:
-        Casjc_res(ac)
-    sys.exit()
+    appcon = [(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    # appcon = [(1,"gg")]
     '''
+    Casjc_addsysuser()
     Casjc_create_ent()
     Casjc_edit_ent()
-    for srt in rstall:
-        res = Casjc_addCost(srt)
-        Casjc_editCost(res)
-        Casjc_delCost(res)
+   # for srt in rstall:
+   #     res = Casjc_addCost(srt)
+   #     Casjc_editCost(res)
+   #     Casjc_delCost(res)
     Casjc_addsysent()
     Casjc_addent()
     Casjc_editent()
@@ -1528,25 +1726,22 @@ if __name__ == "__main__":
     Casjc_addsysuser()
     Casjc_editsysuser()
     '''
-    ctype = [casjc_config.restype1,casjc_config.restype2]
-    ptype = [casjc_config.contype2,casjc_config.contype1]
-    #ctype = []
-    for k in ptype:
-        for y in ctype:
-            xx = Casjc_res(k,y)
-            if not xx:
-                continue
-            #价格审批人员列表
-            order = [myconfig['user3'],myconfig['user7']]
-            for j in order:
-               Casjc_price(j,xx)
-            Casjc_contract(xx)
-            #合同审批人员列表
-            conuser = [myconfig['user4'],myconfig['user5']]
-            for i in conuser:
-                Casjc_contract_apply(i,xx)
-            Casjc_change_config(xx)
-            Casjc_config(y,xx)
+    for ac in appcon:
+        xx = Casjc_res(ac)
+        if not xx:
+            continue
+        #价格审批人员列表
+        order = [myconfig['user3'],myconfig['user7']]
+        for j in order:
+            Casjc_price(j,xx[0])
+        Casjc_contract(xx[0])
+        #合同审批人员列表
+        conuser = [myconfig['user4'],myconfig['user5']]
+        for i in conuser:
+            Casjc_contract_apply(i,xx[0]) 
+        r = Casjc_change_config(xx)
+        if not r:
+            Casjc_config(xx)
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    
