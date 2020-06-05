@@ -213,8 +213,16 @@ def Casjc_res(*appcon):
                 WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
                 WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="aggregate"]')))
                 time.sleep(casjc_config.short_time)
-                ordernum = hailong.find_elements_by_tag_name('p')[2].text
                 orderavg = hailong.find_element_by_xpath('//div[@class="aggregate"]/span[1]').text
+                ordernum = hailong.find_elements_by_tag_name('p')[2].text
+                print(len(ordernum))
+                if len(ordernum) < 6:
+                    imagename = "订单号异常" + time.strftime("%m%d%H%M%S") + '.png'
+                    hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+                    casjc_log.logging.info(title + " 提交申请资源后订单号显示异常,查看截图 %s" %imagename)
+                    casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "订单号显示异常"]
+                    hailong.quit()
+                    return None
             except exceptions.TimeoutException:
                 imagename = title + time.strftime("%m%d%H%M%S") + '.png'
                 hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
@@ -373,7 +381,17 @@ def Casjc_contract(ordernum):
     bb[1].click()
     hailong.find_elements_by_css_selector('input[placeholder="付款期限"]')[0].send_keys('1')
     hailong.find_elements_by_css_selector('input[placeholder="付款百分比"]')[0].send_keys('100')
+    #获取合同编号
+    contractnum = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].get_attribute('title')
+    if contractnum == "" or contractnum == None:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 没有显示合同号,查看截图 %s" %imagename)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "没有显示合同号"]
+        aaa.Casjc_logout()
+        return None
     #选择签署日期
+    casjc_log.logging.info(title + " 当前操作合同号：%s" %contractnum)
     casjc_log.logging.info(title + " 选择签署日期")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
     time.sleep(casjc_config.short_time)
@@ -415,6 +433,7 @@ def Casjc_contract(ordernum):
     casjc_log.logging.info(title + " 点击生成合同按钮")
     hailong.find_element_by_css_selector('button[class="el-button el-button--primary"').click()
     #获取提交返回结果
+    ordernum = ordernum + " 合同号: " + contractnum
     aaa.admin_result(title,uname,ordernum)
     return None
 
@@ -714,6 +733,7 @@ def Casjc_change_config(*myorderes):
     hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
     #获取提交请求返回信息
     aaa.admin_result(title,uname,ordernum)
+    print("返回1")
     return 1
 
 
@@ -1709,8 +1729,8 @@ if __name__ == "__main__":
     #计费管理中的服务和类型
     rstall = [(6,-1),(6,-2),(8,-1),(9,-1)]
     #申请资源中的配置方式与资源类型
-    appcon = [(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    # appcon = [(1,"gg")]
+    #appcon = [(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    appcon = [(1,"gg")]
     '''
     Casjc_addsysuser()
     Casjc_create_ent()
@@ -1741,6 +1761,7 @@ if __name__ == "__main__":
             Casjc_contract_apply(i,xx[0]) 
         r = Casjc_change_config(xx)
         if not r:
+            print("进入配置")
             Casjc_config(xx)
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
