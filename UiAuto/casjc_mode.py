@@ -104,6 +104,46 @@ def Casjc_mailcode(*res):
     casjc_log.logging.info("等待200秒没有获取邮箱到验证码")
     return None
 
+
+#获取邮箱密码
+def Casjc_mailpasswd(*res):
+    url = "http://24mail.chacuo.net/zhtw"
+    ug = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+    reheader = {}
+    reheader['User-Agent'] = ug
+    reheader['X-Requested-With'] = "XMLHttpRequest"
+    reheader['Cookie'] = "sid=" + res[0][2]
+    eparam = {}
+    eparam['data'] = res[0][1]
+    eparam['type'] = "refresh"
+    eparam['arg'] = ""
+    for i in range(20):
+        time.sleep(10)
+        res2 = requests.post(url, headers=reheader, params=eparam)
+        casjc_log.logging.info(res2.text)
+        #print(res2.text)
+        casjc_log.logging.info("等待%d秒没有获取到邮箱的重置密码"%(i*10))
+        if res2.json()['data'][0]['list']:
+            mid = res2.json()['data'][0]['list'][0]['MID']
+            #print(mid)
+            cparam = {}
+            cparam['data'] = res[0][1]
+            cparam['type'] = "mailinfo"
+            cparam['arg'] = "f=" + str(mid)
+            code = requests.post(url, headers=reheader, params=cparam)
+            #print(code.text)
+#           print(code.json()['data'][0][1][0]['DATA'])
+            cc = code.json()['data'][0][1][0]['DATA'][0]
+            ehtml = BeautifulSoup(cc, features='lxml')
+            #获取到的密码
+            ccd = ehtml.find_all('span')[2]
+            ccd = ccd.get_text()
+            casjc_log.logging.info("获取到邮箱的重置密码" + str(ccd))
+            #print(ccd)
+            return ccd
+    casjc_log.logging.info("等待200秒没有获取邮箱的重置密码")
+    return None
+
 #临时手机号
 def Casjc_phone(num=0):
     ug = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"

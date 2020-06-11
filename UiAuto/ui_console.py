@@ -767,6 +767,7 @@ if __name__ == "__main__":
         env = "test"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
+    '''
     Casjc_console_upfile()
     Casjc_console_webshell()    
     Casjc_console_user()  
@@ -779,6 +780,8 @@ if __name__ == "__main__":
     Casjc_console_info()
     Casjc_console_try(env)
     Casjc_console_order()
+    '''
+    Casjc_console_try()
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
