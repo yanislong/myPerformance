@@ -1,0 +1,2 @@
+2020-06-04 15:31:06 Thu DEBUG Starting new HTTP connection (1): 1.71.191.200:80
+2020-06-04 15:32:06 Thu DEBUG http://1.71.191.200:80 "POST /portal/new/login HTTP/1.1" 404 146

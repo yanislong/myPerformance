@@ -1,0 +1,2 @@
+2020-06-05 21:16:29 Fri DEBUG Starting new HTTP connection (1): 1.71.191.200:80
+2020-06-05 21:16:29 Fri DEBUG http://1.71.191.200:80 "POST /portal/new/login HTTP/1.1" 200 None

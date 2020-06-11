@@ -1,0 +1,40 @@
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.239.129  netmask 255.255.255.0  broadcast 192.168.239.255
+        inet6 fe80::20c:29ff:fe53:c577  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:53:c5:77  txqueuelen 1000  (Ethernet)
+        RX packets 497094  bytes 38989743 (37.1 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 777079  bytes 107930144 (102.9 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 1179  bytes 140758 (137.4 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1179  bytes 140758 (137.4 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+● mysql.service - LSB: Start and stop the mysql database server daemon
+   Loaded: loaded (/etc/init.d/mysql; generated)
+   Active: active (running) since Thu 2019-11-21 10:22:38 HKT; 6h ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 45205 ExecStart=/etc/init.d/mysql start (code=exited, status=0/SUCCESS)
+    Tasks: 32 (limit: 4655)
+   Memory: 128.8M
+   CGroup: /system.slice/mysql.service
+           ├─45231 /bin/sh /usr/bin/mysqld_safe
+           ├─45345 /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/x86_64-linux-gnu/mariadb19/plugin --user=mysql --skip-log-error --pid-file=/run/mysqld/mysqld.pid --socket=/var/run/mysqld/mysqld.sock
+           └─45346 logger -t mysqld -p daemon error
+
+Nov 21 15:16:00 192 mysqld[45346]: 2019-11-21 15:16:00 70 [Warning] Aborted connection 70 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:16:00 192 mysqld[45346]: 2019-11-21 15:16:00 71 [Warning] Aborted connection 71 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:20:04 192 mysqld[45346]: 2019-11-21 15:20:04 73 [Warning] Aborted connection 73 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:20:04 192 mysqld[45346]: 2019-11-21 15:20:04 72 [Warning] Aborted connection 72 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:24:28 192 mysqld[45346]: 2019-11-21 15:24:28 74 [Warning] Aborted connection 74 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:24:28 192 mysqld[45346]: 2019-11-21 15:24:28 75 [Warning] Aborted connection 75 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:30:36 192 mysqld[45346]: 2019-11-21 15:30:36 76 [Warning] Aborted connection 76 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:30:36 192 mysqld[45346]: 2019-11-21 15:30:36 77 [Warning] Aborted connection 77 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:35:04 192 mysqld[45346]: 2019-11-21 15:35:04 78 [Warning] Aborted connection 78 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)
+Nov 21 15:35:04 192 mysqld[45346]: 2019-11-21 15:35:04 79 [Warning] Aborted connection 79 to db: 'portaltest' user: 'root' host: 'localhost' (Got an error reading communication packets)

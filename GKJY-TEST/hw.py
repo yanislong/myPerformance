@@ -450,7 +450,7 @@ def uiauto_redirect():
     get_mode = request.form["m"]
     print(get_mode)
     sk = socket.socket()
-    address = (config.runui_ip,config.runui_port)
+    address = (config.runui_ip2,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
    # while True:
@@ -470,7 +470,7 @@ def uiauto_redirect_c():
     get_mode = request.form["m"]
     print(get_mode)
     sk = socket.socket()
-    address = (config.runui_ip,config.runui_port)
+    address = (config.runui_ip2,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
     if get_mode == "dev":
@@ -486,7 +486,7 @@ def uiauto_redirect_a():
     get_mode = request.form["m"]
     print(get_mode)
     sk = socket.socket()
-    address = (config.runui_ip,config.runui_port)
+    address = (config.runui_ip2,config.runui_port)
     print(config.runui_ip)
     sk.connect(address)
     if get_mode == "dev":

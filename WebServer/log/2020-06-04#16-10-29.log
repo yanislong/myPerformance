@@ -1,0 +1,3 @@
+2020-06-04 16:10:29 Thu DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-04 16:10:29 Thu DEBUG http://159.226.90.74:80 "GET /portal/user/exists?accountOrEmail=823196834@qq.com HTTP/1.1" 200 None
+2020-06-04 16:10:29 Thu DEBUG Starting new HTTP connection (1): 159.226.90.74portal:80

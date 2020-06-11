@@ -46,10 +46,12 @@ err = manager.get_err_queue()
 while True:
     try:
         processNumber = int(input("please input process Numbers:(输入进程数量)\n"))
-        iterationTimes = int(input("please input iteration Times:(输入迭代次数)\n"))
-        waitingTime = int(input("please input waiting time:(输入等待时间)\n"))
         threadNumber = int(input("please input threading Numbers:(输入线程数量)\n"))
-        ccn = int(input("please input client connect Numbers:(输入客户端链接数量)\n"))
+        iterationTimes = int(input("please input iteration Times:(输入迭代次数)\n"))
+        #waitingTime = int(input("please input waiting time:(输入等待时间)\n"))
+        waitingTime = 1
+        #ccn = int(input("please input client connect Numbers:(输入客户端链接数量)\n"))
+        ccn = 1
         break
     except:
         print("input errer, only input numbers")
@@ -66,7 +68,8 @@ for i in range(taskParam['clientConnectNumber']):
 print("waiting client connect...")
 while True:
     try:
-        tt = result.get(timeout=(taskParam['waitingTime'] + 180))
+        #tt = result.get(timeout=(taskParam['waitingTime'] + 10))
+        tt = result.get(timeout=10)
         print(tt)
         threadTotal += 1
         templl.append(tt[0])

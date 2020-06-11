@@ -1,0 +1,12 @@
+2020-06-08 14:38:57 Mon DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-08 14:38:57 Mon DEBUG http://159.226.90.74:80 "POST /portal/new/login HTTP/1.1" 200 None
+2020-06-08 14:38:58 Mon DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-08 14:38:58 Mon DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-08 14:38:58 Mon DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-08 14:38:58 Mon DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-08 14:38:58 Mon DEBUG Starting new HTTP connection (1): 159.226.90.74:80
+2020-06-08 14:38:58 Mon DEBUG http://159.226.90.74:80 "GET /portal/cloundHost/flavorLists?pageNum=1&pageSize=1&flavorName= HTTP/1.1" 200 None
+2020-06-08 14:38:58 Mon DEBUG http://159.226.90.74:80 "GET /portal/cloundHost/flavorLists?pageNum=1&pageSize=1&flavorName= HTTP/1.1" 200 None
+2020-06-08 14:38:58 Mon DEBUG http://159.226.90.74:80 "GET /portal/cloundHost/flavorLists?pageNum=1&pageSize=1&flavorName= HTTP/1.1" 200 None
+2020-06-08 14:38:58 Mon DEBUG http://159.226.90.74:80 "GET /portal/cloundHost/flavorLists?pageNum=1&pageSize=1&flavorName= HTTP/1.1" 200 None
+2020-06-08 14:38:58 Mon DEBUG http://159.226.90.74:80 "GET /portal/cloundHost/flavorLists?pageNum=1&pageSize=1&flavorName= HTTP/1.1" 200 None
