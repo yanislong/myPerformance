@@ -1,2 +1,0 @@
-2020-06-04 16:54:37 Thu DEBUG Starting new HTTP connection (1): 159.226.90.74:80
-2020-06-04 16:54:37 Thu DEBUG http://159.226.90.74:80 "POST /portal/new/login HTTP/1.1" 200 None
