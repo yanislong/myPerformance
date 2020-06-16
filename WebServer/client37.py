@@ -13,8 +13,8 @@ def prun(cname,result,errnum,tn,mytoken,testdata,k):
     cname = cname + "_" + str(os.getpid())
     threadingPool = []
     for i in range(tn):
-        #t = threading.Thread(target=modifyUserInfo,args=(cname,result,errnum,mytoken,testdata,k))
-        t = threading.Thread(target=submitWork,args=())
+        t = threading.Thread(target=modifyUserInfo,args=(cname,result,errnum,mytoken,testdata,k))
+        #t = threading.Thread(target=submitWork,args=(result, errnum))
         threadingPool.append(t)
         t.start()
     for j in threadingPool:
@@ -79,7 +79,8 @@ def modifyUserInfo(cname=None,result=None,errnum=None,mytoken=None,testdata=None
         #logging.debug(str(res.status_code) + res.text + str(res.elapsed.total_seconds()))
         return None
 
-def submitWork(hd=None):
+#提交工单会给客户发送邮件，确认后再用
+def submitWork(c,porerr,hd=None):
     """提交工单"""
     url = "http://" + testdata['url1'] + "/portal/workSheet/submitWorkSheet"
     '''
@@ -93,7 +94,6 @@ def submitWork(hd=None):
             ("workSheetTypeId",(None,3))])
     '''
     data = {"JSESSIONID":(None,mytoken),"phone":(None,"13112341234"), "problemDescribe":(None,"test"), "email":(None,"335916781@qq.com"), "priority":(None, "22"),"status":(None,"1"), "userId":(None,"10564"),"problemDescribe":(None,11),"workSheetTypeId":(None,3),"workSheetProblemId":(None,"8")}
-    print(url)
     try:
         res = requests.post(url, headers=hd, files=data, timeout=(61,121))
 #        print(res.request.body)
@@ -198,6 +198,7 @@ if __name__ == "__main__":
             j.join()
         endtime = time.strftime("%Y/%m/%d %H:%M:%S",time.localtime())
         mydata = {"start":starttime,"end":endtime,"cname":clientName,"iteration":k}
+        print(mydata)
         rept.put(mydata)
         for i in range(portest.qsize()):
             myll.append(i)

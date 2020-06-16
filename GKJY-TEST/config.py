@@ -27,6 +27,7 @@ music = ""
 
 #执行ui自动化远程主机ip
 runui_ip = "10.0.20.91:8089"
+runui_ip2 = "192.168.18.129"
 #runui_ip = "10.0.110.251"
 #执行ui自动化远程主机port
 runui_port = 8000
