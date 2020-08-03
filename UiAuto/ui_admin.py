@@ -9,6 +9,15 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC  
 from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+
+#get直接返回，不再等待界面加载完成
+desired_capabilities = DesiredCapabilities.CHROME
+desired_capabilities["pageLoadStrategy"] = "none"
+
+#driver = webdriver.Chrome(executable_path='chromedriver.exe')
+
 import casjc_config
 import casjc_mode
 import casjc_page
@@ -149,11 +158,11 @@ def Casjc_res(*appcon):
         #获取规格数据（暂存）
         reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
         #输入数量
-        num1 = "10"
+        num1 = "1"
         casjc_log.logging.info(title + " 输入资源数量")
         hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(num1)
         #输入有效期天数
-        num2 = "10"
+        num2 = "1"
         casjc_log.logging.info(title + " 输入资源有效期")
         hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(num2)
         #输入折后单价
@@ -192,16 +201,16 @@ def Casjc_res(*appcon):
         #获取规格数据（暂存）
         reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
         #输入有效期天数
-        daynum = 1
+        daynum = "1"
         casjc_log.logging.info(title + " 输入资源有效期")
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(str(daynum))
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(daynum)
         #输入折后单价
-        pric = 2
+        pric = "2.5"
         casjc_log.logging.info(title + " 输入折后单价")
         hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(str(pric))
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(pric)
         #输入报价总额
-        totalpric = daynum * pric + 2
+        totalpric = int(daynum) * float(pric) * 50
         hailong.find_element_by_xpath('//div[@class="footer-infor"]/span[2]/div/input').send_keys(str(totalpric))
     #点击提交申请按钮
     time.sleep(casjc_config.short_time)
@@ -422,7 +431,8 @@ def Casjc_contract(ordernum):
     listelement = hailong.find_elements_by_css_selector('td[class="available"]')
     #hailong.find_elements_by_css_selector('td[class="available"]')[len(listelement) - 10].click()
     #当月没有可选日期，用这个
-    hailong.find_elements_by_css_selector('td[class="next-month"]')[-6].click()
+    hailong.find_elements_by_xpath('//tr[@class="el-date-table__row"]/td[@class="available"]/div/span')[-1].click()
+    #hailong.find_elements_by_css_selector('td[class="next-month"]')[-6].click()
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[role="radiogroup"]')))
     time.sleep(casjc_config.short_time)
@@ -618,9 +628,12 @@ def Casjc_change_config(*myorderes):
         casjc_log.logging.info(title + " 选择有效期结束时间")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
-        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"][1]')
-        #aa[0].click()
+        #如果是试用只能选择固定的天数，此处根据报错判断选择日期方式
+        try:
+            hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        except exceptions.ElementNotInteractableException:
+            aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"][1]')
+            aa[-1].click()
     #高性能计算-共享型
     elif orderes[1] == "gg":
         #输入数量(核心时)
@@ -645,9 +658,10 @@ def Casjc_change_config(*myorderes):
     #数据存储-文件存储
     elif orderes[1] == "sw":
         #输入数量(TB)
+        num1 = "1"
         casjc_log.logging.info(title + " 输入数量(TB)")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].clear()
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("1")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys(num1)
         #有效期开始时间
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
         casjc_log.logging.info(title + " 选择有效期开始时间")
@@ -657,9 +671,12 @@ def Casjc_change_config(*myorderes):
         casjc_log.logging.info(title + " 选择有效期结束时间")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
-        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
-        #aa[int(len(aa)/2)].click()
+        #如果是试用只能选择固定的天数，此处根据报错判断选择日期方式
+        try:
+            hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        except exceptions.ElementNotInteractableException:
+            aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
+            aa[-1].click()
     #数据存储-云硬盘
     elif orderes[1] == "sy":
         #选择集群
@@ -696,15 +713,18 @@ def Casjc_change_config(*myorderes):
         casjc_log.logging.info(title + " 选择有效期结束时间")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
-        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"][1]')
-        #aa[0].click()
+        #如果是试用只能选择固定的天数，此处根据报错判断选择日期方式
+        try:
+            hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        except exceptions.ElementNotInteractableException:
+            aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"][1]')
+            aa[-1].click()
     #网络资源-公网IP
     elif orderes[1] == "wg":
         #输入数量(个)
         casjc_log.logging.info(title + " 输入数量(个)")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].clear()
-        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("1")
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("2")
         #有效期开始时间
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].click()
         casjc_log.logging.info(title + " 选择有效期开始时间")
@@ -714,9 +734,12 @@ def Casjc_change_config(*myorderes):
         casjc_log.logging.info(title + " 选择有效期结束时间")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
-        #aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
-        #aa[int(len(aa)/2)].click()
+        #如果是试用只能选择固定的天数，此处根据报错判断选择日期方式
+        try:
+            hailong.find_elements_by_css_selector('td[class="available today"]')[0].click()
+        except exceptions.ElementNotInteractableException:
+            aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
+            aa[-1].click()
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
     time.sleep(casjc_config.short_time)
@@ -1758,7 +1781,7 @@ def Casjc_addsysuser():
     #选择角色
     try:
         casjc_log.logging.info(title + " 选择角色")
-        hailong.find_elements_by_css_selector('input[placeholder="请选择角色"]')[1].click()
+        hailong.find_elements_by_css_selector('input[class="el-select__input"]')[0].click()
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
     except:
@@ -1901,20 +1924,20 @@ if __name__ == "__main__":
     #计费管理中的服务和类型
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
-    appcon = [(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg"),(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg")]
-    appcon = [(0,"gg"),(1,"gg")]
+    appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    appcon = [(0,"gg"),(0,"sw"),(0,"sy"),(1,"gg"),(1,"sw"),(1,"sy")]
+    #appcon = [(1,"yy")]
     #作废合同号
-    nnn = "GKJYHTXS202006141"
+    nnn = "GKJYHTXS202007063"
     #合同作废审批人员
     contractuser = ["kongshuishui","tangdebing","wangnan"]
     #价格审批人员列表
     order = [myconfig['user3'],myconfig['user7']]
     #合同审批人员列表
-    conuser = [myconfig['user4'],myconfig['user5']]
-    
+    conuser = [myconfig['user4'],myconfig['user5']]    
+ 
     #Casjc_addsysent()
-    '''
-    Casjc_addsysuser()
+
     Casjc_create_ent()
     Casjc_edit_ent()
     for srt in rstall:
@@ -1927,10 +1950,11 @@ if __name__ == "__main__":
     Casjc_resset()
     Casjc_addsysuser()
     Casjc_editsysuser()
+
     Casjc_contract_void(nnn)
     for i in contractuser:
         Casjc_contract_tovoid(nnn,i)
-    '''
+    
 
     for ac in appcon:
         xx = Casjc_res(ac)

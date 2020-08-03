@@ -33,6 +33,10 @@ class Casjc_admin_page():
     def Casjc_login(self):
         self.hailong.get(self.lurl)
         self.hailong.maximize_window()
+        try:
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "input[type='text']")))
+        except exceptions.TimeoutException:
+            pass
         self.hailong.find_element_by_css_selector("input[type='text']").send_keys(self.uname)
         casjc_log.logging.info("管理后台登录-输入用户名:" + self.uname)
         self.hailong.find_element_by_css_selector('input[type="password"]').send_keys(self.upasswd)
@@ -238,6 +242,10 @@ class Casjc_console_page():
     def console_login(self):
         self.hailong.get(self.lurl)
         self.hailong.maximize_window()
+        try:
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[href="/login"]')))
+        except exceptions.TimeoutException:
+            casjc_log.logging.info("找不到登录按钮")
         self.hailong.find_elements_by_css_selector('a[href="/login"]')[0].click()
         time.sleep(casjc_config.show_time)
         self.hailong.find_element_by_css_selector("input[type='text']").send_keys(self.uname)
