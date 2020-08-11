@@ -17,6 +17,9 @@ testPerson = {"admin": {"adminUrl": "http://11.2.77.3:30088", "user1": "Casjc001
 #dev开发环境
 devPerson = {"admin": {"adminUrl": "http://11.2.77.1:10088", "user1": "duliadmin", "user2": "duliadmin", "user3": "duliadmin", "user4": "duliadmin", "user5": "duliadmin", "user6": "duliadmin", "user7": "tangdebing", "passwd1": "Test1234!", "passwd2": "Test1234!"}, "console": {"consoleUrl": "http://11.2.77.1:10086", "entuser1": "uireg0525105000", "entuser2": "uireg0525105000", "entpasswd": "123456aA~"}}
 
+#标准版环境
+stdPerson = {"admin": {"adminUrl": "http://11.2.77.2:10080", "username": "Casjc001", "passwd":"Casjc@123456"}, "console": {"consoleUrl": "http://11.2.77.2:10081", "username": "uireg0525105000",  "passwd": "123456aA~"}}
+
 
 """全局参数"""
 

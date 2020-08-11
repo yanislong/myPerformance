@@ -342,6 +342,85 @@ class Casjc_console_page():
             self.hailong.quit()
             return None
 
+
+class Casjc_std_admin():
+
+    def __init__(self,hailong,luser,lpasswd,lurl):
+        self.hailong = hailong
+        self.uname = luser        
+        self.upasswd = lpasswd
+        self.lurl = lurl
+        self.Casjc_login()
+
+
+
+    #登陆标准版后台系统
+    def Casjc_login(self):
+        self.hailong.get(self.lurl)
+        self.hailong.maximize_window()
+        try:
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "input[type='text']")))
+        except exceptions.TimeoutException:
+            pass
+        self.hailong.find_element_by_css_selector("input[type='text']").send_keys(self.uname)
+        casjc_log.logging.info("管理后台登录-输入用户名:" + self.uname)
+        self.hailong.find_element_by_css_selector('input[type="password"]').send_keys(self.upasswd)
+        casjc_log.logging.info("管理后台登录-输入密码:" + self.upasswd)
+        self.hailong.find_element_by_tag_name('button').click()
+        #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入首页
+        try:
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="subnav-header"]')))
+        except exceptions.TimeoutException:
+            imagename = "标准版后台登录" + time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_config.casjc_result['标准版管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = [ self.uname, "登录失败,测试终止,查看截图 %s" %imagename]
+            self.hailong.quit()
+            sys.exit()
+            return None
+
+
+    #退出标准版后台系统
+    def Casjc_logout(self,uname=""):
+        title = "退出登录"
+        aname = uname
+        impl = self.hailong.find_element_by_css_selector('span[class="el-avatar el-avatar--medium el-avatar--circle el-popover__reference"]')
+        chain = ActionChains(self.hailong)
+        chain.move_to_element(impl).perform()
+        try:
+            #点击退出登录
+            self.hailong.find_elements_by_tag_name('a')[-1].click()
+            #弹出确认提示框，点击确定
+            self.hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
+            casjc_log.logging.info("退出登录成功")
+            time.sleep(casjc_config.show_time)
+            self.hailong.quit()
+            return None
+        except:
+            imagename = "后台退出" + time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "退出登录异常,后台退出 %s" %imagename]
+            self.hailong.quit()
+            return None
+
+    def admin_result(self, title, aname="", anumber=""):
+        try:
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+            if len(self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+                casjc_log.logging.info("获取请求响应消息为空")
+                casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
+                self.Casjc_logout()
+                return None
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + self.hailong.find_element_by_css_selector('p[class="el-message__content"]').text]
+            self.Casjc_logout()
+            return None
+        except exceptions.TimeoutException:
+            imagename = time.strftime("%m%d%H%M%S") + '.png'
+            self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+            casjc_log.logging.info("没有获取到响应消息,查看截图 %s" %imagename)
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [aname, "操作数据:账号/单号 " + anumber + " 操作异常"]
+            self.Casjc_logout()
+            return None
+
     
 if __name__ == "__main__":
     hailong = webdriver.Chrome()
