@@ -1924,11 +1924,11 @@ if __name__ == "__main__":
     #计费管理中的服务和类型
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
-    appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
     appcon = [(0,"gg"),(0,"sw"),(0,"sy"),(1,"gg"),(1,"sw"),(1,"sy")]
     #appcon = [(1,"yy")]
     #作废合同号
-    nnn = "GKJYHTXS202007063"
+    nnn = "GKJYHTXS202008012"
     #合同作废审批人员
     contractuser = ["kongshuishui","tangdebing","wangnan"]
     #价格审批人员列表
@@ -1955,7 +1955,6 @@ if __name__ == "__main__":
     for i in contractuser:
         Casjc_contract_tovoid(nnn,i)
     
-
     for ac in appcon:
         xx = Casjc_res(ac)
         if not xx:
@@ -1970,6 +1969,7 @@ if __name__ == "__main__":
         if r:
             print("进入配置")
             Casjc_config(xx)
+
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    
