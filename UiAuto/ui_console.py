@@ -7,6 +7,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC  
 from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+
+#get直接返回，不再等待界面加载完成
+desired_capabilities = DesiredCapabilities.CHROME
+desired_capabilities["pageLoadStrategy"] = "none"
+
 import casjc_config
 import casjc_mode
 import casjc_page
@@ -25,16 +32,18 @@ def Casjc_console_upfile():
     #进入控制台
     casjc_log.logging.info(title + " 进入控制台")
     aaa.console()
-    #聚焦总览页面菜单产品图标
+    #聚焦总览页面菜单产品图标，页面样式已改废弃下面操作
+    '''
     impl = hailong.find_element_by_css_selector('i[class="el-icon-caret-bottom"]')
     tmp =  hailong.find_element_by_tag_name('body')
     chain = ActionChains(hailong)
     chain.move_to_element(impl).perform()
     time.sleep(casjc_config.short_time)
+    '''
     #点击高性能计算
     casjc_log.logging.info(title + " 点击高性能计算")
-    hailong.find_elements_by_xpath('//div[@class="childNav"]/span')[0].click()
-    chain.move_to_element(tmp).perform()
+    hailong.find_elements_by_css_selector('span[class="innerText"]')[1].click()
+    #chain.move_to_element(tmp).perform()
     time.sleep(casjc_config.show_time)
     #点击共享存储菜单
     casjc_log.logging.info(title + " 点击共享存储菜单")
@@ -323,11 +332,11 @@ def Casjc_console_quota():
     #获取用户名称
     account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"]/td/div[@class="cell el-tooltip"]')[-5].text
     #点击调整配额
-    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-1].text == "调整配额":
+    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-1].text == "调整配额":
         casjc_log.logging.info(title + " 点击调整配额")
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-1].click()
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-3].click()
     else:
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-2].click()
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-4].click()
     #输入配额
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys(casjc_config.quota_number)
@@ -371,12 +380,12 @@ def Casjc_console_auth():
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]')))
     time.sleep(casjc_config.short_time)
     #点击权限设置
-    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-1].text == "权限设置":
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-1].click()
+    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-3].text == "权限设置":
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-3].click()
         #获取用户名称
         account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"]/td/div[@class="cell el-tooltip"]')[-5].text
-    elif hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-3].text == "权限设置":
-        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[-3].click()
+    elif hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-5].text == "权限设置":
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-5].click()
         #获取用户名称
         account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"]/td/div[@class="cell el-tooltip"]')[-10].text
     else:
@@ -569,7 +578,8 @@ def Casjc_console_info():
     telephone = "8844"  + time.strftime("%M%S")
     hailong.find_elements_by_xpath('//div[@class="changeBox"]/div[@class="change text"]/span')[3].click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'input[class="el-input__inner"]')))
-    hailong.find_element_by_css_selector('input[class="el-input__inner"]').send_keys(telephone)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys("0454")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys(telephone)
     hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[6].click()
     time.sleep(casjc_config.short_time)
     #点击修改地址,输入联系地址
@@ -581,6 +591,7 @@ def Casjc_console_info():
     hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[6].click()
     resstr = ""
     time.sleep(casjc_config.short_time)
+    print(hailong.find_elements_by_xpath('//div[@class="details"]/div/div/span[2]')[2].text)
     if aname == hailong.find_elements_by_xpath('//div[@class="details"]/div/div/span[2]')[0].text:
         resstr += " 姓名修改成功,修改为: " + aname
     else:
@@ -589,8 +600,8 @@ def Casjc_console_info():
         resstr += " 研究方向修改成功,修改为: " + inter
     else:
         resstr += " 研究方向修改失败"
-    if telephone == hailong.find_elements_by_xpath('//div[@class="details"]/div/div/span[2]')[2].text:
-        resstr += " 联系电话修改成功,修改为: " + telephone
+    if "0454-" + telephone == hailong.find_elements_by_xpath('//div[@class="details"]/div/div/span[2]')[2].text:
+        resstr += " 联系电话修改成功,修改为: " + "0454-" + telephone
     else:
         resstr += " 联系电话修改失败"
     if address == hailong.find_elements_by_xpath('//div[@class="details"]/div/div/span[2]')[3].text:
@@ -767,20 +778,22 @@ if __name__ == "__main__":
         env = "test"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    '''
+    
+    for i in range(1):
+        Casjc_console_user()
+        Casjc_console_group()
     Casjc_console_upfile()
     Casjc_console_webshell()    
     Casjc_console_user()  
     Casjc_console_group()
     Casjc_console_volume()
     Casjc_console_cloudhost()
-    Casjc_console_quota()
-    Casjc_console_auth()
+   # Casjc_console_quota()
+   # Casjc_console_auth()
     Casjc_console_updatepw()
     Casjc_console_info()
     Casjc_console_try(env)
     Casjc_console_order()
-    '''
     Casjc_console_try()
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
