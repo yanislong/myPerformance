@@ -225,7 +225,7 @@ class portalSql:
         return None
 
 if __name__ == "__main__":
-#    a = lhlSql()
+    a = lhlSql()
 #    a.getInterfaceList()
-    b = portalSql()
+#    b = portalSql()
 #    b.delUser()

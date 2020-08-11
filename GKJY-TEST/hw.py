@@ -509,7 +509,7 @@ def uiauto_www():
         print(get_mode)
     mydata = lhlSql()
     www_result = mydata.getUiautoResult(get_mode)
-    #print(www_result)
+    print(www_result)
     logurl = config.runui_ip
     return render_template('uiauto_result.html', result=(www_result,logurl, random.random()))
 

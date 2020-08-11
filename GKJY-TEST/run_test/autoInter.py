@@ -18,7 +18,8 @@ class lhl:
     def __init__(self):
         if config.authorized == True:
             try:
-                self.session = userLogin.userlogin().accountLogin(config.useaccount,config.passwd)
+                pass
+                #self.session = userLogin.userlogin().accountLogin(config.useaccount,config.passwd)
             except requests.exceptions.ConnectionError:
                 self.session = ""
                 print('没有身份认证信息')
@@ -107,7 +108,7 @@ class lhl:
         #判断是否提供了测试用的用户名和密码，如果没有提供则使用默认账号，如果提供有误则没有身份认证信息
         self.postheader_json['Authorization'] = self.session
         self.postheader_www['Authorization'] = self.session
-        if upwd:
+        if not upwd:
             try:
                 upwd = json.loads(upwd)
                 try:
@@ -134,6 +135,7 @@ class lhl:
         if header.strip() == "json":
             try:
                 res = s.post(url, headers=self.postheader_json, data=json.dumps(data), timeout=self.timeout)
+                print(url,self.postheader_json,data)
             except requests.exceptions.MissingSchema:
                 print('请求的Url地址有误')
                 return None
@@ -142,7 +144,7 @@ class lhl:
                 return None
 #            print(res.url)
 #            print(data)
-#            print(res.text,res.elapsed.total_seconds(),res.status_code)
+            print(res.text,res.elapsed.total_seconds(),res.status_code)
         else:
             try:
                 print('nojson')
@@ -285,9 +287,10 @@ class lhl:
 
     def oneTest(self,rid):
         sqldata = lhlSql()
+        rid = "7634"
         onedata = sqldata.getIdInterface(rid)
         for i in onedata:
-    #        print(i)
+            print(i)
             l1 = re.compile('http://(.*?)/')
             l2 = l1.findall(i[2])
             if l2 == None or l2=="" or l2==[]:
@@ -295,13 +298,14 @@ class lhl:
                 print("url没有替换")
             else:    
                 l3 = i[2].replace(l2[0], self.testurl)
-    #        print(l3)
+            print(l3)
             if i[5].lower() == "get":
                 resGet = self.respondGet(i[8],l3.strip(),i[3],i[4],i[9])
                 if resGet:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
                 continue
             if i[5].lower() == "post":
+                print(i[5])
                 resPost = self.respondPost(i[8],l3.strip(),i[3],i[4],i[9])
                 if resPost:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
@@ -318,5 +322,6 @@ class lhl:
 if __name__ == "__main__":
     a = lhl()
     #a._lhl__analysisUrl("http://www.baidu.com:9090/123/abc")
-    a.runTest()
+    #a.runTest()
+    a.oneTest("")
     pass

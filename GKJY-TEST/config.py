@@ -42,8 +42,8 @@ mysqluser = "root"
 mysqlpasswd = "root"
 
 #测试环境应用服务地址
-url = "http://11.2.77.3"
-testurl = "11.2.77.3"
+url = "http://11.2.77.3:30088"
+testurl = "11.2.77.3:30089"
 #接口模块地址
 userurl = url + "/portal-test/user"
 orderurl = url + "/portal-test/order"

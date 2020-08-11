@@ -51,6 +51,7 @@ class userlogin():
         data['password'] = passwd
         data['rememberMe'] = True
         url = self.url + "/login/account"
+        print(url)
         for j in self.account.keys():
             data['account'] = j
             res = requests.post(url, headers=self.postheader, data=json.dumps(data))
