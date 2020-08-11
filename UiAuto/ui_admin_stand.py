@@ -582,7 +582,7 @@ if __name__ == "__main__":
         env = "std"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    
+    #asdf
     #create_resource("Slurm")
     #create_resource("GPFS")
     modify_resource()
