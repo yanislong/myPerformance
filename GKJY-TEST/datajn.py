@@ -2,6 +2,7 @@
 
 import requests
 import json
+from dis import dis
 
 def test(num):
     url = "http://11.2.77.3/portal-test/org/org/insertProject"
@@ -14,5 +15,4 @@ def test(num):
 
 
 if __name__ == "__main__":
-    for i in range(250):
-       test(i)
+    dis(test)
