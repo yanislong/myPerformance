@@ -103,6 +103,105 @@ def modify_resource():
     return None
 
 
+#删除认证服务器
+def drop_ldap():
+    title = "删除认证服务器"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    #点击进入认证服务器页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/certificateServer"]')))
+    hailong.find_element_by_css_selector('li[data-index="/certificateServer"]').click()
+    #点击删除列表第一个ldap服务器
+    casjc_log.logging.info(title + " 点击列表第一个删除按钮")
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--smaill"]')))
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--smaill"]')[1].click()
+    #弹出确认提示框弹窗
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__title"]')))
+    hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+
+#新增认证服务器
+def add_ldap():
+    title = "新增认证服务器"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    #点击进入认证服务器页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/certificateServer"]')))
+    hailong.find_element_by_css_selector('li[data-index="/certificateServer"]').click()   
+    #点击新增认证服务器按钮
+    casjc_log.logging.info(title + " 点击新增认证服务器按钮")
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="fb_car"]')))
+    hailong.find_element_by_css_selector('div[class="fb_car"]').click()
+    #进入新增认证服务其界面，填写内容
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'form[class="el-form demo-ruleForm"]')))
+    #输入认证服务器名称
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys("测试专用Ldap2")
+    #输入管理节点ip
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("47.110.251.149")    
+    #输入管理节点端口
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("389")
+    #输入基准DN
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("dc=nodomain")
+    #输入绑定用户DN
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys("cn=admin,dc=nodomain")
+    #输入绑定用户密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[6].send_keys("123456")
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary"]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+
+
+#编辑认证服务器
+def edit_ldap():
+    title = "编辑认证服务器"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    #点击进入认证服务器页面
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/certificateServer"]')))
+    hailong.find_element_by_css_selector('li[data-index="/certificateServer"]').click()
+    #点击编辑列表第一个ldap服务器
+    casjc_log.logging.info(title + " 点击列表第一个编辑按钮")
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--smaill"]')))
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--smaill"]')[0].click()
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary"]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_element_by_css_selector('button[class="el-button el-button--primary"]').click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+
 #同步系统账号
 def sync_user():
     title = "同步系统账号"
@@ -585,20 +684,33 @@ if __name__ == "__main__":
     #asdf
     #create_resource("Slurm")
     #create_resource("GPFS")
+    '''
     modify_resource()
+
+    add_ldap()
+    edit_ldap()
+    drop_ldap()
+    
     sync_user()
+    
     set_mail()
     test_mail()
+    
     add_adminuser()
     edit_adminuser()
     change_passwd()
     offorup()
     del_user()
+    
     add_consoleuser()
     edit_consoleuser()
     change_consolepasswd()
     offorup_console()
-    del_consoleuser()   
+    del_consoleuser()
+    '''
+    
+    
+    
     
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)

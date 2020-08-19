@@ -244,6 +244,8 @@ class Casjc_console_page():
         self.hailong.maximize_window()
         try:
             WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a[href="/login"]')))
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'input[type="text"]')))
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'input[type="password"]')))
         except exceptions.TimeoutException:
             casjc_log.logging.info("找不到登录按钮")
         self.hailong.find_elements_by_css_selector('a[href="/login"]')[0].click()
@@ -279,6 +281,7 @@ class Casjc_console_page():
     def console_logout(self, uname=""):
         title = "控制台退出登录"
         aname = uname
+        WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="userinfo el-popover__reference"]')))
         impl = self.hailong.find_element_by_css_selector('div[class="userinfo el-popover__reference"]')
         chain = ActionChains(self.hailong)
         chain.move_to_element(impl).perform()

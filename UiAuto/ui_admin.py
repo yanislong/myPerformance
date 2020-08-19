@@ -1925,8 +1925,8 @@ if __name__ == "__main__":
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
     #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    appcon = [(0,"gg"),(0,"sw"),(0,"sy"),(1,"gg"),(1,"sw"),(1,"sy")]
-    #appcon = [(1,"yy")]
+    #appcon = [(1,"sy"),(0,"gg"),(0,"sw"),(0,"sy"),(1,"gg"),(1,"sw")]
+    appcon = [(1,'sw')]
     #作废合同号
     nnn = "GKJYHTXS202008012"
     #合同作废审批人员
@@ -1937,7 +1937,7 @@ if __name__ == "__main__":
     conuser = [myconfig['user4'],myconfig['user5']]    
  
     #Casjc_addsysent()
-
+    '''
     Casjc_create_ent()
     Casjc_edit_ent()
     for srt in rstall:
@@ -1950,10 +1950,10 @@ if __name__ == "__main__":
     Casjc_resset()
     Casjc_addsysuser()
     Casjc_editsysuser()
-
-    Casjc_contract_void(nnn)
-    for i in contractuser:
-        Casjc_contract_tovoid(nnn,i)
+    '''
+    #Casjc_contract_void(nnn)
+    #for i in contractuser:
+     #   Casjc_contract_tovoid(nnn,i)
     
     for ac in appcon:
         xx = Casjc_res(ac)
@@ -1965,10 +1965,10 @@ if __name__ == "__main__":
             Casjc_contract(xx[0])
             for i in conuser:
                 Casjc_contract_apply(i,xx[0])
-        r = Casjc_change_config(xx)
-        if r:
-            print("进入配置")
-            Casjc_config(xx)
+        #r = Casjc_change_config(xx)
+       # if r:
+         #   print("进入配置")
+          #  Casjc_config(xx)
 
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
