@@ -376,8 +376,11 @@ def qianyun():
         temp = []
         temp2 = []
         for i in webavgdata[0]:
-            num = round(Decimal(i/webtotalnumber),6)
-            temp.append(num)
+            try:
+                num = round(Decimal(i/webtotalnumber),6)
+                temp.append(num)
+            except TypeError:
+                return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,1,"",webnamedata))
         temp2.append((temp))
         webtotalpage = int(webtotalnumber / 20)
         return render_template('qianyunGET.html', result=(webbodydata,webtotalnumber,webtotalpage,temp2,webnamedata))
