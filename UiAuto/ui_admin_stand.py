@@ -202,7 +202,7 @@ def edit_ldap():
     return None
 
 
-#同步系统账号
+#同步ldap系统账号
 def sync_user():
     title = "同步系统账号"
     #登录
@@ -222,6 +222,157 @@ def sync_user():
     aaa.admin_result(title,uname)
     return None
 
+
+
+#新增ldap系统账号
+def add_ldapuser():
+    title = "新增ldap系统账号"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
+    hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
+    casjc_log.logging.info(title + " 点击新增系统账号按钮")
+    #点击新增系统账号按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="dialog-main"]')))
+    #选择认证服务器
+    hailong.find_element_by_css_selector('input[class="el-select__input"]').click()
+    time.sleep(casjc_config.short_time)
+    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[0].click()
+    #输入系统账号
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys("uitest")
+    #输入密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("123456aA")
+    #输入gid
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("100900")
+    #输入uid
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("100900")
+    #输入家目录
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys("/home/uitest")
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_element_by_css_selector('button[class="el-button el-button--primary el-button--small"]').click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+
+#查看ldap系统账号详情
+def show_ldapuser():
+    title = "查看ldap系统账号详情"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
+    hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
+    casjc_log.logging.info(title + " 点击系统账号详情按钮")
+    #点击系统账号详情按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
+    all_h = hailong.window_handles
+    hailong.switch_to.window(all_h[1])
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="dialog-main"]')))
+    if hailong.find_elements_by_css_selector('div[class="el-form-item__content"]')[1].text == "uitest":
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "查看详情显示正常"]
+        hailong.quit()
+        return None
+    else:
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "查看详情显示异常"]
+        hailong.quit()
+        return None
+
+
+#编辑ldap系统账号详情
+def edit_ldapuser():
+    title = "编辑ldap系统账号详情"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
+    hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
+    casjc_log.logging.info(title + " 点击系统账号详情按钮")
+    #聚焦更多按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini el-popover__reference"]')))
+    impl = hailong.find_element_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')
+    chain = ActionChains(hailong)
+    chain.move_to_element(impl).perform()
+    time.sleep(casjc_config.show_time)
+    #点击系统账号编辑按钮
+    hailong.find_elements_by_xpath('//ul[@class="more"]/li/span')[-4].click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="dialog-main"]')))
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_element_by_css_selector('button[class="el-button el-button--primary el-button--small"]').click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+
+#修改ldap系统账号密码
+def modify_ldappasswd():
+    title = "修改ldap系统账号密码"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
+    hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
+    casjc_log.logging.info(title + " 点击系统账号修改密码按钮")
+    #聚焦更多按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini el-popover__reference"]')))
+    impl = hailong.find_element_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')
+    chain = ActionChains(hailong)
+    chain.move_to_element(impl).perform()
+    time.sleep(casjc_config.short_time)
+    #点击系统账号修改密码按钮
+    hailong.find_elements_by_xpath('//ul[@class="more"]/li/span')[-3].click()
+    time.sleep(casjc_config.short_time)
+    #输入修改密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].clear()
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys("123456aA")
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+    
 
 #新建系统用户
 def add_adminuser():
@@ -684,6 +835,7 @@ if __name__ == "__main__":
     #asdf
     #create_resource("Slurm")
     #create_resource("GPFS")
+    
     '''
     modify_resource()
 
@@ -692,6 +844,9 @@ if __name__ == "__main__":
     drop_ldap()
     
     sync_user()
+    add_ldapuser()
+    show_ldapuser()
+    edit_ldapuser()
     
     set_mail()
     test_mail()
@@ -708,9 +863,8 @@ if __name__ == "__main__":
     offorup_console()
     del_consoleuser()
     '''
-    
-    
-    
+
+    modify_ldappasswd()
     
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
