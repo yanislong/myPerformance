@@ -3,7 +3,7 @@
 
 from flask import Flask, request, send_from_directory, url_for, session, escape
 from flask import render_template, make_response, abort, redirect, Response
-from werkzeug import secure_filename
+#from werkzeug import secure_filename
 from flask import jsonify
 import os, random, json, sys, pymysql, subprocess, base64, binascii
 sys.path.append(os.getcwd() + '/run_test')
