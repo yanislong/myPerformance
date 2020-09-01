@@ -184,10 +184,6 @@ def Casjc_console_group():
     #输入项目组
     account = "UI自动化工作组" + time.strftime("%H%M%S")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys(account)
-    #选择业务
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
-    time.sleep(casjc_config.short_time)
-    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     #选择成员
     hailong.find_elements_by_css_selector('i[class="iconfont icontianjia"]')[0].click()
     time.sleep(casjc_config.short_time)
@@ -780,7 +776,7 @@ if __name__ == "__main__":
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     
     for i in range(1):
-        Casjc_console_user()
+        #Casjc_console_user()
         Casjc_console_group()
     Casjc_console_upfile()
     Casjc_console_webshell()    

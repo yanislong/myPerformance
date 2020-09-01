@@ -53,6 +53,7 @@ class Casjc_admin_page():
                 casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = [ self.uname, "登录失败,测试终止"]
                 self.hailong.quit()
                 casjc_log.logging.info("登录失败或点击页面菜单异常，终止程序")
+                casjc_mode.Run_result(("admin","","",json.dumps(casjc_config.casjc_result,ensure_ascii=False),""))
                 sys.exit()
                 return None
         except exceptions.TimeoutException:
@@ -60,6 +61,7 @@ class Casjc_admin_page():
             self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
             casjc_config.casjc_result['管理后台用户登录'+ time.strftime("%M%S",time.localtime())] = [ self.uname, "登录失败,测试终止,查看截图 %s" %imagename]
             self.hailong.quit()
+            casjc_mode.Run_result(("admin","","",json.dumps(casjc_config.casjc_result,ensure_ascii=False),""))
             sys.exit()
             return None
 
