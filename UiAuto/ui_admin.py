@@ -1032,7 +1032,11 @@ def Casjc_vlan():
     casjc_log.logging.info(title + " 点击保存按钮")
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"')[-2].click()
     #获取提交请求返回信息
-    aaa.admin_result(title,uname)
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__message"]')))
+    res = hailong.find_elements_by_css_selector('div[class="el-message-box__message"]')[0].text
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--default el-button--small el-button--primary "]')))
+    hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
+    aaa.admin_result(title,uname,res)
     return None
 
 
@@ -2145,7 +2149,7 @@ if __name__ == "__main__":
     #申请资源中的配置方式与资源类型
     appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
     #appcon = [(1,"sy"),(0,"gg"),(0,"sw"),(0,"sy"),(1,"gg"),(1,"sw")]
-    appcon = [(1,'gg')]
+    #appcon = [(1,'gg')]
     
     #价格审批人员列表
     order = [myconfig['user3'],myconfig['user6'],myconfig['user7']]
@@ -2153,8 +2157,8 @@ if __name__ == "__main__":
     conuser = [myconfig['user3'],myconfig['user4'],myconfig['user5']]
     
 
-    Casjc_addsysent()
-    '''
+    #Casjc_addsysent()
+    
     Casjc_vlan()
     Casjc_vlanname()
     Casjc_vlandel()
@@ -2173,7 +2177,7 @@ if __name__ == "__main__":
     Casjc_resset()
     Casjc_addsysuser()
     Casjc_editsysuser()
-    '''
+    
     #合同作废
     #作废合同号
     nnn = "GKJYHTXS202008012"

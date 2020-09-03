@@ -24,7 +24,7 @@ import ui_www
 def Casjc_console_upfile():
     title = "数据存储-上传文件"
     #登录控制台
-    uname = myconfig["entuser1"]
+    uname = myconfig["entuser2"]
     upasswd = myconfig["entpasswd"]
     uurl = myconfig["consoleUrl"]
     hailong = webdriver.Chrome()
@@ -81,7 +81,8 @@ def Casjc_console_webshell():
     aaa.console()
     casjc_log.logging.info(title + " 进入控制台")
     #点击总览页面的webshell按钮
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'i[class="iconfont iconWebService"]')))
+    hailong.find_elements_by_css_selector('i[class="iconfont iconWebService"]')[0].click()
     #点击webshell队列下拉列表
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
     time.sleep(casjc_config.show_time)
@@ -328,16 +329,22 @@ def Casjc_console_quota():
     #获取用户名称
     account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"]/td/div[@class="cell el-tooltip"]')[-5].text
     #点击调整配额
-    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-1].text == "调整配额":
+    if hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-3].text == "调整配额":
         casjc_log.logging.info(title + " 点击调整配额")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-3].click()
     else:
+        casjc_log.logging.info(title + " 点击调整配额")
         hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[-4].click()
     #输入配额
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys(casjc_config.quota_number)
+    time.sleep(casjc_config.show_time)
     #点击确定按钮
     casjc_log.logging.info(title + " 点击确定按钮")
+    while True:
+        if len(hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')) == 3:
+            break
+        print(len(hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')))
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-2].click()
     #获取请求结果
     aaa.console_result(title,uname,account)
@@ -774,9 +781,10 @@ if __name__ == "__main__":
         env = "test"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    
+
+
     for i in range(1):
-        #Casjc_console_user()
+        Casjc_console_user()
         Casjc_console_group()
     Casjc_console_upfile()
     Casjc_console_webshell()    
@@ -784,13 +792,14 @@ if __name__ == "__main__":
     Casjc_console_group()
     Casjc_console_volume()
     Casjc_console_cloudhost()
-   # Casjc_console_quota()
-   # Casjc_console_auth()
+    Casjc_console_quota()
+    Casjc_console_auth()
     Casjc_console_updatepw()
     Casjc_console_info()
     Casjc_console_try(env)
     Casjc_console_order()
     Casjc_console_try()
+    
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)

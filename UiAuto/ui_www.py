@@ -60,9 +60,13 @@ def Casjc_www_mail_regist(uurl):
     casjc_log.logging.info(title + " 点击注册按钮，进入注册页面")
     hailong.find_element_by_css_selector('a[href="/register"]').click()
     time.sleep(casjc_config.show_time)
+    #main_window = hailong.current_window_handle
+    #print(main_window)
+    #print(hailong.current_url)
     #输入用户账户
     account = "uireg" + time.strftime("%m%d%H%M%S",time.localtime())
     casjc_log.logging.info(title + " 输入用户账号" + account)
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-tabs__content"]')))
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys(account)
     #输入密码
     casjc_log.logging.info(title + " 输入密码")
@@ -244,11 +248,13 @@ if __name__ == "__main__":
         myconfig = casjc_config.testPerson['console']
         env = "test"
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
+
     start_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     Casjc_www_login()
     Casjc_www_mail_regist(myconfig['consoleUrl'])
     Casjc_www_phone_regist(myconfig['consoleUrl'])
     Casjc_www_try()
+    
     end_time = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
