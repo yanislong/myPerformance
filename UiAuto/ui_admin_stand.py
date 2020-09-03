@@ -742,7 +742,7 @@ def test_mail():
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("251737718@qq.com")
     #输入邮箱密码
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("thuerngymkpqbgfa")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(sec_tmp.mima)
     try:
         #点击邮箱测试按钮
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
