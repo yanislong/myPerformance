@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import time, sys, json, random
 import requests
 
@@ -10,6 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+import esc_tmp
 
 
 #get直接返回，不再等待界面加载完成
@@ -801,7 +804,8 @@ def set_mail():
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("251737718@qq.com")
     #输入邮箱密码
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("thuerngymkpqbgfa")
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("thuerngymkpqbgfa")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(esc_tmp.mima)
     try:
         #点击邮箱测试按钮
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
