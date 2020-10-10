@@ -140,8 +140,10 @@ def Casjc_console_user():
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(aname)
     #输入手机号
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("199" + time.strftime("%m%d%H%M"))
+    #输入固定电话
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("010-88888888")
     #输入邮箱
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys(str(random.randint(10000,99999)) + "@qq.com")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys(str(random.randint(10000,99999)) + "@qq.com")
     #点击确定按钮
     casjc_log.logging.info(title + " 点击确定按钮")
     hailong.find_element_by_xpath('//div[@class="dialog-footer"]/button[@class="el-button el-button--primary el-button--small"][1]').click()
@@ -786,10 +788,11 @@ if __name__ == "__main__":
     for i in range(1):
         Casjc_console_user()
         Casjc_console_group()
+
     Casjc_console_upfile()
     Casjc_console_webshell()    
-    Casjc_console_user()  
-    Casjc_console_group()
+    #Casjc_console_user()  
+    #Casjc_console_group()
     Casjc_console_volume()
     Casjc_console_cloudhost()
     Casjc_console_quota()

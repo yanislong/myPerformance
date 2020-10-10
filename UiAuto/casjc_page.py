@@ -161,8 +161,8 @@ class Casjc_admin_page():
 
     def admin_usersystem(self):
         try:
-            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '用户系统')))
-            self.hailong.find_element_by_link_text('用户系统').click()
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.LINK_TEXT, '系统管理')))
+            self.hailong.find_element_by_link_text('系统管理').click()
             time.sleep(casjc_config.short_time)
         except:
             imagename = time.strftime("%m%d%H%M%S") + '.png'

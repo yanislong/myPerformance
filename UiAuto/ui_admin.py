@@ -85,6 +85,8 @@ def Casjc_res(*appcon):
         casjc_log.logging.info(title + " 点击申请资源按钮")
         hailong.find_elements_by_tag_name('button')[0].click()
     time.sleep(casjc_config.show_time)
+    #重新加载当前页面
+    #hailong.refresh()
     if hailong.find_elements_by_css_selector('div[class="step-item"]')[1].text == "提交资源申请":
         casjc_log.logging.info(title + " 进入资源申请界面成功")
     else:
@@ -101,15 +103,24 @@ def Casjc_res(*appcon):
     ent = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
     #输入项目名称
     casjc_log.logging.info(title + " 输入项目名称")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys('love爱')
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys('王氏集团董事千金的项目')
     #选择甲方用户
     casjc_log.logging.info(title + " 选择甲方用户")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+    #指定甲方用户,没有就点击，有就搜索
+    suser = ""
+    if not suser:
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+    else:
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(suser)
     time.sleep(casjc_config.short_time)
-    #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[104].click()
     try:
-        jiafang = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        time.sleep(casjc_config.show_time)
+        if hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text == "":
+            jiafang = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].text
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
+        else:
+            jiafang = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     except exceptions.ElementNotInteractableException:
         casjc_log.logging.info(title + " %s企业没有找到账号"%ent)
         casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "当前企业没有找到账号"]
@@ -268,6 +279,320 @@ def Casjc_res(*appcon):
 
 
 
+#申请资源跨服务区
+def Casjc_res_area(*appcon):
+    """
+    0 固定方式
+    1 灵活方式
+    "gb" 高性能计算-标准型
+    "gg" 高性能计算-共享型
+    "yy" 云计算-云主机
+    "sw" 数据存储-文件存储
+    "sy" 数据存储-云硬盘
+    "wg" 网络资源-公网IP
+    """
+    title = "申请资源-跨服务区"
+    if not appcon:
+        casjc_log.logging.info(title + " 没有传递appcon参数,终止执行")
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = ["", "没有传递appcon参数,终止执行"]
+        return None    
+    if appcon[0][0] == 0:
+        if appcon[0][1] == "gb":
+            title = "申请资源-固定方式-高性能计算-标准型"
+        if appcon[0][1] == "gg":
+            title = "申请资源-固定方式-高性能计算-共享型"
+        if appcon[0][1] == "yy":
+            title = "申请资源-固定方式-云计算-云主机"
+        if appcon[0][1] == "sw":
+            title = "申请资源-固定方式-数据存储-文件存储"
+        if appcon[0][1] == "sy":
+            title = "申请资源-固定方式-数据存储-云硬盘"
+        if appcon[0][1] == "wg":
+            title = "申请资源-固定方式-网络资源-公网IP"
+    elif appcon[0][0] == 1:
+        if appcon[0][1] == "gb":
+            title = "申请资源-灵活方式-高性能计算-标准型"
+        if appcon[0][1] == "gg":
+            title = "申请资源-灵活方式-高性能计算-共享型"
+        if appcon[0][1] == "yy":
+            title = "申请资源-灵活方式-云计算-云主机"
+        if appcon[0][1] == "sw":
+            title = "申请资源-灵活方式-数据存储-文件存储"
+        if appcon[0][1] == "sy":
+            title = "申请资源-灵活方式-数据存储-云硬盘"
+        if appcon[0][1] == "wg":
+            title = "申请资源-灵活方式-网络资源-公网IP"
+    casjc_log.logging.info(title)
+    #登录，点击资源管理菜单
+    uname = myconfig['user2']
+    upasswd = myconfig['passwd2']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入资源管理菜单")
+    aaa.admin_resmanagement()
+    #点击申请资源按钮
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-row"]')))
+    if appcon[0][0] == 0:
+        casjc_log.logging.info(title + " 点击申请试用资源按钮")
+        hailong.find_elements_by_tag_name('button')[1].click()
+    elif appcon[0][0] == 1:
+        casjc_log.logging.info(title + " 点击申请资源按钮")
+        hailong.find_elements_by_tag_name('button')[0].click()
+    time.sleep(casjc_config.show_time)
+    #重新加载当前页面
+    #hailong.refresh()
+    if hailong.find_elements_by_css_selector('div[class="step-item"]')[1].text == "提交资源申请":
+        casjc_log.logging.info(title + " 进入资源申请界面成功")
+    else:
+        casjc_log.logging.info(title + " 进入资源申请界面失败")
+    #选择用户单位,选择最后一个
+    casjc_log.logging.info(title + " 点击选择用户单位列表")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
+    time.sleep(casjc_config.short_time)
+    #Select(hailong.find_elements_by_css_selector('li[class="el-scrollbar__view el-select-dropdown__list""]')).select_by_value('国科北京分部')
+    casjc_log.logging.info(title + " 选择单位列表中最后一个元素")
+    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-8].click()
+    #获取选择的企业单位名称
+    ent = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
+    #输入项目名称
+    casjc_log.logging.info(title + " 输入项目名称")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys('love爱')
+    #选择甲方用户
+    casjc_log.logging.info(title + " 选择甲方用户")
+    #指定甲方用户,没有就点击，有就搜索
+    suser = ""
+    if not suser:
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].click()
+    else:
+        hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(suser)
+    time.sleep(casjc_config.short_time)
+    try:
+        time.sleep(casjc_config.show_time)
+        if hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text == "":
+            jiafang = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].text
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
+        else:
+            jiafang = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].text
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+    except exceptions.ElementNotInteractableException:
+        casjc_log.logging.info(title + " %s企业没有找到账号"%ent)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "当前企业没有找到账号"]
+        aaa.Casjc_logout()
+        return None
+    #输入手机号
+    casjc_log.logging.info(title + " 清空当前内容,输入手机号")
+    time.sleep(casjc_config.short_time)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys('13112341234')
+    #输入邮箱
+    casjc_log.logging.info(title + " 清空当前内容,输入邮箱")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].clear()
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys('131@qq.com')
+    #点击配置方式下拉框
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
+    #time.sleep(casjc_config.short_time)
+    #li标签列表数据长度,最后一个是灵活配置
+    #listelement = hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')
+    #判断配置方式，如果appcon[0][0]是0固定方式，如果是1灵活方式
+    if appcon[0][0] == 0:
+        casjc_log.logging.info(title + " 选择配置方式，固定配置")
+        #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-2].click()
+        #填写基本信息完成，提交下一步
+        hailong.find_elements_by_tag_name('button')[1].click()
+        time.sleep(casjc_config.short_time)
+        #进入提交资源申请页面
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="tableBox"]')))
+        if appcon[0][1] == "gb":
+            n = 1
+        elif appcon[0][1] == "gg":
+            n = 2
+        elif appcon[0][1] == "yy":
+            n = 3
+        elif appcon[0][1] == "sw":
+            n = 4
+        elif appcon[0][1] == "sy":
+            n = 5
+        elif appcon[0][1] == "wg":
+            n = 6
+        #输出当前执行资源类型
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[n-1].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入数量
+        num1 = "1"
+        casjc_log.logging.info(title + " 输入资源数量")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(num1)
+        #输入有效期天数
+        num2 = "1"
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(num2)
+        #点击服务区二
+        casjc_log.logging.info(title + " 点击服务区--太原二区")
+        hailong.find_elements_by_css_selector('span[class="el-radio-button__inner"]')[1].click()
+        time.sleep(casjc_config.short_time)
+        #输出当前执行资源类型
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[0].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入数量
+        num1 = "1"
+        casjc_log.logging.info(title + " 输入资源数量")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(num1)
+        #输入有效期天数
+        num2 = "1"
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(num2)
+
+        #输入折后单价
+        #num3 = "10"
+        #casjc_log.logging.info(title + " 输入折后单价")
+        #hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[7]/div/div/div/input').clear()
+        #hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[7]/div/div/div/input').send_keys(num3)
+    #判断配置方式，如果appcon[0][0]是0固定方式，如果是1灵活方式
+    elif appcon[0][0] == 1:
+        casjc_log.logging.info(title + " 选择配置方式，灵活配置")
+        #目前配置方式只有一种，灵活配置不需在选择
+        #hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[len(listelement)-1].click()
+        #填写基本信息完成，提交下一步
+        hailong.find_elements_by_tag_name('button')[1].click()
+        time.sleep(casjc_config.short_time)
+        #进入提交资源申请页面
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="tableBox"]')))
+        if appcon[0][1] == "gb":
+            n = 1
+        elif appcon[0][1] == "gg":
+            n = 2
+        elif appcon[0][1] == "yy":
+            n = 3
+        elif appcon[0][1] == "sw":
+            n = 4
+        elif appcon[0][1] == "sy":
+            n = 5
+        elif appcon[0][1] == "wg":
+            n = 6
+        #输出当前执行资源类型
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[n-1].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入有效期天数
+        daynum = "1"
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(daynum)
+        #输入折后单价
+        pric = "2.5"
+        casjc_log.logging.info(title + " 输入折后单价")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
+        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(pric)
+        #点击服务区二
+        casjc_log.logging.info(title + " 点击服务区--太原二区")
+        hailong.find_elements_by_css_selector('span[class="el-radio-button__inner"]')[1].click()
+        time.sleep(casjc_config.short_time)
+        #输出当前执行资源类型--填写高性能资源申请
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[0].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入有效期天数
+        daynum = "1"
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(daynum)
+        #输入折后单价
+        pric = "0.16"
+        casjc_log.logging.info(title + " 输入折后单价")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
+        hailong.find_element_by_xpath('//div[@class="boxOne"][1]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(pric)
+        #输出当前执行资源类型--填写存储资源申请
+        casjc_log.logging.info(title + " 当前操作的资源类型：" + hailong.find_elements_by_xpath('//div[@class="boxOne"]/div[@class="title"]')[1].text.split("\n")[0])
+        #点击当前资源图标，展开规格
+        casjc_log.logging.info(title + " 点击资源图标，展开规格")
+        resicon = hailong.find_element_by_xpath('//div[@class="boxOne"][2]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr/td/div[@class="cell"]/div[@class="el-table__expand-icon"]')
+        resicon.click()
+        #获取规格数据（暂存）
+        reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][2]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
+        #输入有效期天数
+        daynum = "1"
+        casjc_log.logging.info(title + " 输入资源有效期")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][2]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(daynum)
+        #输入折后单价
+        pric = "90"
+        casjc_log.logging.info(title + " 输入折后单价")
+        hailong.find_element_by_xpath('//div[@class="boxOne"][2]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
+        hailong.find_element_by_xpath('//div[@class="boxOne"][2]/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(pric)
+        #输入报价总额
+        totalpric = int(daynum) * float(pric) * 50
+        hailong.find_element_by_xpath('//div[@class="footer-infor"]/span[2]/div/input').send_keys(str(totalpric))
+    #点击提交申请按钮
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击提交申请按钮")
+    hailong.find_element_by_css_selector('button[class="el-button el-button--primary el-button--small"]').click()
+    #获取提交返回结果
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
+        if len(hailong.find_element_by_css_selector('p[class="el-message__content"]').text) == 0:
+            casjc_log.logging.info(title + " 提交申请后响应的信息为空，申请异常")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "申请资源失败,操作异常"  + " 甲方账号: " + jiafang]
+            aaa.Casjc_logout()
+            return None
+        elif hailong.find_element_by_css_selector('p[class="el-message__content"]').text == "操作成功":
+            #获取单号
+            try:
+                WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="details"]')))
+                WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="aggregate"]')))
+                time.sleep(casjc_config.short_time)
+                orderavg = hailong.find_element_by_xpath('//div[@class="aggregate"]/span[1]').text
+                ordernum = hailong.find_elements_by_tag_name('p')[2].text
+                print(len(ordernum))
+                if len(ordernum) < 6:
+                    imagename = "订单号异常" + time.strftime("%m%d%H%M%S") + '.png'
+                    hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+                    casjc_log.logging.info(title + " 提交申请资源后订单号显示异常,查看截图 %s" %imagename)
+                    casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "订单号显示异常"]
+                    hailong.quit()
+                    return None
+            except exceptions.TimeoutException:
+                imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+                hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+                casjc_log.logging.info(title + " 提交申请资源异常，未找到页面元素,查看截图 %s" %imagename)
+                casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "获取单号或平均价折扣失败，或没有进入提交成功页面"  + " 甲方账号: " + jiafang]
+                hailong.quit()
+                return None
+            casjc_log.logging.info(title + " 提交申请资源成功," + ordernum)
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text +  " 甲方账号: " + jiafang + orderavg]
+            aaa.Casjc_logout()
+            #申请成功后返回订单号，和资源类型
+            return ordernum[4:],appcon[0][1]
+        else:
+            casjc_log.logging.info(title + " 提交申请资源响应异常")
+            casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, hailong.find_element_by_css_selector('p[class="el-message__content"]').text + " 甲方账号: " + jiafang]
+            aaa.Casjc_logout()
+            return None
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 提交申请资源异常，页面元素未找到,查看截图 %s" %imagename)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "申请资源失败,操作异常" + " 甲方账号: " + jiafang]
+        aaa.Casjc_logout()
+        return None
+
+
+
 #价格审批
 def Casjc_price(priceuser="", ordernum=""):
     title = "价格审批"
@@ -353,8 +678,8 @@ def Casjc_contract(ordernum="20200831141130277"):
     casjc_log.logging.info(title + " 本次要生成合同的订单号," + ordernum)
     #登录，点击资源管理菜单
     hailong = webdriver.Chrome()
-    uname = myconfig['user2']
-    upasswd = myconfig['passwd2']
+    uname = "xiaotuanzi" #myconfig['user2']
+    upasswd = "Test123456!" #myconfig['passwd2']
     uurl = myconfig['adminUrl']
     aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
     casjc_log.logging.info(title + " 进入资源管理菜单")
@@ -438,6 +763,12 @@ def Casjc_contract(ordernum="20200831141130277"):
     except:
         #选择日历页最后一天
         hailong.find_elements_by_xpath('//td[@class="next-month"]')[-1].click()
+    time.sleep(casjc_config.short_time)
+    #选择合同章
+    casjc_log.logging.info(title + " 选择合同章")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[10].click()
+    time.sleep(casjc_config.short_time)
+    hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
     #进入申请信息tab，获取订单号
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[role="radiogroup"]')))
     time.sleep(casjc_config.short_time)
@@ -836,7 +1167,7 @@ def Casjc_config(*myorderes):
             if hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell el-tooltip"][1]').text == ordernum:
                 casjc_log.logging.info(title + " 找到预期订单号，点击配置资源")
                 try:
-                    hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell"]/div[@class="table-btn"]/button[2]').click()
+                    hailong.find_element_by_xpath('//tr[@class="el-table__row"][' + str(i+1) + ']/td/div[@class="cell"]/div[@class="table-btn"]/button[3]').click()
                     time.sleep(casjc_config.short_time)
                     mytmp = 1
                     break
@@ -1675,17 +2006,22 @@ def Casjc_addsysent():
     #输入企业用户账号
     newuser = "ui" + time.strftime("%m%d%H%M",time.localtime())
     casjc_log.logging.info(title + " 输入企业用账号" + newuser)
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-6].send_keys(newuser)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-7].send_keys(newuser)
     #输入企业用户姓名
     casjc_log.logging.info(title + " 输入企业用户姓名")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-5].send_keys(u"自动化管理用户")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-6].send_keys(u"自动化管理用户")
     #获取邮箱,输入企业用户邮箱
     mm = casjc_mode.Casjc_mail()
     casjc_log.logging.info(title + " 输入企业用户邮箱:" + mm[0])
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-4].send_keys(mm[0])
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-5].send_keys(mm[0])
     #输入手机号
     casjc_log.logging.info(title + " 输入手机号")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].send_keys("131" + time.strftime("%m%d%H%M",time.localtime()))
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-4].send_keys("131" + time.strftime("%m%d%H%M",time.localtime()))
+    #输入固定电话
+    mm = casjc_mode.Casjc_mail()
+    dh = "010-88888888"
+    casjc_log.logging.info(title + " 输入固定电话:" + dh)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].send_keys(dh)
     #选择企业单位
     try:
         casjc_log.logging.info(title + " 选择企业单位")
@@ -1744,6 +2080,8 @@ def Casjc_addsysent():
         casjc_log.logging.info(title + " 修改密码失败,账号: " + newuser +" 邮件收到密码: " + passwd)
     return None
 
+
+
 #新建企业普通用户
 def Casjc_addent():
     title = "新增企业普通用户"
@@ -1776,16 +2114,19 @@ def Casjc_addent():
     #输入企业用户账号
     newuser = "ui" + time.strftime("%m%d%H%M%S",time.localtime())
     casjc_log.logging.info(title + " 输入企业用户账号" + newuser)
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-6].send_keys(newuser)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-7].send_keys(newuser)
     #输入企业用户姓名
     casjc_log.logging.info(title + " 输入企业用姓名")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-5].send_keys("自动化普通用户")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-6].send_keys("自动化普通用户")
     #输入企业用户邮箱
     casjc_log.logging.info(title + " 输入企业用户邮箱")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-4].send_keys(str(random.randint(10000,99999)) + "@qq.com")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-5].send_keys(str(random.randint(10000,99999)) + "@qq.com")
     #输入手机号
     casjc_log.logging.info(title + " 输入手机号")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].send_keys("177" + time.strftime("%m%d%H%M",time.localtime()))
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-4].send_keys("177" + time.strftime("%m%d%H%M",time.localtime()))
+    #输入电话号码
+    casjc_log.logging.info(title + " 输入电话号码")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].send_keys("010-12345678")
     #选择企业单位
     try:
         casjc_log.logging.info(title + " 选择企业单位")
@@ -1871,7 +2212,7 @@ def Casjc_editent():
     #点击编辑按钮
     time.sleep(casjc_config.short_time)
     casjc_log.logging.info(title + " 点击编辑按钮")
-    hailong.find_elements_by_css_selector('p[class="operator"]')[-5].click()
+    hailong.find_elements_by_css_selector('p[class="operator"]')[-6].click()
     #获取用户姓名
     newuser = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].get_attribute('value')
     casjc_log.logging.info(title + " 当前编辑用户姓名" + newuser)
@@ -1927,15 +2268,71 @@ def Casjc_resset():
     #点击重置密码按钮
     time.sleep(casjc_config.short_time)
     casjc_log.logging.info(title + " 点击重置密码按钮")
-    hailong.find_elements_by_css_selector('p[class="operator"]')[-4].click()
+    hailong.find_elements_by_css_selector('p[class="operator"]')[-5].click()
     #等待页面元素，弹出确认提示框
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
+    #点击确认提示框的确认按钮
+    casjc_log.logging.info(title + " 点击确认提示框的确认按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-2].click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname,account)
+    return None
+
+
+#企业用户修改密码
+def Casjc_updatepwd():
+    title = "企业用户修改密码"
+    #登录，点击用户系统菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入用户系统菜单")
+    aaa.admin_usersystem()
+    #进入用户管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入用户管理菜单")
+    hailong.find_elements_by_css_selector('div[class="el-submenu__title"]')[-1].click()
+    #点击企业用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/enterprise"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击企业用户菜单")
+    hailong.find_element_by_css_selector('li[data-index="/enterprise"]').click()
+    #点击用户列表更多按钮
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini el-popover__reference"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击列表页第一条数据的更多按钮异常，退出登录, 查看截图 %s" %imagename)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, "操作异常,用户列表没有找到更多按钮"]
+        aaa.Casjc_logout(uname)
+        return None
+    #获取用账号
+    account = hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[0].text
+    casjc_log.logging.info(title + " 当前修改密码账号，" + account)
+    #点击重置密码按钮
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击修改密码按钮")
+    hailong.find_elements_by_css_selector('p[class="operator"]')[-4].click()
+    #等待页面元素，弹出修改密码输入框
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
+    time.sleep(casjc_config.short_time)
+    #输入新密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-2].send_keys("123456aA~")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys("123456aA~")
     #点击确认提示框的确认按钮
     casjc_log.logging.info(title + " 点击确认提示框的确认按钮")
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
     #获取提交请求返回信息
     aaa.admin_result(title,uname,account)
     return None
+
     
 
 
@@ -1971,16 +2368,19 @@ def Casjc_addsysuser():
     #输入用户账号
     newuser = "ui" + time.strftime("%m%d%H%M%S",time.localtime())
     casjc_log.logging.info(title + " 输入用户账号," + newuser)
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-6].send_keys(newuser)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-7].send_keys(newuser)
     #输入用户姓名
     casjc_log.logging.info(title + " 输入用户姓名")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-5].send_keys("自动化系统用户")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-6].send_keys("自动化系统用户")
     #输入用户邮箱
     casjc_log.logging.info(title + " 输入用户邮箱")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-4].send_keys(str(random.randint(10000,99999)) + "@qq.com")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-5].send_keys(str(random.randint(10000,99999)) + "@qq.com")
     #输入手机号
     casjc_log.logging.info(title + " 输入手机号")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].send_keys("177" + time.strftime("%m%d%H%M",time.localtime()))
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-4].send_keys("177" + time.strftime("%m%d%H%M",time.localtime()))
+    #输入电话号码
+    casjc_log.logging.info(title + " 输入电话号码")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-3].send_keys("010-88888888")
     #选择组织机构
     try:
         casjc_log.logging.info(title + " 选择组织机构")
@@ -2059,7 +2459,9 @@ def Casjc_editsysuser():
     #点击编辑按钮
     time.sleep(casjc_config.short_time)
     casjc_log.logging.info(title + " 点击编辑按钮")
-    hailong.find_elements_by_tag_name('p')[38].click()
+    for i in hailong.find_elements_by_tag_name('p'):
+        print(i.text)
+    hailong.find_elements_by_tag_name('p')[-5].click()
     #hailong.find_element_by_xpath("//div[@class='cell'][18]/span").click()
     #获取用户姓名
     newuser = hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].get_attribute('value')
@@ -2116,15 +2518,71 @@ def Casjc_sysresset():
     #点击重置密码按钮
     time.sleep(casjc_config.short_time)
     casjc_log.logging.info(title + " 点击重置密码按钮")
-    hailong.find_elements_by_tag_name('p')[39].click()
+    hailong.find_elements_by_tag_name('p')[-4].click()
     #等待页面元素，弹出确认提示框
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
+    #点击确认提示框的确认按钮
+    casjc_log.logging.info(title + " 点击确认提示框的确认按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-2].click()
+    #获取提交请求返回信息
+    aaa.admin_result(title,uname,account)
+    return None
+
+
+#系统用户修改密码
+def Casjc_sysupdatepwd():
+    title = "系统用户修改密码"
+    #登录，点击用户系统菜单
+    uname = myconfig['user1']
+    upasswd = myconfig['passwd1']
+    uurl = myconfig['adminUrl']
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_admin_page(hailong,uname,upasswd,uurl)
+    casjc_log.logging.info(title + " 进入用户系统菜单")
+    aaa.admin_usersystem()
+    #进入用户管理菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-submenu__title"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 进入用户管理菜单")
+    hailong.find_elements_by_css_selector('div[class="el-submenu__title"]')[-1].click()
+    #点击系统用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/userManagement"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击系统用户菜单")
+    hailong.find_element_by_css_selector('li[data-index="/userManagement"]').click()
+    #点击用户列表更多按钮
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini el-popover__reference"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini el-popover__reference"]')[0].click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击用户列表第一条数据的更多按钮异常，退出登录,查看截图 %s" %imagename)
+        casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, " 操作异常,用户列表没有找到更多按钮"]
+        aaa.Casjc_logout(uname)
+        return None
+    #获取用账号
+    account = hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[0].text
+    casjc_log.logging.info(title + " 当前修改密码账号，" + account)
+    #点击重置密码按钮
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击修改密码按钮")
+    hailong.find_elements_by_tag_name('p')[-3].click()
+    #等待页面元素，弹出确认提示框
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-dialog__body"]')))
+    time.sleep(casjc_config.short_time)
+    #输入新密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-2].send_keys("123456aA~")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys("123456aA~")
     #点击确认提示框的确认按钮
     casjc_log.logging.info(title + " 点击确认提示框的确认按钮")
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
     #获取提交请求返回信息
     aaa.admin_result(title,uname,account)
     return None
+
 
 
 if __name__ == "__main__":
@@ -2149,35 +2607,35 @@ if __name__ == "__main__":
     #申请资源中的配置方式与资源类型
     appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
     #appcon = [(1,"sy"),(0,"gg"),(0,"sw"),(0,"sy"),(1,"gg"),(1,"sw")]
-    #appcon = [(1,'gg')]
+    #appcon = [(0,'sw')]
     
     #价格审批人员列表
     order = [myconfig['user3'],myconfig['user6'],myconfig['user7']]
     #非标准合同审批人员列表
     conuser = [myconfig['user3'],myconfig['user4'],myconfig['user5']]
+    '''
+    #Casjc_vlan()
+    #Casjc_vlanname()
+    #Casjc_vlandel()
+    #Casjc_publicvlan()
+    #Casjc_publicvlandel()
     
-
-    #Casjc_addsysent()
-    
-    Casjc_vlan()
-    Casjc_vlanname()
-    Casjc_vlandel()
-    Casjc_publicvlan()
-    Casjc_publicvlandel()
-    
-    Casjc_create_ent()
+    #Casjc_create_ent()
     Casjc_edit_ent()
     for srt in rstall:
         res = Casjc_addCost(srt)
         Casjc_editCost(res)
         Casjc_delCost(res)
+    
     Casjc_addsysent()
     Casjc_addent()
     Casjc_editent()
     Casjc_resset()
     Casjc_addsysuser()
     Casjc_editsysuser()
-    
+    Casjc_sysresset()
+    Casjc_sysupdatepwd()
+    '''
     #合同作废
     #作废合同号
     nnn = "GKJYHTXS202008012"
@@ -2185,11 +2643,11 @@ if __name__ == "__main__":
     contractuser = ["kongshuishui","wangnan","tangdebing"]
     #Casjc_contract_void(nnn)
     #for i in contractuser:
-     #   Casjc_contract_tovoid(nnn,i)
-    
-    
+    #   Casjc_contract_tovoid(nnn,i)
+ 
     for ac in appcon:
-        xx = Casjc_res(ac)      
+        xx = Casjc_res(ac)
+        #xx = Casjc_res_area(ac)
         if not xx:
             continue
         for j in order:
@@ -2199,11 +2657,11 @@ if __name__ == "__main__":
             for i in conuser:
                 Casjc_contract_apply(i,xx[0])
         
-        r = Casjc_change_config(xx)
-        if r:
-            print("进入配置")
-            Casjc_config(xx)
-    
+        #r = Casjc_change_config(xx)
+        #if r:
+            #print("进入配置")
+            #Casjc_config(xx)
+
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)    
