@@ -182,11 +182,11 @@ def Casjc_console_group():
     casjc_log.logging.info(title + " 点击新增工作组")
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()    
     #等待新建工作组页面
-    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-tabs el-tabs--top"]')))
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="create-content"]')))
     time.sleep(casjc_config.short_time)
     #输入项目组
     account = "UI自动化工作组" + time.strftime("%H%M%S")
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys(account)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].send_keys(account)
     #选择成员
     hailong.find_elements_by_css_selector('i[class="iconfont icontianjia"]')[0].click()
     time.sleep(casjc_config.short_time)
