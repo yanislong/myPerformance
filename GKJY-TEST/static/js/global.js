@@ -50,6 +50,7 @@ function testbut() {
     xhttp.onreadystatechange = function(){
     //若响应完成且请求成功
     if(xhttp.readyState === 4 && xhttp.status === 200){
+        console.log("testssss");
         //将字符串类型转为对象
         var result = JSON.parse(xhttp.responseText);
         console.log(result);
