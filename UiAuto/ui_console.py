@@ -20,7 +20,7 @@ import casjc_page
 import casjc_log
 import ui_www
 
-#控制台-共享存储
+#控制台-共享存储-上传文件
 def Casjc_console_upfile():
     title = "数据存储-上传文件"
     #登录控制台
@@ -54,6 +54,53 @@ def Casjc_console_upfile():
     hailong.find_elements_by_css_selector('button[slot="reference"]')[0].click()
     time.sleep(casjc_config.short_time)
     casjc_mode.Casjc_upload(casjc_config.uppath)
+    time.sleep(casjc_config.show_time)
+    #获取返回信息
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="uploader-file-status"]')))
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, hailong.find_elements_by_css_selector('div[class="uploader-file-status"]')[0].text]
+        time.sleep(casjc_config.show_time)
+        aaa.console_logout(uname)
+        return None
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"]
+        aaa.console_logout(uname)
+        return None
+
+#控制台-共享存储-删除文件
+def Casjc_console_delfile():
+    title = "数据存储-删除文件"
+    #登录控制台
+    uname = myconfig["entuser2"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    casjc_log.logging.info(title + " 进入控制台")
+    aaa.console()
+    #聚焦总览页面菜单产品图标，页面样式已改废弃下面操作
+    '''
+    impl = hailong.find_element_by_css_selector('i[class="el-icon-caret-bottom"]')
+    tmp =  hailong.find_element_by_tag_name('body')
+    chain = ActionChains(hailong)
+    chain.move_to_element(impl).perform()
+    time.sleep(casjc_config.short_time)
+    '''
+    #点击高性能计算
+    casjc_log.logging.info(title + " 点击高性能计算")
+    hailong.find_elements_by_css_selector('span[class="innerText"]')[1].click()
+    #chain.move_to_element(tmp).perform()
+    time.sleep(casjc_config.show_time)
+    #点击共享存储菜单
+    casjc_log.logging.info(title + " 点击共享存储菜单")
+    hailong.find_elements_by_css_selector('b[class="iconfont iconbaocun mr10 fwn"]')[0].click()
+    time.sleep(casjc_config.show_time)
+    #点击删除按钮
+    casjc_log.logging.info(title + " 点击删除按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[4].click()
+    time.sleep(casjc_config.short_time)
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
     time.sleep(casjc_config.show_time)
     #获取返回信息
     try:
@@ -151,6 +198,153 @@ def Casjc_console_user():
     aaa.console_result(title,uname,account)
     return None
 
+
+#控制台-用户管理-企业普通用户重置密码
+def Casjc_console_setpwuser():
+    title = "控制台-用户管理-企业普通用户重置密码"
+    #登录控制台
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    casjc_log.logging.info(title + " 进入控制台")
+    aaa.console()
+    #点击用户管理菜单
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="rightBox"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户管理菜单")
+        hailong.find_element_by_xpath('//div[@class="rightBox"]/div[@class="navInner navTitle"]/span[1]').click()
+        time.sleep(casjc_config.short_time)
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
+        aaa.console_logout(uname)
+        return None
+    #点击用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'ul[role="menubar"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击用户菜单")
+    hailong.find_element_by_xpath('//ul[@role="menubar"]/li[@role="menuitem"][2]').click()
+    #点击重置密码
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击重置密码")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[0].click()
+    #等待弹出心中窗口
+    time.sleep(casjc_config.short_time)
+    #点击确定按钮
+    casjc_log.logging.info(title + " 点击确定按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
+    #获取请求结果
+    aaa.console_result(title,uname)
+    return None
+
+
+#控制台-用户管理-企业普通编辑
+def Casjc_console_edituser():
+    title = "控制台-用户管理-编辑企业普通用户"
+    #登录控制台
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    casjc_log.logging.info(title + " 进入控制台")
+    aaa.console()
+    #点击用户管理菜单
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="rightBox"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户管理菜单")
+        hailong.find_element_by_xpath('//div[@class="rightBox"]/div[@class="navInner navTitle"]/span[1]').click()
+        time.sleep(casjc_config.short_time)
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
+        aaa.console_logout(uname)
+        return None
+    #点击用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'ul[role="menubar"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击用户菜单")
+    hailong.find_element_by_xpath('//ul[@role="menubar"]/li[@role="menuitem"][2]').click()
+    #点击编辑
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击编辑")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
+    #等待弹出编辑用户窗口
+    #WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="dialogWrap"]')))
+    time.sleep(casjc_config.short_time)
+    #输入用户账号
+    #account = "uient" + time.strftime("%H%M%S")
+    #hailong.find_element_by_xpath('//div[@class="el-input el-input--medium"]/input[@type="text"][1]').send_keys(account)
+    #输入用户姓名
+    #aname = "UI自动化企业新增用户"
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(aname)
+    #输入手机号
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("199" + time.strftime("%m%d%H%M"))
+    #输入固定电话
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("010-88888888")
+    #输入邮箱
+    #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys(str(random.randint(10000,99999)) + "@qq.com")
+    #点击确定按钮
+    casjc_log.logging.info(title + " 点击确定按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small')[2].click()
+    #获取请求结果
+    aaa.console_result(title,uname)
+    return None
+
+
+#控制台-用户管理-企业普通修改密码
+def Casjc_console_updatepwuser():
+    title = "控制台-用户管理-企业普通用户修改密码"
+    #登录控制台
+    uname = myconfig["entuser1"]
+    upasswd = myconfig["entpasswd"]
+    uurl = myconfig["consoleUrl"]
+    hailong = webdriver.Chrome()
+    aaa = casjc_page.Casjc_console_page(hailong,uname,upasswd,uurl)
+    #进入控制台
+    casjc_log.logging.info(title + " 进入控制台")
+    aaa.console()
+    #点击用户管理菜单
+    try:
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="rightBox"]')))
+        time.sleep(casjc_config.short_time)
+        casjc_log.logging.info(title + " 点击用户管理菜单")
+        hailong.find_element_by_xpath('//div[@class="rightBox"]/div[@class="navInner navTitle"]/span[1]').click()
+        time.sleep(casjc_config.short_time)
+    except exceptions.TimeoutException:
+        casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
+        aaa.console_logout(uname)
+        return None
+    #点击用户菜单
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'ul[role="menubar"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击用户菜单")
+    hailong.find_element_by_xpath('//ul[@role="menubar"]/li[@role="menuitem"][2]').click()
+    #点击修改密码
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击修改密码")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[2].click()
+    #等待弹出修改密码窗口
+    time.sleep(casjc_config.short_time)
+    #定义密码
+    mima = "123456aA~"
+    #输入新密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys(mima)
+    #输入确认密码
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys(mima)
+    #点击确定按钮
+    casjc_log.logging.info(title + " 点击确定按钮")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small')[-1].click()
+    #获取请求结果
+    aaa.console_result(title,uname,mima)
+    return None
 
 #控制台-用户管理-新增工作组
 def Casjc_console_group():
@@ -784,12 +978,15 @@ if __name__ == "__main__":
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
 
-
     for i in range(1):
         Casjc_console_user()
         Casjc_console_group()
-
+        
+    Casjc_console_setpwuser()
+    Casjc_console_edituser()
+    Casjc_console_updatepwuser()
     Casjc_console_upfile()
+    Casjc_console_delfile()
     Casjc_console_webshell()    
     #Casjc_console_user()  
     #Casjc_console_group()
@@ -802,7 +999,7 @@ if __name__ == "__main__":
     Casjc_console_try(env)
     Casjc_console_order()
     Casjc_console_try()
-    
+
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)

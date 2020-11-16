@@ -132,11 +132,13 @@ def Casjc_res(*appcon):
     casjc_log.logging.info(title + " 清空当前内容,输入手机号")
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
+    time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys('13112341234')
     #输入邮箱
     casjc_log.logging.info(title + " 清空当前内容,输入邮箱")
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].clear()
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys('131@qq.com')
+    time.sleep(casjc_config.short_time)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys('335916781@qq.com')
     #点击配置方式下拉框
     #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].click()
     #time.sleep(casjc_config.short_time)
@@ -1534,9 +1536,12 @@ def Casjc_vlanname():
     hailong.find_elements_by_css_selector('li[data-index="/intranet"]')[0].click()
     time.sleep(casjc_config.short_time)
     #判断列表第一条是不是要修改的网络
-    #for i in hailong.find_elements_by_css_selector('div[class="cell"]'):
+    #for i in hailong.find_elements_by_css_selector('tr[class="el-table__row"]'):
     #    print(i.text)
-    if hailong.find_elements_by_css_selector('div[class="cell"]')[7].text == "vlan1098":
+    #for i in hailong.find_elements_by_xpath('//tr[@class="el-table__row"]/td[2]/div[@class="cell"]'):
+    #    print(i.text)
+    if hailong.find_elements_by_xpath('//tr[@class="el-table__row"]/td[2]/div[@class="cell"]')[0].text == "vlan1098":
+    #if hailong.find_elements_by_css_selector('div[class="cell"]')[7].text == "vlan1098":
         #点击修改网络名称按钮
         casjc_log.logging.info(title + " 点击修改名称按钮")
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
@@ -2198,6 +2203,7 @@ def Casjc_addsysent():
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary"]')[-1].click()
     #获取提交请求返回信息
     aaa.admin_result(title,uname,newuser)
+    '''
     #新用户修改密码，修改为123456aA~
     passwd = casjc_mode.Casjc_mailpasswd(mm)
     if not passwd:
@@ -2222,6 +2228,7 @@ def Casjc_addsysent():
         casjc_log.logging.info(title + " 修改密码成功,账号: " + newuser +"新密码: 123456aA~")
     else:
         casjc_log.logging.info(title + " 修改密码失败,账号: " + newuser +" 邮件收到密码: " + passwd)
+    '''
     return None
 
 
@@ -2749,9 +2756,9 @@ if __name__ == "__main__":
     #计费管理中的服务和类型
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
-    #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
-    appcon = [(1,'gg')]
+    appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    #appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
+    #appcon = [(0,"sw")]
     
     #价格审批人员列表
     #试用
@@ -2763,10 +2770,11 @@ if __name__ == "__main__":
     conuser = [myconfig['user3'],myconfig['user4'],myconfig['user5']]
 
     #Casjc_addsysent()
-    '''
-    Casjc_vlan()
-    Casjc_vlanname()
-    Casjc_vlandel()
+    #Casjc_updatepwd()
+    
+    #Casjc_vlan()
+    #Casjc_vlanname()
+    #Casjc_vlandel()
     Casjc_publicvlan()
     Casjc_publicvlandel()
         
@@ -2796,14 +2804,14 @@ if __name__ == "__main__":
     #for i in contractuser:
     #   Casjc_contract_tovoid(nnn,i)
     
-    '''
+    
     for ac in appcon:
         #申请资源返回值为一个订单号和一个元组包含是否试用，资源类型，示例('20201026172520256', (0, 'gg'))
-        #xx = Casjc_res(ac)
+        xx = Casjc_res(ac)
         #xx = Casjc_res_area(ac)
         
         #审批特定订单
-        xx = ["20201027143557654",(1,'sy')]
+        #xx = ["20201027143557654",(1,'sy')]
         
         if not xx:
             continue
@@ -2819,12 +2827,13 @@ if __name__ == "__main__":
             for i in conuser:
                 Casjc_contract_apply(i,xx[0])
         
-            #r = Casjc_change_config(xx)
-            #if r:
+            r = Casjc_change_config(xx)
+            if r:
                 print("进入配置")
-               # Casjc_config(xx)
+                Casjc_config(xx)
         #如果是试用，直接配置
         elif ac[0] == 0:
+            print("进入配置")
             Casjc_config(xx)
     
     #Casjc_config(["20201026162209362",'yy'])
