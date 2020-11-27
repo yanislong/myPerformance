@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLineEdit, QLCDNumber, QDial, QSlider, QLabel, QFormLayout, QLineEdit, QTextEdit, QFileDialog, QProgressBar
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLineEdit, QLCDNumber, QDial, QSlider, QLabel, QFormLayout, QLineEdit, QTextEdit, QFileDialog, QProgressBar, QRadioButton, QButtonGroup
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QCoreApplication, Qt, QBasicTimer
+from PyQt5.QtCore import QCoreApplication, Qt, QBasicTimer, QThread, pyqtSignal
 
 from random import randint
 import hashlib
@@ -8,10 +8,120 @@ import requests
 import os, time, sys, json
 
 
+
+class dfThread(QThread):
+
+        trigger = pyqtSignal(str)
+        
+
+        def __init__(self,ffsize,totalchunk,username,userid,file_up,filename_up, step):
+            super().__init__()
+            self.ffsize = ffsize
+            self.totalchunk = totalchunk
+            self.username = username
+            self.userid = userid
+            self.file_up = file_up
+            #文件分片大小
+            self.kuaidx = 2097152
+            self.filename_up = filename_up
+            self.step = step
+            print(self.file_up)
+
+
+        def run(self):
+            #重写线程执行的run函数
+            #触发自定义信号
+            #for i in range(20):
+                #time.sleep(1)
+                # 通过自定义信号把待显示的字符串传递给槽函数
+                #self.trigger.emit(str(i))
+            print("123")
+            self.trigger.emit(str(99))
+
+        def runssss(self):
+            print(1112222)
+            with open(self.file_up,'rb') as f:
+                chunknumber = 0
+                chunknumber += 1
+                print("当前块编号:" + str(chunknumber))
+                #for chunk in iter(lambda: f.read(self.kuaidx),b''):
+                for chunk in f.read(self.kuaidx):
+                    if not f.read():
+                        break
+                    print(123)
+                    chunknumber += 1
+                    print("当前块编号:" + str(chunknumber))
+                    if len(chunk) < self.kuaidx:
+                        kuaisj = len(chunk)
+                    else:
+                        kuaisj = self.kuaidx
+                    print(len(chunk))
+                    while True:
+                        if self.upfile3(chunknumber, kuaisj, chunk):
+                            self.step = self.step + (100/self.totalchunk)
+                            self.pbar.setValue(self.step)
+                            break
+                        else:
+                            time.sleep(3)
+
+
+        def upfile3(self,chunknumber, kuaisj, chunk):
+            url = self.upfileurl
+            header = {}
+            header['Token'] = self.login_session
+            dd = {}    
+            dd['chunkNumber'] = (None,chunknumber)
+            dd['chunkSize'] = (None,self.kuaidx)
+            dd['currentChunkSize'] = (None,kuaisj)
+            dd['totalSize'] = (None,self.totalsize)
+            dd['identifier'] = (None,self.ident)
+            dd['filename'] = (None,self.filename_up)
+            dd['relativePath'] = (None,self.filename_up)
+            dd['totalChunks'] = (None,self.totalchunk)
+            dd['accept'] = (None,"*")
+            dd['userId'] = (None,self.userid)
+            dd['colonyId'] = (None,43)
+            dd['toPath'] = (None,"/")
+            dd['userHomeDir'] = (None, "/public1/" + "/home/" + self.username + "/" + self.username)
+            dd['upfile'] = (self.filename_up,self.chunk)
+            #print(dd)
+            try:
+                r = requests.post(url,headers=header,files=dd)
+                print(r.content)
+                if r.json()['code'] == 200:
+                    return 1
+                return None
+            except requests.exceptions.Timeout as e:
+                print('请求超时：'+str(e.message))
+            except requests.exceptions.HTTPError as e:
+                print('http请求错误:'+str(e.message))
+            except requests.exceptions.ConnectionError:
+                print('网卡断了')
+
+        
+
 class Example(QWidget):
         def __init__(self):
             super().__init__()
+            #文件分片大小
+            self.kuaidx = 2097152
+            #self.kuaidx = 20971520
+            self.tokenurl = "http://11.2.77.3:30089/portal-test/user/login/account"
+            self.upfileurl = "http://11.2.77.3:30089/portal-test/store/file/upload"
+            self.useridurl = "http://11.2.77.3:30089/portal-test/user/person/get"
+            self.changepemurl = "http://11.2.77.3:30089/portal-test/store/file/merge"
+            self.rbinfo = "内部"
             self.initUi3()
+            self.ffsize = 123
+            self.totalchunk = 123
+            self.username = 123
+            self.userid = 123
+            self.file_up = 123
+            self.filename_up =123
+            self.step =123
+            self.work = dfThread(self.ffsize,self.totalchunk,self.username,self.userid,self.file_up,self.filename_up, self.step)
+            
+
             
 
         def initUi(self):
@@ -44,6 +154,19 @@ class Example(QWidget):
             self.setWindowTitle('CASJC')
             
             self.formlayout = QFormLayout()
+
+            self.rb1 = QRadioButton('线上',self)
+            self.rb2 = QRadioButton('内部',self)
+            self.rb2.setChecked(True)
+
+            self.bg1 = QButtonGroup(self)
+            self.bg1.addButton(self.rb1,11)
+            self.bg1.addButton(self.rb2,22)
+            
+            self.info1 = ""
+            self.info2 = ""
+
+            self.bg1.buttonClicked.connect(self.rbclicked)
             
             self.nameLabel = QLabel("账号")
             self.nameLineEdit = QLineEdit("")
@@ -56,6 +179,7 @@ class Example(QWidget):
             self.bt1.setGeometry(115,150,70,30)
             self.bt1.setToolTip('登录先进云计算平台')
 
+            self.formlayout.addRow(self.rb1,self.rb2)
             self.formlayout.addRow(self.nameLabel,self.nameLineEdit)
             self.formlayout.addRow(self.introductionLabel,self.introductionLineEdit)
             #formlayout.addRow(fileup,self.filebutton)
@@ -63,9 +187,25 @@ class Example(QWidget):
             self.setLayout(self.formlayout)
 
             self.bt1.clicked.connect(self.Casjc_login)
-        
-            
+           
             self.show()
+
+        def rbclicked(self):
+            sender = self.sender()
+            if sender == self.bg1:
+                if self.bg1.checkedId() == 11:
+                    self.tokenurl = "https://www.casjc.com/portal/user/login/account"
+                    self.upfileurl = "https://console.casjc.com/portal/store/file/upload"
+                    self.useridurl = "https://www.casjc.com/portal/user/person/get"
+                    self.changepemurl = "http://11.2.77.3:30089/portal-test/store/file/merge"
+                    self.rbinfo = "线上"
+
+                else:
+                    self.tokenurl = "http://11.2.77.3:30089/portal-test/user/login/account"
+                    self.upfileurl = "http://11.2.77.3:30089/portal-test/store/file/upload"
+                    self.useridurl = "http://11.2.77.3:30089/portal-test/user/person/get"
+                    self.changepemurl = "http://11.2.77.3:30089/portal-test/store/file/merge"
+                
 
         def initUi4(self):
             self.setGeometry(300,300,300,200)
@@ -107,7 +247,6 @@ class Example(QWidget):
             self.step = 0
             self.setGeometry(300, 300, 320, 200)
             
-            #self.cmd()
 
         def submitStore(self):
             print(self.nameLineEdit.text())
@@ -128,44 +267,31 @@ class Example(QWidget):
         
         def cmd(self):
             print("do action")
+            self.btn.setEnabled(False)
             if self.timer.isActive():
                 self.timer.stop()
                 self.btn.setText('开始')
             else:
                 self.timer.start(100, self)
                 self.btn.setText('上传中')
-            self.username = self.nameLineEdit.text()
+            print(self.username)
             self.userid = self.getuserId()
-            #print(self.introductionLineEdit.text())
-            print(self.filename_up)
-            ffsize = os.path.getsize(self.file_up)
-            #print(ffsize)
-            kuaidx = 2097152
-            totalchunk = int(ffsize / kuaidx) + 1
-            ident = cmd5(self.file_up)
-            with open(self.file_up,'rb') as f:
-                chunknumber = 0
-                for chunk in iter(lambda: f.read(kuaidx),b''):
-                    chunknumber += 1
-                    md5 = hashlib.md5()
-                    #print(f.tell())
-                    md5.update(chunk)
-                    if len(chunk) < kuaidx:
-                        kuaisj = len(chunk)
-                    else:
-                        kuaisj = kuaidx
-                    print(len(chunk))
-                    chunkmd5 = md5.hexdigest()
-                    #print(chunkmd5)
-                    while True:
-                        if self.upfile2(chunknumber, kuaidx,kuaisj,ffsize,ident,self.filename_up,totalchunk,chunkmd5,chunk,self.username,self.userid):
-                            self.step = self.step + (100/totalchunk)
-                            self.pbar.setValue(self.step)
-                            break
-                        else:
-                            time.sleep(3)
-                    
-            self.changepos()
+            print("文件名: " + self.filename_up)
+            #文件大小
+            self.ffsize = os.path.getsize(self.file_up)
+            print("文件大小: " + str(self.ffsize))
+            #文件分片块数
+            self.totalchunk = int(self.ffsize / self.kuaidx) + 1
+            print("文件块数: " + str(self.totalchunk))
+            #self.work.start()
+
+            #shangchuang = dfThread(self.ffsize,self.totalchunk,self.username,self.userid,self.file_up,self.filename_up, self.step)
+            #shagnchuang.start()
+            
+            self.filerun(self.ffsize,self.totalchunk,self.username,self.userid)
+            
+            self.merge()
+            print("ok")
             self.selefile.setVisible(False)
             self.selefilename.setVisible(False)
             self.pbar.setVisible(False)
@@ -173,13 +299,20 @@ class Example(QWidget):
             self.btn.setVisible(False)
             self.selefilenameup = QLabel("文件:" + self.filename_up + " 上传完成")
             self.formlayout.addRow(self.selefilenameup)
+            #self.btn.setEnabled(True)
+
+        def execute(self):
+            self.work.start()
+            self.work.trigger.connect(self.display)
+
+        def display(self):
+            self.listWidget.addItem(str)
 
           
         def Casjc_login(self):
-            #print(self.nameLineEdit.text())
+            self.username = self.nameLineEdit.text()
             #print(self.introductionLineEdit.text())
-            url = "http://11.2.77.3:30089/portal-test/user/login/account"
-            #url = "https://www.casjc.com/portal/user/login/account"
+            url = self.tokenurl
             header = {}
             header['Content-Type'] = "application/json"
             data = {}
@@ -199,10 +332,24 @@ class Example(QWidget):
                         self.introductionLabel.setVisible(False)
                         self.introductionLineEdit.setVisible(False)
                         self.bt1.setVisible(False)
+                        self.rb1.setVisible(False)
+                        self.rb2.setVisible(False)
+                        #self.bt2 = QPushButton('退出',self)
+                        #self.bt2.setGeometry(200,200,30,20)
+                        self.lab = QLabel(self.rbinfo,self)
                         self.fileup = QLabel("文件上传")
                         self.filebutton = QPushButton("选择文件",self)
+                        self.colonyId = QLabel("colonyId")
+                        self.mycolonyId = QLineEdit("43")
+                        self.colonypath = QLabel("路径")
+                        self.mycolonypath = QLineEdit("/public1")
+                        self.formlayout.addRow(self.lab)
+                        self.formlayout.addRow(self.colonyId,self.mycolonyId)
+                        self.formlayout.addRow(self.colonypath,self.mycolonypath)
                         self.formlayout.addRow(self.fileup,self.filebutton)
                         self.filebutton.clicked.connect(self.selefile)
+                        #self.bt2 = QPushButton('退出',self)
+                        #self.bt2.setGeometry(155,150,60,40)
                     else:
                         print('登录认证信息错误')
                         self.login_mess = '登录认证信息错误'
@@ -227,8 +374,7 @@ class Example(QWidget):
 
 
         def getuserId(self):
-            #url = "https://www.casjc.com/portal/user/person/get"
-            url = "http://11.2.77.3:30089/portal-test/user/person/get"
+            url = self.useridurl
             header = {}
             header["Authorization"] = self.login_session
             header['Token'] = self.login_session
@@ -238,31 +384,53 @@ class Example(QWidget):
             print(r.json()['data']['id'])
             return r.json()['data']['id']
 
+        def filerun(self,ffsize,totalchunk,username,userid):
+            #文件md5值
+            self.ident = cmd5(self.file_up)
+            with open(self.file_up,'rb') as f:
+                chunknumber = 0
+                for chunk in iter(lambda: f.read(self.kuaidx),b''):
+                    chunknumber += 1
+                    print("当前块编号:" + str(chunknumber))
+                    #md5 = hashlib.md5()
+                    #print(f.tell())
+                    #md5.update(chunk)
+                    if len(chunk) < self.kuaidx:
+                        kuaisj = len(chunk)
+                    else:
+                        kuaisj = self.kuaidx
+                    print(len(chunk))
+                    #chunkmd5 = md5.hexdigest()
+                    #print(chunkmd5)
+                    while True:
+                        if self.upfile2(chunknumber, kuaisj,ffsize,totalchunk,chunk,username,userid):
+                            self.step = self.step + (100/self.totalchunk)
+                            self.pbar.setValue(self.step)
+                            break
+                        else:
+                            time.sleep(3)
 
-        def upfile2(self,chunknumber,kuaidx,cchunksize,totalsize,identifier,filename,totalchunk,chunkmd5,chunk,username,userid):
+
+        def upfile2(self,chunknumber,cchunksize,totalsize,totalchunk,chunk,username,userid):
+            url = self.upfileurl
             header = {}
             header['Token'] = self.login_session
             dd = {}    
             dd['chunkNumber'] = (None,chunknumber)
-            dd['chunkSize'] = (None,kuaidx)
+            dd['chunkSize'] = (None,self.kuaidx)
             dd['currentChunkSize'] = (None,cchunksize)
             dd['totalSize'] = (None,totalsize)
-            dd['identifier'] = (None,identifier)
-            dd['filename'] = (None,filename)
-            dd['relativePath'] = (None,filename)
+            dd['identifier'] = (None,self.ident)
+            dd['filename'] = (None,self.filename_up)
+            dd['relativePath'] = (None,self.filename_up)
             dd['totalChunks'] = (None,totalchunk)
             dd['accept'] = (None,"*")
             dd['userId'] = (None,userid)
-            dd['colonyId'] = (None,43)
+            dd['colonyId'] = (None,self.mycolonyId.text())
             dd['toPath'] = (None,"/")
-            dd['userHomeDir'] = (None,"/public1/home/" + username + "/" + username)
-            dd['chunkMd5'] = (None,chunkmd5)
-            dd['upfile'] = (None,chunk)
-            dd['upfile'] = (filename,chunk)
+            dd['userHomeDir'] = (None, self.mycolonypath.text() + "/home/" + username + "/" + username)
+            dd['upfile'] = (self.filename_up,chunk)
             #print(dd)
-            url = "http://11.2.77.3:30089/portal-test/store/file/upload"
-            #url = "https://console.casjc.com/portal/store/file/upload"
-            #print(r.content)
             try:
                 r = requests.post(url,headers=header,files=dd)
                 print(r.content)
@@ -276,30 +444,33 @@ class Example(QWidget):
             except requests.exceptions.ConnectionError:
                 print('网卡断了')
 
-        def changepos(self):
-            url = "http://11.2.77.3:30089/portal-test/store/file/changePosition"
+        def merge(self):
+            url = self.changepemurl
             header = {}
             header['Token'] = self.login_session
             header['Content-Type'] = "application/json"
             dd = {}
-            dd['colonyId'] = 43
+            dd['colonyId'] = self.mycolonyId.text()
             dd['filename'] = self.filename_up
+            dd['identifier'] = self.ident
             dd['isFolder'] = False
             dd['toPath'] = "/"
-            dd['totalSize'] = 0
-            dd['userHomeDir'] = "/public1/home/" + self.username + "/" + self.username
+            dd['totalSize'] = self.ffsize
+            dd['totalChunks'] = self.totalchunk
+            dd['relativePath'] = self.filename_up
+            dd['userHomeDir'] = self.mycolonypath.text() + "/home/" + self.username + "/" + self.username
             dd['userId'] = self.userid
+            print(dd['userHomeDir'])
             r = requests.post(url,headers=header, data=json.dumps(dd))
             print(r.content)
         
 
-
-
 def cmd5(filename):
-    #md5 = hashlib.md5()
+    print('safsdf')
+    md5 = hashlib.md5()
     with open(filename,'rb') as f:
         for chunk in iter(lambda: f.read(2097152),b''):
-            md5 = hashlib.md5()
+            #md5 = hashlib.md5()
             #print(f.tell())
             md5.update(chunk)
             #print(md5.hexdigest())

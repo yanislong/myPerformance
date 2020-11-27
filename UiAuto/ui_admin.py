@@ -2558,6 +2558,8 @@ def Casjc_addsysuser():
         hailong.find_element_by_css_selector('input[class="el-select__input"]').click()
         time.sleep(casjc_config.short_time)
         hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
+        hailong.find_elements_by_css_selector('div[class="el-dialog__header"]')[-2].click()
+        time.sleep(casjc_config.show_time)
     except:
         imagename = title + time.strftime("%m%d%H%M%S") + '.png'
         hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
@@ -2756,9 +2758,9 @@ if __name__ == "__main__":
     #计费管理中的服务和类型
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
-    appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    #appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
-    #appcon = [(0,"sw")]
+    #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
+    appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
+    #appcon = [(1,"gg")]
     
     #价格审批人员列表
     #试用
