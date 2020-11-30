@@ -270,24 +270,27 @@ class lhl:
                 resGet = self.respondGet(i[8],l3.strip(),i[3],i[4],i[9])
                 if resGet:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
-                continue
-            if i[5].lower() == "post":
+                else:
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(0),i[7],'Error')
+            elif i[5].lower() == "post":
                 resPost = self.respondPost(i[8],l3.strip(),i[3],i[4],i[9])
                 if resPost:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
-                continue
-            if i[5].lower() == "put":
+                else:
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(0),i[7],'Error')
+            elif i[5].lower() == "put":
                 resPut = self.respondPut(l3.strip(),i[3],i[4],i[9])
                 if resPut:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
-                continue
+                else:
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(0),i[7],'Error')
             else:
                 print("请求方式或参数有误不存在")
         return None
 
     def oneTest(self,rid):
         sqldata = lhlSql()
-        rid = "7634"
+        #rid = "7634"
         onedata = sqldata.getIdInterface(rid)
         for i in onedata:
             print(i)
@@ -303,18 +306,21 @@ class lhl:
                 resGet = self.respondGet(i[8],l3.strip(),i[3],i[4],i[9])
                 if resGet:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resGet['body'],resGet['code'],round(resGet['respondTime'],5),i[7],resGet['result'])
-                continue
-            if i[5].lower() == "post":
+                else:
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],'None','0',round(0),i[7],'Error')
+            elif i[5].lower() == "post":
                 print(i[5])
                 resPost = self.respondPost(i[8],l3.strip(),i[3],i[4],i[9])
                 if resPost:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7],resPost['result'])
-                continue
-            if i[5].lower() == "put":
+                else:
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],'None','0',round(0),i[7],'Error')
+            elif i[5].lower() == "put":
                 resPut = self.respondPut(l3.strip(),i[3],i[4],i[9])
                 if resPut:
                     sqldata.insertInterfaceRespond(i[1],l3,i[4],resPost['body'],resPost['code'],round(resPost['respondTime'],5),i[7])
-                continue
+                else:
+                    sqldata.insertInterfaceRespond(i[1],l3,i[4],'None','0',round(0),i[7],'Error')
             else:
                 print("请求方式或参数有误不存在")
         return None
