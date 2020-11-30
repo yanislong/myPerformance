@@ -2774,12 +2774,12 @@ if __name__ == "__main__":
     #Casjc_addsysent()
     #Casjc_updatepwd()
     
-    #Casjc_vlan()
-    #Casjc_vlanname()
-    #Casjc_vlandel()
+    Casjc_vlan()
+    Casjc_vlanname()
+    Casjc_vlandel()
     Casjc_publicvlan()
     Casjc_publicvlandel()
-        
+    '''
     for srt in rstall:
         res = Casjc_addCost(srt)
         Casjc_editCost(res)
@@ -2837,7 +2837,7 @@ if __name__ == "__main__":
         elif ac[0] == 0:
             print("进入配置")
             Casjc_config(xx)
-    
+    '''
     #Casjc_config(["20201026162209362",'yy'])
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)

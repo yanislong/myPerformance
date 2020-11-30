@@ -346,7 +346,7 @@ def Casjc_console_updatepwuser():
     aaa.console_result(title,uname,mima)
     return None
 
-#控制台-用户管理-新增工作组
+#控制台-用户管理-分配高性能计算
 def Casjc_console_group():
     title = "控制台-用户管理-新增工作组"
     #登录控制台
@@ -370,6 +370,8 @@ def Casjc_console_group():
         casjc_config.casjc_result[title + time.strftime("%M%S",time.localtime())] = [uname, "操作异常"] 
         aaa.console_logout(uname)
         return None
+    '''
+    #新增工作组功能2.4版本调整，去掉了原有功能
     #点击新增工作组
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="handleBoxLeft"]')))
     time.sleep(casjc_config.short_time)
@@ -389,11 +391,17 @@ def Casjc_console_group():
     hailong.find_elements_by_css_selector('i[class="iconfont icontianjia"]')[1].click()
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_xpath('//div[@class="cell"]/label[@class="el-checkbox"]/span[@class="el-checkbox__input"]/span[@class="el-checkbox__inner"]')[0].click()
+    '''
+    #点击列表第一条数据的分配资源
+    time.sleep(casjc_config.short_time)
+    casjc_log.logging.info(title + " 点击分配资源")
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text"]')[4].click()
     #点击确定按钮
+    time.sleep(casjc_config.short_time)
     casjc_log.logging.info(title + " 点击确定按钮")
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[-1].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[1].click()
     #获取请求结果
-    aaa.console_result(title,uname,account)
+    aaa.console_result(title,uname)
     return None
 
 #控制台-用户管理-云计算分配云主机
@@ -978,6 +986,8 @@ if __name__ == "__main__":
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
 
+    Casjc_console_group()
+    '''
     for i in range(1):
         Casjc_console_user()
         Casjc_console_group()
@@ -999,7 +1009,7 @@ if __name__ == "__main__":
     Casjc_console_try(env)
     Casjc_console_order()
     Casjc_console_try()
-
+    '''
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
