@@ -1341,6 +1341,9 @@ def Casjc_config(*myorderes):
             except exceptions.ElementNotInteractableException:
                 aa = hailong.find_elements_by_xpath('//div[@class="el-picker-panel__content"]/table[@class="el-date-table"]/tbody/tr[@class="el-date-table__row"]/td[@class="available"]')
                 aa[-1].click()
+        #casjc_log.logging.info(title + " 输入家目录")
+        #hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[7].send_keys('/public1/home/test/test')
+        #time.sleep(casjc_config.short_time)
     elif orderes[1][1] == "sy":
         casjc_log.logging.info(title + " 选择产品服务-数据存储")
         #选择数据存储
@@ -2760,7 +2763,7 @@ if __name__ == "__main__":
     #申请资源中的配置方式与资源类型
     #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
     appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
-    #appcon = [(1,"gg")]
+    appcon = [(0,"sw")]
     
     #价格审批人员列表
     #试用
@@ -2773,13 +2776,13 @@ if __name__ == "__main__":
 
     #Casjc_addsysent()
     #Casjc_updatepwd()
-    
+    '''
     Casjc_vlan()
     Casjc_vlanname()
     Casjc_vlandel()
     Casjc_publicvlan()
     Casjc_publicvlandel()
-    '''
+    
     for srt in rstall:
         res = Casjc_addCost(srt)
         Casjc_editCost(res)
@@ -2796,7 +2799,7 @@ if __name__ == "__main__":
     Casjc_editsysuser()
     Casjc_sysresset()
     Casjc_sysupdatepwd()
-    
+    '''
     #合同作废
     #作废合同号
     nnn = "GKJYHTXS202008012"
@@ -2837,7 +2840,7 @@ if __name__ == "__main__":
         elif ac[0] == 0:
             print("进入配置")
             Casjc_config(xx)
-    '''
+    
     #Casjc_config(["20201026162209362",'yy'])
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)

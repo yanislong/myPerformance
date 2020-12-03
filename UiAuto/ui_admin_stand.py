@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from sec import sec_tmp
+#from sec import sec_tmp
 
 
 #get直接返回，不再等待界面加载完成
@@ -214,7 +214,7 @@ def sync_user():
     upasswd = myconfig['passwd']
     uurl = myconfig['adminUrl']
     aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
-    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconzhanghurenzheng"]').click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
     hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
     casjc_log.logging.info(title + " 点击同步系统账号按钮")
@@ -236,7 +236,7 @@ def add_ldapuser():
     upasswd = myconfig['passwd']
     uurl = myconfig['adminUrl']
     aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
-    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconzhanghurenzheng"]').click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
     hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
     casjc_log.logging.info(title + " 点击新增系统账号按钮")
@@ -249,15 +249,15 @@ def add_ldapuser():
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[0].click()
     #输入系统账号
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys("uitest")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[1].send_keys("uitest01")
     #输入密码
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("123456aA")
     #输入gid
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("100900")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("100901")
     #输入uid
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("100900")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].send_keys("100901")
     #输入家目录
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys("/home/uitest")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[5].send_keys("/home/uitest01")
     try:
         #点击保存
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
@@ -281,7 +281,7 @@ def show_ldapuser():
     upasswd = myconfig['passwd']
     uurl = myconfig['adminUrl']
     aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
-    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconzhanghurenzheng"]').click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
     hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
     casjc_log.logging.info(title + " 点击系统账号详情按钮")
@@ -310,7 +310,7 @@ def edit_ldapuser():
     upasswd = myconfig['passwd']
     uurl = myconfig['adminUrl']
     aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
-    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconzhanghurenzheng"]').click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
     hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
     casjc_log.logging.info(title + " 点击系统账号详情按钮")
@@ -346,7 +346,7 @@ def modify_ldappasswd():
     upasswd = myconfig['passwd']
     uurl = myconfig['adminUrl']
     aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
-    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconjiqun"]').click()
+    hailong.find_element_by_css_selector('i[class="el-icon- iconfont iconzhanghurenzheng"]').click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/authentication"]')))
     hailong.find_element_by_css_selector('li[data-index="/authentication"]').click()
     casjc_log.logging.info(title + " 点击系统账号修改密码按钮")
@@ -451,6 +451,37 @@ def edit_adminuser():
     return None
 
 
+#系统用户重置密码
+def reset_passwd():
+    title = "系统用户重置密码"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    #点击系统管理一级菜单
+    casjc_log.logging.info(title + " 点击系统管理一级菜单")
+    hailong.find_elements_by_css_selector('div[class="nav-item"]')[-1].click()
+    #点击重置密码按钮
+    casjc_log.logging.info(title + " 点击系统用户列表第一行的重置密码按钮")
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
+    #弹出重置密码弹窗
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__header"]')))
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--default el-button--small el-button--primary "]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[-1].click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
 
 #系统用户修改密码
 def change_passwd():
@@ -467,7 +498,7 @@ def change_passwd():
     #点击修改密码按钮
     casjc_log.logging.info(title + " 点击系统用户列表第一行的修改密码按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[2].click()
     #弹出修改密码弹窗
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'form[class="el-form newEditUser"]')))
     #输入新密码
@@ -499,10 +530,10 @@ def offorup():
     #点击系统管理一级菜单
     casjc_log.logging.info(title + " 点击系统管理一级菜单")
     hailong.find_elements_by_css_selector('div[class="nav-item"]')[-1].click()
-    #点击修改密码按钮
+    #点击禁用按钮
     casjc_log.logging.info(title + " 点击系统用户列表第一行的禁用/启用按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[2].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[3].click()
     #弹出确认提示框弹窗
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__title"]')))
     hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
@@ -523,10 +554,10 @@ def del_user():
     #点击系统管理一级菜单
     casjc_log.logging.info(title + " 点击系统管理一级菜单")
     hailong.find_elements_by_css_selector('div[class="nav-item"]')[-1].click()
-    #点击修改密码按钮
+    #点击删除按钮
     casjc_log.logging.info(title + " 点击系统用户列表第一行的删除按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[3].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[4].click()
     #弹出确认提示框弹窗
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__title"]')))
     hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
@@ -618,6 +649,40 @@ def edit_consoleuser():
 
 
 #控制台用户修改密码
+def change_consoleresetpasswd():
+    title = "控制台用户重置密码"
+    #登录
+    hailong = webdriver.Chrome()
+    uname = myconfig["username"]
+    upasswd = myconfig['passwd']
+    uurl = myconfig['adminUrl']
+    aaa = casjc_page.Casjc_std_admin(hailong,uname,upasswd,uurl)
+    #点击系统管理一级菜单
+    casjc_log.logging.info(title + " 点击系统管理一级菜单")
+    hailong.find_elements_by_css_selector('div[class="nav-item"]')[-1].click()
+    #点击二级菜单-控制台用户
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'li[data-index="/enterprise"]')))
+    hailong.find_element_by_css_selector('li[data-index="/enterprise"]').click()
+    #点击修重置码按钮
+    casjc_log.logging.info(title + " 点击控制台用户列表第一行的重置密码按钮")
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
+    #弹出重置密码弹窗
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__header"]')))
+    try:
+        #点击保存
+        WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--default el-button--small el-button--primary "]')))
+        casjc_log.logging.info(title + " 点击保存按钮")
+        hailong.find_elements_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]')[0].click()
+    except exceptions.TimeoutException:
+        imagename = title + time.strftime("%m%d%H%M%S") + '.png'
+        hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
+        casjc_log.logging.info(title + " 点击保存按钮异常,查看截图 %s" % imagename)
+    #获取提交返回结果
+    aaa.admin_result(title,uname)
+    return None
+
+#控制台用户修改密码
 def change_consolepasswd():
     title = "控制台用户修改密码"
     #登录
@@ -635,13 +700,13 @@ def change_consolepasswd():
     #点击修改密码按钮
     casjc_log.logging.info(title + " 点击控制台用户列表第一行的修改密码按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[2].click()
     #弹出修改密码弹窗
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'form[class="el-form newEditUser"]')))
     #输入新密码
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-2].send_keys("123123aA~")
+    hailong.find_elements_by_css_selector('input[type="password"]')[0].send_keys("123123aA~")
     #输入确认密码
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[-1].send_keys("123123aA~")
+    hailong.find_elements_by_css_selector('input[type="password"]')[1].send_keys("123123aA~")
     try:
         #点击保存
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
@@ -654,6 +719,7 @@ def change_consolepasswd():
     #获取提交返回结果
     aaa.admin_result(title,uname)
     return None
+
 
 #禁用/启用控制台用户
 def offorup_console():
@@ -673,7 +739,7 @@ def offorup_console():
     #点击禁用/启用按钮
     casjc_log.logging.info(title + " 点击控制台用户列表第一行的禁用/启用按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[2].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[3].click()
     #弹出确认提示框弹窗
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__title"]')))
     hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
@@ -700,7 +766,7 @@ def del_consoleuser():
     #点击删除按钮
     casjc_log.logging.info(title + " 点击控制台用户列表第一行的删除按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
-    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[3].click()
+    hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[4].click()
     #弹出确认提示框弹窗
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="el-message-box__title"]')))
     hailong.find_element_by_css_selector('button[class="el-button el-button--default el-button--small el-button--primary "]').click()
@@ -712,6 +778,7 @@ def del_consoleuser():
 
 #测试邮箱
 def test_mail():
+    global mima
     title = "测试邮箱"
     #登录
     hailong = webdriver.Chrome()
@@ -742,7 +809,7 @@ def test_mail():
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("251737718@qq.com")
     #输入邮箱密码
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(sec_tmp.mima)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(mima)
     try:
         #点击邮箱测试按钮
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
@@ -774,6 +841,7 @@ def test_mail():
 
 #设置邮箱
 def set_mail():
+    global mima
     title = "设置邮箱"
     #登录
     hailong = webdriver.Chrome()
@@ -804,7 +872,7 @@ def set_mail():
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[2].send_keys("251737718@qq.com")
     #输入邮箱密码
     hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].clear()
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(sec_tmp.mima)
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys(mima)
     try:
         #点击邮箱测试按钮
         WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary el-button--small"]')))
@@ -826,6 +894,7 @@ def set_mail():
 
 
 if __name__ == "__main__":
+    mima = "thuerngymkpqbgfa"
     try:
         if sys.argv[1] == "std":
             myconfig = casjc_config.stdPerson['admin']
@@ -845,7 +914,7 @@ if __name__ == "__main__":
     add_ldap()
     edit_ldap()
     drop_ldap()
-    
+    '''
     sync_user()
     add_ldapuser()
     show_ldapuser()
@@ -854,20 +923,22 @@ if __name__ == "__main__":
     set_mail()
     test_mail()
     
-    add_adminuser()
-    edit_adminuser()
-    change_passwd()
-    offorup()
-    del_user()
+    #add_adminuser()
+    #edit_adminuser()
+    #reset_passwd()
+    #change_passwd()
+    #offorup()
+    #del_user()
     
-    add_consoleuser()
-    edit_consoleuser()
-    change_consolepasswd()
-    offorup_console()
-    del_consoleuser()
+    #add_consoleuser()
+    #edit_consoleuser()
+    #change_consoleresetpasswd()
+    #change_consolepasswd()
+    #offorup_console()
+    #del_consoleuser()
     '''
 
-    modify_ldappasswd()
+    #modify_ldappasswd()
     
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)

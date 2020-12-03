@@ -374,7 +374,8 @@ class Casjc_std_admin():
         self.hailong.find_element_by_tag_name('button').click()
         #等待casjc_config.wait_time全局设置时间，判断是否登录成功进入首页
         try:
-            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="subnav-header"]')))
+            #WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="subnav-header"]')))
+            WebDriverWait(self.hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'img[src="/static/image/photo.png"]')))
         except exceptions.TimeoutException:
             imagename = "标准版后台登录" + time.strftime("%m%d%H%M%S") + '.png'
             self.hailong.save_screenshot(r'C:\usr\Apache24\htdocs\image\\' + imagename)
