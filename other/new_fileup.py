@@ -16,10 +16,11 @@ class MyMainForm(QWidget):
         super(MyMainForm, self).__init__(parent)
         self.tokenurl = "http://11.2.77.3:30089/portal-test/user/login/account"
         self.upfileurl = "http://11.2.77.3:30089/portal-test/store/file/upload"
-        self.useridurl = "http://11.2.77.3:30089/portal-test/user/person/get"
+        self.useridurl = "http://11.2.77.3:30089/portal-test/store/store/colonyList"
         self.changepemurl = "http://11.2.77.3:30089/portal-test/store/file/merge"
         self.rbinfo = "内部"
         self.initUi3()
+        
 
 
     def initUi3(self):
@@ -80,6 +81,7 @@ class MyMainForm(QWidget):
                     if r.json()['code'] == 200:
                         print(r.json()['data'])
                         self.login_session = r.json()['data']
+                        self.getuserId()
                         self.login_mess = '登录成功'
                         self.nameLabel.setVisible(False)
                         self.nameLineEdit.setVisible(False)
@@ -92,9 +94,11 @@ class MyMainForm(QWidget):
                         self.fileup = QLabel("文件上传")
                         self.filebutton = QPushButton("选择文件",self)
                         self.colonyId = QLabel("colonyId")
-                        self.mycolonyId = QLineEdit("43")
+                        self.mycolonyId = QLineEdit(self.store_colonyid)
+                        self.mycolonyId.setEnabled(False)
                         self.colonypath = QLabel("路径")
-                        self.mycolonypath = QLineEdit("/public1")
+                        self.mycolonypath = QLineEdit(self.store_path)
+                        self.mycolonypath.setEnabled(False)
                         self.formlayout.addRow(self.lab)
                         self.formlayout.addRow(self.colonyId,self.mycolonyId)
                         self.formlayout.addRow(self.colonypath,self.mycolonypath)
@@ -119,6 +123,7 @@ class MyMainForm(QWidget):
                 print('http请求错误:' + str(e.message))
                 self.login_mess = 'http请求错误'
             reply = QMessageBox.information(self, "登录提示信息", self.login_mess, QMessageBox.Yes)
+            self.getuserId()
 
             #self.setLayout(self.formlayout)
 
@@ -129,7 +134,11 @@ class MyMainForm(QWidget):
             header['Token'] = self.login_session
             header['Cookie'] = "JSESSIONID=" + self.login_session
             r = requests.get(url, headers=header)
-            return r.json()['data']['id']
+            self.store_userid = r.json()['data'][0]['userId']
+            self.store_colonyid = str(r.json()['data'][0]['colonyId'])
+            self.store_path = r.json()['data'][0]['path']
+            return None
+
 
         
     def selefile(self):
@@ -139,10 +148,6 @@ class MyMainForm(QWidget):
                 self.selefilenameup.setVisible(False)
             except:
                 pass
-            self.colonyId = self.mycolonyId.text()
-            self.colonyPath = self.mycolonypath.text()
-            self.userid = self.getuserId()
-
             
             self.selefile = QLabel("选中文件")
             self.selefilename = QLabel(self.filename_up)
@@ -170,14 +175,14 @@ class MyMainForm(QWidget):
                 if self.bg1.checkedId() == 11:
                     self.tokenurl = "https://www.casjc.com/portal/user/login/account"
                     self.upfileurl = "https://console.casjc.com/portal/store/file/upload"
-                    self.useridurl = "https://www.casjc.com/portal/user/person/get"
+                    self.useridurl = "https://console.casjc.com/portal/store/store/colonyList"
                     self.changepemurl = "https://console.casjc.com/portal/store/file/merge"
                     self.rbinfo = "线上"
 
                 else:
                     self.tokenurl = "http://11.2.77.3:30089/portal-test/user/login/account"
                     self.upfileurl = "http://11.2.77.3:30089/portal-test/store/file/upload"
-                    self.useridurl = "http://11.2.77.3:30089/portal-test/user/person/get"
+                    self.useridurl = "http://11.2.77.3:30089/portal-test/store/store/colonyList"
                     self.changepemurl = "http://11.2.77.3:30089/portal-test/store/file/merge"
 
     def timerEvent(self, e):
@@ -203,7 +208,7 @@ class MyMainForm(QWidget):
             self.work = WorkThread()
             
             # 启动线程
-            myll = [self.login_session,self.filename_up,self.file_up,self.colonyId,self.colonyPath,self.username,self.userid,self.btn,self.changepemurl,self.upfileurl,self.btn]
+            myll = [self.login_session,self.filename_up,self.file_up,self.store_colonyid,self.store_path,self.username,self.store_userid,self.btn,self.changepemurl,self.upfileurl,self.btn]
             self.work.setval(myll)
             # 线程自定义信号连接的槽函数
             '''
@@ -288,7 +293,7 @@ class WorkThread(QThread):
             dd['userId'] = (None,self.userid)
             dd['colonyId'] = (None,self.colonyId)
             dd['toPath'] = (None,"/")
-            dd['userHomeDir'] = (None, self.colonyPath + "/home/" + self.username + "/" + self.username)
+            dd['userHomeDir'] = (None, self.colonyPath)
             with open(self.fullfilename,'rb') as f:
                 chunknumber = 0
                 for chunk in iter(lambda: f.read(self.kuaidx),b''):
@@ -329,7 +334,7 @@ class WorkThread(QThread):
             dd2['totalSize'] = ffsize
             dd2['totalChunks'] = totalchunk
             dd2['relativePath'] = self.filename
-            dd2['userHomeDir'] = self.colonyPath + "/home/" + self.username + "/" + self.username
+            dd2['userHomeDir'] = self.colonyPath
             dd2['userId'] = self.userid
             r = requests.post(self.meurl,headers=header2, data=json.dumps(dd2))
             print(r.content)
