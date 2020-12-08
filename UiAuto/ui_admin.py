@@ -968,7 +968,7 @@ def Casjc_change_config(*myorderes):
         casjc_log.logging.info(title + " 选择集群")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
         time.sleep(casjc_config.short_time)
         #选择镜像
         casjc_log.logging.info(title + " 选择镜像")
@@ -1267,7 +1267,7 @@ def Casjc_config(*myorderes):
             casjc_log.logging.info(title + " 选择集群")
             hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
             time.sleep(casjc_config.short_time)
-            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
             time.sleep(casjc_config.short_time)
             #选择云主机规格
             casjc_log.logging.info(title + " 选择云主机规格")
@@ -1361,7 +1361,7 @@ def Casjc_config(*myorderes):
             casjc_log.logging.info(title + " 选择集群")
             hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].click()
             time.sleep(casjc_config.short_time)
-            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+            hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
             time.sleep(casjc_config.short_time)
             #选择云硬盘类型
             casjc_log.logging.info(title + " 选择云硬盘类型")
@@ -1537,7 +1537,7 @@ def Casjc_vlanname():
     hailong.find_elements_by_css_selector('i[class="el-icon- iconfont iconwangluoziyuan"]')[0].click()
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('li[data-index="/intranet"]')[0].click()
-    time.sleep(casjc_config.short_time)
+    time.sleep(casjc_config.show_time)
     #判断列表第一条是不是要修改的网络
     #for i in hailong.find_elements_by_css_selector('tr[class="el-table__row"]'):
     #    print(i.text)
@@ -1585,6 +1585,7 @@ def Casjc_vlandel():
     #点击删除按钮
     casjc_log.logging.info(title + " 点击删除按钮")
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--text el-button--mini"]')))
+    time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('button[class="el-button el-button--text el-button--mini"]')[1].click()
     time.sleep(casjc_config.short_time)
     #判断是否弹出确认提示框,如果弹出点击确定按钮
@@ -1621,7 +1622,7 @@ def Casjc_publicvlan():
     hailong.find_elements_by_css_selector('button[class="el-button el-button--primary el-button--small"]')[0].click()
     time.sleep(casjc_config.short_time)
     #填写公网网络信息
-    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("127.0.0.1")
+    hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[3].send_keys("127.0.0.5")
     time.sleep(casjc_config.short_time)
     #点击保存按钮
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button[class="el-button el-button--primary"]')))
@@ -1658,8 +1659,9 @@ def Casjc_publicvlandel():
     time.sleep(casjc_config.short_time)
     hailong.find_elements_by_css_selector('li[data-index="/Enetwork"]')[0].click()
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="table-btn"]')))
+    time.sleep(casjc_config.short_time)
     #点击删除网络按钮
-    if hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[0].text == "127.0.0.1":
+    if hailong.find_elements_by_css_selector('div[class="cell el-tooltip"]')[0].text == "127.0.0.5":
         casjc_log.logging.info(title + " 点击删除公网IP按钮")
         hailong.find_elements_by_css_selector('div[class="table-btn"]')[0].click()
         time.sleep(casjc_config.short_time)
@@ -2762,8 +2764,8 @@ if __name__ == "__main__":
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
     #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
-    appcon = [(0,"sw")]
+    #appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
+    appcon = [(1,"gg")]
     
     #价格审批人员列表
     #试用
@@ -2774,8 +2776,8 @@ if __name__ == "__main__":
     #非标准合同审批人员列表
     conuser = [myconfig['user3'],myconfig['user4'],myconfig['user5']]
 
-    #Casjc_addsysent()
-    #Casjc_updatepwd()
+    Casjc_addsysent()
+    Casjc_updatepwd()
     '''
     Casjc_vlan()
     Casjc_vlanname()
@@ -2835,11 +2837,11 @@ if __name__ == "__main__":
             r = Casjc_change_config(xx)
             if r:
                 print("进入配置")
-                Casjc_config(xx)
+                #Casjc_config(xx)
         #如果是试用，直接配置
         elif ac[0] == 0:
             print("进入配置")
-            Casjc_config(xx)
+            #Casjc_config(xx)
     
     #Casjc_config(["20201026162209362",'yy'])
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
