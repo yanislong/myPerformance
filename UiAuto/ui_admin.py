@@ -173,14 +173,27 @@ def Casjc_res(*appcon):
         resicon.click()
         #获取规格数据（暂存）
         reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
-        #输入数量
-        num1 = "1"
-        casjc_log.logging.info(title + " 输入资源数量")
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(num1)
-        #输入有效期天数
-        num2 = "1"
-        casjc_log.logging.info(title + " 输入资源有效期")
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(num2)
+        if appcon[0][1] == "gg":
+            #输入数量
+            num1 = "1"
+            casjc_log.logging.info(title + " 输入资源数量")
+            #print(hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div[1]').text)
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(num1)
+            #输入有效期天数 
+            num2 = "2"
+            casjc_log.logging.info(title + " 输入资源有效期")
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/input').send_keys(num2)
+        else:
+            
+            #输入数量
+            num1 = "1"
+            casjc_log.logging.info(title + " 输入资源数量")
+            #print(hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div[1]').text)
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(num1)
+            #输入有效期天数 
+            num2 = "2"
+            casjc_log.logging.info(title + " 输入资源有效期")
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(num2)
         #输入折后单价
         #num3 = "10"
         #casjc_log.logging.info(title + " 输入折后单价")
@@ -216,15 +229,26 @@ def Casjc_res(*appcon):
         resicon.click()
         #获取规格数据（暂存）
         reslistnum = hailong.find_elements_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]')
-        #输入有效期天数
-        daynum = "1"
-        casjc_log.logging.info(title + " 输入资源有效期")
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(daynum)
-        #输入折后单价
-        pric = "2.5"
-        casjc_log.logging.info(title + " 输入折后单价")
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
-        hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(pric)
+        if appcon[0][1] == "gg":
+             #输入有效期天数
+            daynum = "1"
+            casjc_log.logging.info(title + " 输入资源有效期")
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[5]/div/div/input').send_keys(daynum)
+            #输入折后单价
+            pric = "2.5"
+            casjc_log.logging.info(title + " 输入折后单价")
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[7]/div/div/div/input').clear()
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[7]/div/div/div/input').send_keys(pric)
+        else:
+            #输入有效期天数
+            daynum = "1"
+            casjc_log.logging.info(title + " 输入资源有效期")
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[4]/div/div/input').send_keys(daynum)
+            #输入折后单价
+            pric = "2.5"
+            casjc_log.logging.info(title + " 输入折后单价")
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').clear()
+            hailong.find_element_by_xpath('//div[@class="boxOne"][' + str(n) + ']/div/div[@class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition"]/div[@class="el-table__body-wrapper is-scrolling-none"]/table/tbody/tr[@class="el-table__row el-table__row--level-1"]/td[6]/div/div/div/input').send_keys(pric)
         #输入报价总额
         totalpric = int(daynum) * float(pric) * 50
         hailong.find_element_by_xpath('//div[@class="footer-infor"]/span[2]/div/input').send_keys(str(totalpric))
@@ -264,6 +288,7 @@ def Casjc_res(*appcon):
                 hailong.quit()
                 return None
             casjc_log.logging.info(title + " 提交申请资源成功," + ordernum)
+            WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'p[class="el-message__content"]')))
             casjc_config.casjc_result[title + time.strftime("%M%S")] = [uname, ordernum + hailong.find_element_by_css_selector('p[class="el-message__content"]').text +  " 甲方账号: " + jiafang + orderavg]
             aaa.Casjc_logout()
             #申请成功后返回订单号，和资源类型（元组）
@@ -1047,7 +1072,7 @@ def Casjc_change_config(*myorderes):
         casjc_log.logging.info(title + " 选择集群")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[0].click()
         time.sleep(casjc_config.short_time)
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
         time.sleep(casjc_config.short_time)
         #选择云硬盘
         casjc_log.logging.info(title + " 选择云硬盘")
@@ -1316,7 +1341,7 @@ def Casjc_config(*myorderes):
         time.sleep(casjc_config.short_time)
         #选择GPFS集群测试环境
         casjc_log.logging.info(title + " 选择GPFS集群测试环境")
-        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-1].click()
+        hailong.find_elements_by_css_selector('li[class="el-select-dropdown__item"]')[-2].click()
         #点击规格下拉列表
         casjc_log.logging.info(title + " 点击规格下拉列表")
         hailong.find_elements_by_css_selector('input[class="el-input__inner"]')[4].click()
@@ -2764,8 +2789,8 @@ if __name__ == "__main__":
     rstall = [(4,-1),(5,-1),(6,-1),(6,-2),(7,-1)]
     #申请资源中的配置方式与资源类型
     #appcon = [(0,"gg"),(0,"yy"),(0,"sw"),(0,"sy"),(0,"wg"),(1,"gg"),(1,"yy"),(1,"sw"),(1,"sy"),(1,"wg")]
-    #appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
-    appcon = [(1,"gg")]
+    appcon = [(0,"sy"),(0,"gg"),(0,"sw"),(1,"sy"),(1,"gg"),(1,"sw")]
+    appcon = [(1,'sw'),(1,'gg')]
     
     #价格审批人员列表
     #试用
@@ -2802,6 +2827,7 @@ if __name__ == "__main__":
     Casjc_sysresset()
     Casjc_sysupdatepwd()
     '''
+    
     #合同作废
     #作废合同号
     nnn = "GKJYHTXS202008012"
@@ -2834,14 +2860,14 @@ if __name__ == "__main__":
             for i in conuser:
                 Casjc_contract_apply(i,xx[0])
         
-            r = Casjc_change_config(xx)
-            if r:
+            #r = Casjc_change_config(xx)
+            #if r:
                 print("进入配置")
                 #Casjc_config(xx)
         #如果是试用，直接配置
-        elif ac[0] == 0:
+        #elif ac[0] == 0:
             print("进入配置")
-            #Casjc_config(xx)
+           # Casjc_config(xx)
     
     #Casjc_config(["20201026162209362",'yy'])
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())

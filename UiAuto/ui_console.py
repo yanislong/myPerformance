@@ -486,8 +486,10 @@ def Casjc_console_volume():
     #获取用户名称
     account = hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell el-tooltip"]')[3].text
     #点击分配云硬盘,点击列表第一行
+    WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, '//tr[@class="el-table__row"][1]/td/div[@class="cell"]/button')))
+    time.sleep(casjc_config.show_time)
     casjc_log.logging.info(title + " 选择用户：{0}，点击分配云硬盘".format(account))
-    hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell"]/button')[2].click()
+    hailong.find_elements_by_xpath('//tr[@class="el-table__row"][1]/td/div[@class="cell"]/button')[0].click()
     #等待进入分配云硬盘页面
     WebDriverWait(hailong,casjc_config.wait_time,0.5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'div[class="number-content"]')))
     time.sleep(casjc_config.short_time)
@@ -986,8 +988,8 @@ if __name__ == "__main__":
     casjc_log.logging.info(">" * 15 + " UI自动化脚本开始执行执行 " + "<" * 15)
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
 
-    Casjc_console_group()
-    '''
+    #Casjc_console_group()
+    
     for i in range(1):
         Casjc_console_user()
         Casjc_console_group()
@@ -997,10 +999,10 @@ if __name__ == "__main__":
     Casjc_console_updatepwuser()
     Casjc_console_upfile()
     Casjc_console_delfile()
-    Casjc_console_webshell()    
+    #Casjc_console_webshell()    
     #Casjc_console_user()  
     #Casjc_console_group()
-    Casjc_console_volume()
+    #Casjc_console_volume()
     Casjc_console_cloudhost()
     Casjc_console_quota()
     Casjc_console_auth()
@@ -1009,7 +1011,7 @@ if __name__ == "__main__":
     Casjc_console_try(env)
     Casjc_console_order()
     Casjc_console_try()
-    '''
+    
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     print ("开始时间： " + start_time)
     print ("结束时间： " + end_time)
