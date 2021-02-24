@@ -59,8 +59,26 @@ regmail = "123@qq.com"
 
 
 #作业任务相关配置
-#username = "casjc_2021"
-#passwd = "123456aA~"
 queuename = "low"
-username = "cs0106"
-passwd = "Test123456!"
+
+username = "casjc_2021"
+passwd = "123456aA~"
+
+#username = "cs0106"
+#passwd = "Test123456!"
+
+#后台管理员账号密码
+ausername = "Casjc001"
+apasswd = "Woaini~520"
+
+#资源审批账号密码
+avpuser1 = "wangnan"
+avpuser2 = "daijiwei"
+conuser1 = "wangnan"
+conuser2 = "kongshuishui"
+conuser3 = "liukaimin"
+avppasswd = "Casjc@123"
+
+#控制台用户账号密码
+cusername = "job_01071510"
+cpasswd = "123456aA~"
