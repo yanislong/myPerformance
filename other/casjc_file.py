@@ -197,7 +197,7 @@ class Example(QWidget):
                     self.tokenurl = "https://www.casjc.com/portal/user/login/account"
                     self.upfileurl = "https://console.casjc.com/portal/store/file/upload"
                     self.useridurl = "https://www.casjc.com/portal/user/person/get"
-                    self.changepemurl = "http://11.2.77.3:30089/portal-test/store/file/merge"
+                    self.changepemurl = "https://console.casjc.com/portal/store/file/merge"
                     self.rbinfo = "线上"
 
                 else:
@@ -300,7 +300,8 @@ class Example(QWidget):
             self.selefilenameup = QLabel("文件:" + self.filename_up + " 上传完成")
             self.formlayout.addRow(self.selefilenameup)
             #self.btn.setEnabled(True)
-
+            
+        
         def execute(self):
             self.work.start()
             self.work.trigger.connect(self.display)
@@ -308,7 +309,7 @@ class Example(QWidget):
         def display(self):
             self.listWidget.addItem(str)
 
-          
+         
         def Casjc_login(self):
             self.username = self.nameLineEdit.text()
             #print(self.introductionLineEdit.text())
@@ -428,7 +429,7 @@ class Example(QWidget):
             dd['userId'] = (None,userid)
             dd['colonyId'] = (None,self.mycolonyId.text())
             dd['toPath'] = (None,"/")
-            dd['userHomeDir'] = (None, self.mycolonypath.text() + "/home/" + username + "/" + username)
+            dd['userHomeDir'] = (None, self.mycolonypath.text())
             dd['upfile'] = (self.filename_up,chunk)
             #print(dd)
             try:
@@ -458,11 +459,13 @@ class Example(QWidget):
             dd['totalSize'] = self.ffsize
             dd['totalChunks'] = self.totalchunk
             dd['relativePath'] = self.filename_up
-            dd['userHomeDir'] = self.mycolonypath.text() + "/home/" + self.username + "/" + self.username
+            dd['userHomeDir'] = self.mycolonypath.text()
             dd['userId'] = self.userid
             print(dd['userHomeDir'])
+            print(header)
             r = requests.post(url,headers=header, data=json.dumps(dd))
             print(r.content)
+            print(r.json())
         
 
 def cmd5(filename):
