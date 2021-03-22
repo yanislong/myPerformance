@@ -1,0 +1,24 @@
+2021-03-10 17:46:37 Wed - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:Casjc001 登录结果: {"code": 200, "message": null, "data": "460689a4-3528-43a7-8fa2-a6fd31c084ca"}
+2021-03-10 17:46:37 Wed - INFO - casjc_user.py - addControlUser - line: 58 - [添加企业管理员用户,并修改密码] 添加新的企业用户完成, 账号: job03101746
+2021-03-10 17:46:37 Wed - INFO - casjc_user.py - _selectUser_ - line: 32 - [管理后台通过account查询企业用户] 查询企业用户完成, 账号: job03101746
+2021-03-10 17:46:37 Wed - INFO - casjc_user.py - addControlUser - line: 69 - [添加企业管理员用户,并修改密码] 修改企业用户密码完成, 账号: job03101746
+2021-03-11 09:38:54 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "031278ba-3902-4fda-9387-49077f803317"}
+2021-03-11 09:38:54 Thu - INFO - casjc_resource.py - applyOrder - line: 193 - [申请新购资源 (共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3205
+2021-03-11 09:38:54 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "4fdfad10-a24d-4ca5-94f5-3d5cc09e426b"}
+2021-03-11 09:38:55 Thu - INFO - casjc_resource.py - applyPrice - line: 220 - [审批新购订单价格 (共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-03-11 09:38:55 Thu - INFO - casjc_resource.py - generateContract - line: 242 - [销售经理生成新购订单合同] 操作账号:lihaifeng 获取生成合同必要参数成功
+2021-03-11 09:38:55 Thu - INFO - casjc_resource.py - generateContract - line: 259 - [销售经理生成新购订单合同] 操作账号:lihaifeng 获取生成合同必要参数taskid成功: 13109
+2021-03-11 09:38:55 Thu - INFO - casjc_resource.py - generateContract - line: 270 - [销售经理生成新购订单合同] 操作账号:lihaifeng 获取生成合同必要参数合同编号成功
+2021-03-11 09:38:55 Thu - INFO - casjc_resource.py - generateContract - line: 289 - [销售经理生成新购订单合同] 操作账号:lihaifeng 获取生成合同必要参数合同附件成功
+2021-03-11 09:38:56 Thu - INFO - casjc_resource.py - generateContract - line: 317 - [销售经理生成新购订单合同] 操作账号:lihaifeng 生成合同成功
+2021-03-11 09:38:56 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "071bf1f8-7858-4bd2-8258-fbd9b154cc28"}
+2021-03-11 09:38:56 Thu - INFO - casjc_resource.py - exaContract - line: 343 - [审批新购订单合同] 审批账号:wangnan 审批成功
+2021-03-11 09:38:56 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:kongshuishui 登录结果: {"code": 200, "message": null, "data": "d5b3956c-fb9e-4681-91bc-68b8af74ee2d"}
+2021-03-11 09:38:57 Thu - INFO - casjc_resource.py - exaContract - line: 362 - [审批新购订单合同] 审批账号:kongshuishui 审批成功
+2021-03-11 09:38:57 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:liukaimin 登录结果: {"code": 200, "message": null, "data": "9c9eb5c6-5efb-475d-ad17-1860956899e8"}
+2021-03-11 09:38:57 Thu - INFO - casjc_resource.py - exaContract - line: 381 - [审批新购订单合同] 审批账号:liukaimin 审批成功
+2021-03-11 09:38:57 Thu - INFO - casjc_resource.py - confirmParam - line: 404 - [销售经理新购订单确认参数] 操作账号:lihaifeng 获取成功
+2021-03-11 09:38:57 Thu - INFO - casjc_resource.py - confirmParam - line: 420 - [销售经理新购订单确认参数] 操作账号:lihaifeng 确认参数成功
+2021-03-11 09:38:57 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "871791ce-261e-46eb-89c2-d4bb78bf4d12"}
+2021-03-11 09:38:58 Thu - INFO - casjc_resource.py - confirmAll - line: 477 - [配置新购资源,全部配置] 高性能资源配置完成, 配置人:daijiwei
+2021-03-11 09:38:59 Thu - INFO - casjc_resource.py - confirmAll - line: 508 - [配置新购资源,全部配置] 文件存储资源配置完成, 配置人:daijiwei

@@ -513,7 +513,10 @@ def uiauto_www():
     mydata = lhlSql()
     www_result = mydata.getUiautoResult(get_mode)
     print(www_result)
-    logurl = config.runui_ip
+    if get_mode == "task":
+        logurl = "./log/casjc.log"
+    else:
+        logurl = config.runui_ip
     return render_template('uiauto_result.html', result=(www_result,logurl, random.random()))
 
 

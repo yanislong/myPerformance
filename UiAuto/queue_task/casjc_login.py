@@ -10,7 +10,7 @@ def login(username=casjc_config.ausername,passwd=casjc_config.apasswd, loginType
 
     """太原先计算云平台用户登录, """
 
-    url = "http://11.2.77.3:30089/portal-test/user/login/account"
+    url = casjc_config.global_url + "/portal-test/user/login/account"
     data = {}
     data['account'] = username
     data['password'] = passwd
@@ -20,7 +20,7 @@ def login(username=casjc_config.ausername,passwd=casjc_config.apasswd, loginType
     header['Content-Type'] = "application/json"
     r = requests.post(url, headers=header, data=json.dumps(data))
     #print(r.json())
-    url2 = "http://11.2.77.3:30089/portal-test/user/person/get"
+    url2 = casjc_config.global_url + "/portal-test/user/person/get"
     header2 = {}
     header2['Token'] = r.json()['data']
     r2 = requests.get(url2, headers=header2)

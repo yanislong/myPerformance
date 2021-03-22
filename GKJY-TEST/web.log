@@ -1,0 +1,364 @@
+ * Serving Flask app "hw" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [26/Feb/2021 14:28:30] "[37mGET / HTTP/1.1[0m" 200 -
+10.58.1.98 - - [26/Feb/2021 14:28:30] "[37mGET /static/css/mikutap.css HTTP/1.1[0m" 200 -
+10.58.1.98 - - [26/Feb/2021 14:28:31] "[37mGET /static/vidio/tuihou.mp3 HTTP/1.1[0m" 206 -
+10.58.1.98 - - [26/Feb/2021 14:28:31] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [26/Feb/2021 14:28:34] "[37mGET /uiauto HTTP/1.1[0m" 200 -
+10.58.1.98 - - [26/Feb/2021 14:28:38] "[37mGET / HTTP/1.1[0m" 200 -
+10.58.1.98 - - [02/Mar/2021 14:21:22] "[37mGET / HTTP/1.1[0m" 200 -
+10.58.1.98 - - [02/Mar/2021 14:21:22] "[37mGET /static/css/mikutap.css HTTP/1.1[0m" 200 -
+10.58.1.98 - - [02/Mar/2021 14:21:23] "[37mGET /static/vidio/tuihou.mp3 HTTP/1.1[0m" 206 -
+10.58.1.98 - - [02/Mar/2021 14:21:38] "[37mGET /uiauto HTTP/1.1[0m" 200 -
+10.58.1.98 - - [02/Mar/2021 14:21:55] "[37mGET /uiauto_www HTTP/1.1[0m" 200 -
+10.58.1.98 - - [02/Mar/2021 14:22:03] "[37mGET /uiauto_www?imode=standard HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 09:39:45] "[37mGET / HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 09:39:45] "[37mGET /static/css/mikutap.css HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 09:39:46] "[37mGET /static/vidio/tuihou.mp3 HTTP/1.1[0m" 206 -
+10.58.1.98 - - [05/Mar/2021 09:39:46] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 11:13:01] "[37mGET /uiauto HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 15:57:30] "[37mGET /uiauto HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 15:57:30] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 15:57:31] "[37mGET /uiauto HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 15:57:31] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:05:30] "[37mGET /uiauto_www HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:05:32] "[37mGET /uiauto_www?imode=console HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:05:36] "[37mGET /uiauto_www?imode= HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:07:25] "[37mGET /uiauto_www?imode= HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:07:25] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:07:28] "[37mGET /uiauto_www?imode=console HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:07:52] "[37mGET /uiauto_www?imode=www HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:07:55] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:07:58] "[37mGET /uiauto_www?imode=standard HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:08:01] "[37mGET /uiauto_www?imode=www HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/config.py', reloading
+www
+()
+standard
+()
+www
+()
+console
+()
+www
+()
+www
+()
+console
+()
+www
+()
+admin
+()
+standard
+()
+www
+()
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [05/Mar/2021 16:09:24] "[35m[1mGET /uiauto_www?imode=console HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2463, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2449, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1866, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/yanislong/myPerformance/GKJY-TEST/hw.py", line 513, in uiauto_www
+    mydata = lhlSql()
+  File "/home/yanislong/myPerformance/GKJY-TEST/run_test/lhlmysql/lhlsql.py", line 13, in __init__
+    self.con = pymysql.connect(config.mysql_host, config.mysqluser, config.mysqlpasswd, 'portaltest', charset="utf8mb4")
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/connections.py", line 325, in __init__
+    self.connect()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/connections.py", line 599, in connect
+    self._request_authentication()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/connections.py", line 861, in _request_authentication
+    auth_packet = self._read_packet()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/connections.py", line 684, in _read_packet
+    packet.check_error()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/protocol.py", line 220, in check_error
+    err.raise_mysql_exception(self._data)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/pymysql/err.py", line 109, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+10.58.1.98 - - [05/Mar/2021 16:09:24] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:09:24] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:09:24] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:09:25] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:09:25] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:09:25] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/config.py', reloading
+console
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [05/Mar/2021 16:09:44] "[37mGET /uiauto_www?imode=console HTTP/1.1[0m" 200 -
+10.58.1.98 - - [05/Mar/2021 16:09:44] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [08/Mar/2021 08:39:59] "[37mGET /uiauto_www?imode=console HTTP/1.1[0m" 200 -
+10.58.1.98 - - [08/Mar/2021 08:44:56] "[37mGET /uiauto_www?imode=console HTTP/1.1[0m" 200 -
+10.58.1.98 - - [08/Mar/2021 08:46:56] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [08/Mar/2021 09:28:49] "[37mGET /uiauto_www?imode=console HTTP/1.1[0m" 200 -
+10.58.1.98 - - [08/Mar/2021 09:30:49] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [08/Mar/2021 09:52:06] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+console
+()
+console
+((442, 'console', '03-05 16:08:47', '03-05 16:28:25', '{"控制台-用户管理-企业普通用户重置密码0939": ["casjc_2021", "操作数据:账号/单号 操作成功!"], "控制台-用户管理-编辑企业普通用户1038": ["casjc_2021", "操作数据:账号/单号 操作成功!"], "控制台-用户管理-企业普通用户修改密码1138": ["casjc_2021", "操作数据:账号/单号 123456aA~操作成功!"], "数据存储-上传文件1246": ["casjc_2021", "成功了"], "数据存储-删除文件1354": ["casjc_2021", "操作成功!"], "控制台-用户管理-新增用户1553": ["casjc_2021", "操作数据:账号/单号 uient161548操作成功!"], "控制台-用户管理-工作组-高性能计算分配资源1649": ["casjc_2021", "分配资源完成 "], "控制台-用户管理-云硬盘分配云硬盘1751": ["casjc_2021", "操作数据:账号/单号 妲己分配成功"], "控制台-用户管理-云计算分配云主机1849": ["casjc_2021", "操作数据:账号/单号 妲己分配成功"], "控制台-用户管理-文件存储调整配额1952": ["casjc_2021", "操作数据:账号/单号 uient092050调整配额成功"], "控制台-用户管理-云存储权限设置2052": ["casjc_2021", "操作数据:账号/单号 uient092050权限设置成功"], "控制台-个人中心-修改密码2147": ["casjc_2021", "修改密码操作成功,当前密码: 123456aA~1"], "控制台-个人中心-修改密码2202": ["casjc_2021", "修改密码操作成功,当前密码: 123456aA~"], "控制台-个人中心-修改基本信息2256": ["casjc_2021", " 姓名修改成功,修改为: 健次郎2250 研究方向修改成功,修改为: 心理学2251 联系电话修改成功,修改为: 0454-88442253 联系地址修改成功,修改为: 河北大街2254"], "邮箱注册2354": ["", "账号: uireg0305162321邮箱: xnvips39478@chacuo.net 注册成功"], "控制台-个人中心-注册新企业管理员申请试用2512": ["uireg0305162321", "申请试用异常"], "控制台-工单-提交工单2615": ["casjc_2021", "操作数据:账号/单号 工单提交成功"], "邮箱注册2702": ["", "账号: uireg0305162640邮箱: ntgasq15260@chacuo.net 注册成功"], "控制台-个人中心-注册新企业管理员申请试用2822": ["uireg0305162640", "申请试用异常"]}', '2021/03/05 16:28:25', 'test'),)
+console
+((442, 'console', '03-05 16:08:47', '03-05 16:28:25', '{"控制台-用户管理-企业普通用户重置密码0939": ["casjc_2021", "操作数据:账号/单号 操作成功!"], "控制台-用户管理-编辑企业普通用户1038": ["casjc_2021", "操作数据:账号/单号 操作成功!"], "控制台-用户管理-企业普通用户修改密码1138": ["casjc_2021", "操作数据:账号/单号 123456aA~操作成功!"], "数据存储-上传文件1246": ["casjc_2021", "成功了"], "数据存储-删除文件1354": ["casjc_2021", "操作成功!"], "控制台-用户管理-新增用户1553": ["casjc_2021", "操作数据:账号/单号 uient161548操作成功!"], "控制台-用户管理-工作组-高性能计算分配资源1649": ["casjc_2021", "分配资源完成 "], "控制台-用户管理-云硬盘分配云硬盘1751": ["casjc_2021", "操作数据:账号/单号 妲己分配成功"], "控制台-用户管理-云计算分配云主机1849": ["casjc_2021", "操作数据:账号/单号 妲己分配成功"], "控制台-用户管理-文件存储调整配额1952": ["casjc_2021", "操作数据:账号/单号 uient092050调整配额成功"], "控制台-用户管理-云存储权限设置2052": ["casjc_2021", "操作数据:账号/单号 uient092050权限设置成功"], "控制台-个人中心-修改密码2147": ["casjc_2021", "修改密码操作成功,当前密码: 123456aA~1"], "控制台-个人中心-修改密码2202": ["casjc_2021", "修改密码操作成功,当前密码: 123456aA~"], "控制台-个人中心-修改基本信息2256": ["casjc_2021", " 姓名修改成功,修改为: 健次郎2250 研究方向修改成功,修改为: 心理学2251 联系电话修改成功,修改为: 0454-88442253 联系地址修改成功,修改为: 河北大街2254"], "邮箱注册2354": ["", "账号: uireg0305162321邮箱: xnvips39478@chacuo.net 注册成功"], "控制台-个人中心-注册新企业管理员申请试用2512": ["uireg0305162321", "申请试用异常"], "控制台-工单-提交工单2615": ["casjc_2021", "操作数据:账号/单号 工单提交成功"], "邮箱注册2702": ["", "账号: uireg0305162640邮箱: ntgasq15260@chacuo.net 注册成功"], "控制台-个人中心-注册新企业管理员申请试用2822": ["uireg0305162640", "申请试用异常"]}', '2021/03/05 16:28:25', 'test'),)
+console
+((442, 'console', '03-05 16:08:47', '03-05 16:28:25', '{"控制台-用户管理-企业普通用户重置密码0939": ["casjc_2021", "操作数据:账号/单号 操作成功!"], "控制台-用户管理-编辑企业普通用户1038": ["casjc_2021", "操作数据:账号/单号 操作成功!"], "控制台-用户管理-企业普通用户修改密码1138": ["casjc_2021", "操作数据:账号/单号 123456aA~操作成功!"], "数据存储-上传文件1246": ["casjc_2021", "成功了"], "数据存储-删除文件1354": ["casjc_2021", "操作成功!"], "控制台-用户管理-新增用户1553": ["casjc_2021", "操作数据:账号/单号 uient161548操作成功!"], "控制台-用户管理-工作组-高性能计算分配资源1649": ["casjc_2021", "分配资源完成 "], "控制台-用户管理-云硬盘分配云硬盘1751": ["casjc_2021", "操作数据:账号/单号 妲己分配成功"], "控制台-用户管理-云计算分配云主机1849": ["casjc_2021", "操作数据:账号/单号 妲己分配成功"], "控制台-用户管理-文件存储调整配额1952": ["casjc_2021", "操作数据:账号/单号 uient092050调整配额成功"], "控制台-用户管理-云存储权限设置2052": ["casjc_2021", "操作数据:账号/单号 uient092050权限设置成功"], "控制台-个人中心-修改密码2147": ["casjc_2021", "修改密码操作成功,当前密码: 123456aA~1"], "控制台-个人中心-修改密码2202": ["casjc_2021", "修改密码操作成功,当前密码: 123456aA~"], "控制台-个人中心-修改基本信息2256": ["casjc_2021", " 姓名修改成功,修改为: 健次郎2250 研究方向修改成功,修改为: 心理学2251 联系电话修改成功,修改为: 0454-88442253 联系地址修改成功,修改为: 河北大街2254"], "邮箱注册2354": ["", "账号: uireg0305162321邮箱: xnvips39478@chacuo.net 注册成功"], "控制台-个人中心-注册新企业管理员申请试用2512": ["uireg0305162321", "申请试用异常"], "控制台-工单-提交工单2615": ["casjc_2021", "操作数据:账号/单号 工单提交成功"], "邮箱注册2702": ["", "账号: uireg0305162640邮箱: ntgasq15260@chacuo.net 注册成功"], "控制台-个人中心-注册新企业管理员申请试用2822": ["uireg0305162640", "申请试用异常"]}', '2021/03/05 16:28:25', 'test'),)
+admin
+((443, 'admin', '03-08 09:43:02', '03-08 09:49:16', '{"新增企业管理用户4338": ["Casjc001", "操作数据:账号/单号 ui03080943添加成功"], "企业用户修改密码4409": ["Casjc001", "操作数据:账号/单号 ui03080943操作成功!"], "申请资源-固定方式-数据存储-文件存储4500": ["lihaifeng", "订单号：20210308094614947操作成功 甲方账号: ui03080943平均折扣：0"], "价格审批4532": ["wangnan", "操作数据:账号/单号 20210308094614947审批成功"], "价格审批4605": ["daijiwei", "操作数据:账号/单号 20210308094614947审批成功"], "配置资源4642": ["daijiwei", "操作数据:账号/单号 20210308094614947配置完成"], "申请资源-固定方式-高性能计算-共享型4723": ["lihaifeng", "订单号：20210308094837947操作成功 甲方账号: ui03080943平均折扣：0"], "价格审批4757": ["wangnan", "操作数据:账号/单号 20210308094837947审批成功"], "价格审批4830": ["daijiwei", "操作数据:账号/单号 20210308094837947审批成功"], "配置资源4909": ["daijiwei", "操作数据:账号/单号 20210308094837947配置完成"]}', '2021/03/08 09:49:16', 'test'),)
+admin
+((444, 'admin', '03-09 14:23:38', '03-09 14:26:07', '{"申请资源-固定方式-云计算-云主机2422": ["lihaifeng", "订单号：20210309142637143操作成功 甲方账号: uireg0302164307平均折扣：0"], "价格审批2454": ["wangnan", "操作数据:账号/单号 20210309142637143审批成功"], "价格审批2528": ["daijiwei", "操作数据:账号/单号 20210309142637143审批成功"], "配置资源2601": ["daijiwei", "没有找到云主机规格"]}', '2021/03/09 14:26:07', 'test'),)10.58.1.98 - - [09/Mar/2021 14:41:07] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [09/Mar/2021 14:41:07] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [09/Mar/2021 15:25:30] "[37mGET /uiauto_www?imode=standard HTTP/1.1[0m" 200 -
+10.58.1.98 - - [09/Mar/2021 15:25:38] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [09/Mar/2021 15:28:34] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 09:08:29] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:36:14] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:36:17] "[37mGET /uiauto_www?imode=standard HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:38:17] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:44:46] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:44:59] "[37mGET / HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:44:59] "[37mGET /static/css/mikutap.css HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:45:00] "[37mGET /static/vidio/tuihou.mp3 HTTP/1.1[0m" 206 -
+10.58.1.98 - - [10/Mar/2021 14:45:02] "[37mGET /uiauto HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 14:45:03] "[37mGET /uiauto_www HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 16:59:48] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:23:10] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:27:32] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:28:20] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/hw.py', reloading
+
+standard
+()
+task
+((445, 'task', '03-09 15:25:13', '03-09 15:25:14', '{}', '2021/03/09 15:25:14', 'test'),)
+task
+((446, 'task', '03-09 15:26:31', '03-09 15:27:58', '{}', '2021/03/09 15:27:58', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+standard
+()
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+www
+()
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/hw.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/config.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [10/Mar/2021 17:40:53] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:40:53] "[33mGET /home/yanislong/myPerformance/UiAuto/queue_task/log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:40:53] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/hw.py', reloading
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [10/Mar/2021 17:43:01] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:43:01] "[33mGET /UiAuto/queue_task/log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:43:01] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/hw.py', reloading
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [10/Mar/2021 17:46:17] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:46:17] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:46:17] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:46:47] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:46:47] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:46:47] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/hw.py', reloading
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [10/Mar/2021 17:47:58] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:47:58] "[33mGET /templates/log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:47:58] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+ * Detected change in '/home/yanislong/myPerformance/GKJY-TEST/hw.py', reloading
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 485-722-982
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[35m[1mGET /uiauto_www?imode=task HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2463, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2449, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1866, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/yanislong/myPerformance/GKJY-TEST/hw.py", line 520, in uiauto_www
+    return render_template('uiauto_result.html', result=(www_result,logurl, random.random()))
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
+    ctx.app,
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
+    rv = template.render(context)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "/home/yanislong/.local/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/yanislong/.local/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/yanislong/myPerformance/GKJY-TEST/templates/uiauto_result.html", line 66, in top-level template code
+    <iframe id="ifrmid" name="ifrmname" src="{{url_for('templates',filename='log/casjc.log')}}" width="90%" style="background-color: #FAFAD2"></iframe>
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/app.py", line 2215, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/yanislong/.local/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/yanislong/.local/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'templates' with values ['filename']. Did you mean 'mytest' instead?
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:12] "[37mGET /uiauto_www?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:45] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:45] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:54:45] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:58:55] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:58:55] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:58:55] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:59:09] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 17:59:09] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [10/Mar/2021 17:59:09] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [10/Mar/2021 18:00:10] "[37mGET /uiauto_www?imode=www HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 09:03:42] "[37mGET /uiauto_www?imode=www HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 09:03:43] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 09:39:21] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 09:39:21] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 09:39:21] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [11/Mar/2021 10:14:11] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 10:14:11] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [11/Mar/2021 10:14:11] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 10:14:19] "[37mGET /uiauto_www?imode=task HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 10:14:19] "[33mGET /log/casjc.log HTTP/1.1[0m" 404 -
+10.58.1.98 - - [11/Mar/2021 10:14:19] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 10:16:34] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 15:09:39] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [11/Mar/2021 15:09:53] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [12/Mar/2021 09:18:33] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [12/Mar/2021 09:18:33] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [12/Mar/2021 09:20:33] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [12/Mar/2021 10:47:19] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [12/Mar/2021 13:58:55] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 09:16:23] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 09:16:23] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 09:18:23] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 16:32:24] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 16:32:24] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 16:32:24] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+www
+()
+www
+()
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+task
+((448, 'task', '03-09 16:34:06', '03-09 16:34:08', '{}', '2021/03/09 16:34:08', 'test'),)
+admin
+((450, 'admin', '03-11 10:05:16', '03-11 10:08:43', '{"新增企业管理用户0544": ["Casjc001", "操作数据:账号/单号 ui03111005添加成功"], "企业用户修改密码0615": ["Casjc001", "操作数据:账号/单号 ui03111005操作成功!"], "申请资源-固定方式-高性能计算-共享型0654": ["lihaifeng", "订单号：20210311100916208操作成功 甲方账号: ui03111005平均折扣：0"], "价格审批0726": ["wangnan", "操作数据:账号/单号 20210311100916208审批成功"], "价格审批0757": ["daijiwei", "操作数据:账号/单号 20210311100916208审批成功"], "配置资源0836": ["daijiwei", "操作数据:账号/单号 20210311100916208配置完成"]}', '2021/03/11 10:08:43', 'test'),)
+admin
+((455, 'admin', '03-11 15:05:35', '03-11 15:07:14', '{"申请资源-固定方式-数据存储-文件存储0608": ["lihaifeng", "订单号：20210311150829560操作成功 甲方账号: ui03110956平均折扣：0"], "价格审批0637": ["wangnan", "操作数据:账号/单号 20210311150829560审批成功"], "价格审批0707": ["daijiwei", "操作数据:账号/单号 20210311150829560审批成功"]}', '2021/03/11 15:07:14', 'test'),)
+admin
+((455, 'admin', '03-11 15:05:35', '03-11 15:07:14', '{"申请资源-固定方式-数据存储-文件存储0608": ["lihaifeng", "订单号：20210311150829560操作成功 甲方账号: ui03110956平均折扣：0"], "价格审批0637": ["wangnan", "操作数据:账号/单号 20210311150829560审批成功"], "价格审批0707": ["daijiwei", "操作数据:账号/单号 20210311150829560审批成功"]}', '2021/03/11 15:07:14', 'test'),)
+admin
+((455, 'admin', '03-11 15:05:35', '03-11 15:07:14', '{"申请资源-固定方式-数据存储-文件存储0608": ["lihaifeng", "订单号：20210311150829560操作成功 甲方账号: ui03110956平均折扣：0"], "价格审批0637": ["wangnan", "操作数据:账号/单号 20210311150829560审批成功"], "价格审批0707": ["daijiwei", "操作数据:账号/单号 20210311150829560审批成功"]}', '2021/03/11 15:07:14', 'test'),)
+admin
+((456, 'admin', '03-12 10:34:56', '03-12 10:44:49', '{"申请资源-灵活方式-网络资源-公网IP3529": ["lihaifeng", "订单号：20210312103750145操作成功 甲方账号: ui03111005最低折扣：0.01"], "价格审批3558": ["wangnan", "操作数据:账号/单号 20210312103750145审批成功"], "价格审批3626": ["tangdebing", "操作数据:账号/单号 20210312103750145审批成功"], "生成合同3709": ["lihaifeng", "操作数据:账号/单号 20210312103750145 合同号: GKJYHTXS202103007保存成功"], "合同审批3739": ["wangnan", "操作数据:账号/单号 20210312103750145审批成功"], "合同审批3807": ["kongshuishui", "操作数据:账号/单号 20210312103750145审批成功"], "合同审批3836": ["liukaimin", "操作数据:账号/单号 20210312103750145审批成功"], "确认参数3907": ["lihaifeng", "操作数据:账号/单号 20210312103750145操作成功"], "配置资源3941": ["daijiwei", "操作数据:账号/单号 20210312103750145公网IP不足!"], "申请资源-灵活方式-云计算-云主机4019": ["lihaifeng", "订单号：20210312104240821操作成功 甲方账号: ui03111005最低折扣：0.03"], "价格审批4048": ["wangnan", "操作数据:账号/单号 20210312104240821审批成功"], "价格审批4116": ["tangdebing", "操作数据:账号/单号 20210312104240821审批成功"], "生成合同4200": ["lihaifeng", "操作数据:账号/单号 20210312104240821 合同号: GKJYHTXS202103008保存成功"], "合同审批4231": ["wangnan", "操作数据:账号/单号 20210312104240821审批成功"], "合同审批4303": ["kongshuishui", "操作数据:账号/单号 20210312104240821审批成功"], "合同审批4333": ["liukaimin", "操作数据:账号/单号 20210312104240821审批成功"], "确认参数4410": ["lihaifeng", "操作数据:账号/单号 20210312104240821操作成功"], "配置资源4442": ["daijiwei", "操作数据:账号/单号 20210312104240821配置完成"]}', '2021/03/12 10:44:49', 'test'),)
+admin
+((457, 'admin', '03-12 10:45:56', '03-12 10:50:18', '{"申请资源-灵活方式-数据存储-云硬盘4629": ["lihaifeng", "订单号：20210312104850256操作成功 甲方账号: ui03111005最低折扣：0.25"], "价格审批4658": ["wangnan", "操作数据:账号/单号 20210312104850256审批成功"], "价格审批4728": ["tangdebing", "操作数据:账号/单号 20210312104850256审批成功"], "生成合同4810": ["lihaifeng", "操作数据:账号/单号 20210312104850256 合同号: GKJYHTXS202103009保存成功"], "合同审批4846": ["wangnan", "操作数据:账号/单号 20210312104850256审批成功"], "合同审批4915": ["kongshuishui", "操作数据:账号/单号 20210312104850256审批成功"], "合同审批4944": ["liukaimin", "操作数据:账号/单号 20210312104850256审批成功"], "确认参数5012": ["lihaifeng", "没有找到云硬盘"]}', '2021/03/12 10:50:18', 'test'),)
+admin
+((465, 'admin', '03-12 16:37:29', '03-12 16:41:50', '{"新增企业管理用户3756": ["Casjc001", "操作数据:账号/单号 ui03121637添加成功"], "企业用户修改密码3826": ["Casjc001", "操作数据:账号/单号 ui03121637操作成功!"], "申请资源-固定方式-高性能计算-共享型3904": ["lihaifeng", "订单号：20210312164125650操作成功 甲方账号: ui03121637平均折扣：0"], "价格审批3934": ["wangnan", "操作数据:账号/单号 20210312164125650审批成功"], "价格审批4004": ["daijiwei", "操作数据:账号/单号 20210312164125650审批成功"], "申请资源-固定方式-数据存储-文件存储4043": ["lihaifeng", "订单号：20210312164304836操作成功 甲方账号: ui03121637平均折扣：0"], "价格审批4113": ["wangnan", "操作数据:账号/单号 20210312164304836审批成功"], "价格审批4143": ["daijiwei", "操作数据:账号/单号 20210312164304836审批成功"]}', '2021/03/12 16:41:50', 'test'),)
+admin
+((465, 'admin', '03-12 16:37:29', '03-12 16:41:50', '{"新增企业管理用户3756": ["Casjc001", "操作数据:账号/单号 ui03121637添加成功"], "企业用户修改密码3826": ["Casjc001", "操作数据:账号/单号 ui03121637操作成功!"], "申请资源-固定方式-高性能计算-共享型3904": ["lihaifeng", "订单号：20210312164125650操作成功 甲方账号: ui03121637平均折扣：0"], "价格审批3934": ["wangnan", "操作数据:账号/单号 20210312164125650审批成功"], "价格审批4004": ["daijiwei", "操作数据:账号/单号 20210312164125650审批成功"], "申请资源-固定方式-数据存储-文件存储4043": ["lihaifeng", "订单号：20210312164304836操作成功 甲方账号: ui03121637平均折扣：0"], "价格审批4113": ["wangnan", "操作数据:账号/单号 20210312164304836审批成功"], "价格审批4143": ["daijiwei", "操作数据:账号/单号 20210312164304836审批成功"]}', '2021/03/12 16:41:50', 'test'),)
+admin
+((465, 'admin', '03-12 16:37:29', '03-12 16:41:50', '{"新增企业管理用户3756": ["Casjc001", "操作数据:账号/单号 ui03121637添加成功"], "企业用户修改密码3826": ["Casjc001", "操作数据:账号/单号 ui03121637操作成功!"], "申请资源-固定方式-高性能计算-共享型3904": ["lihaifeng", "订单号：20210312164125650操作成功 甲方账号: ui03121637平均折扣：0"], "价格审批3934": ["wangnan", "操作数据:账号/单号 20210312164125650审批成功"], "价格审批4004": ["daijiwei", "操作数据:账号/单号 20210312164125650审批成功"], "申请资源-固定方式-数据存储-文件存储4043": ["lihaifeng", "订单号：20210312164304836操作成功 甲方账号: ui03121637平均折扣：0"], "价格审批4113": ["wangnan", "操作数据:账号/单号 20210312164304836审批成功"], "价格审批4143": ["daijiwei", "操作数据:账号/单号 20210312164304836审批成功"]}', '2021/03/12 16:41:50', 'test'),)10.58.1.98 - - [15/Mar/2021 16:39:53] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 16:39:53] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 17:11:10] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [15/Mar/2021 17:11:10] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -
+10.58.1.98 - - [16/Mar/2021 10:31:43] "[37mGET /uiauto_www?imode=admin HTTP/1.1[0m" 200 -
+10.58.1.98 - - [16/Mar/2021 10:31:43] "[37mGET /static/log/casjc.log HTTP/1.1[0m" 200 -
+10.58.1.98 - - [16/Mar/2021 10:31:43] "[37mGET /static/image/favicon.ico HTTP/1.1[0m" 200 -

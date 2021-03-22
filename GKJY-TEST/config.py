@@ -26,7 +26,7 @@ authorized = ""#True
 music = ""
 
 #执行ui自动化远程主机ip
-runui_ip = "10.0.20.91:8089"
+runui_ip = "http://10.0.20.91:8089/casjc.log?cache=0"
 runui_ip2 = "192.168.18.129"
 #runui_ip = "10.0.110.251"
 #执行ui自动化远程主机port
@@ -39,7 +39,7 @@ runui_port = 8000
 #本地数据库
 mysql_host = "127.0.0.1"
 mysqluser = "root"
-mysqlpasswd = "root"
+mysqlpasswd = "Casjc@20210226"
 
 #测试环境应用服务地址
 url = "http://11.2.77.3:30088"

@@ -16,7 +16,7 @@ def submitJob():
     title = "[已有资源用户,提交作业_" + str(random.randint(1000,9999)) + "] "
     global res
     userinfo = casjc_login.login(casjc_config.username, casjc_config.passwd, 0)
-    url = "ws://11.2.77.3:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
+    url = "ws://10.8.14.194:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
     jobname = str(time.strftime('%d%H%M',time.localtime()))
     try:
         ws = create_connection(url,timeout=60)
@@ -57,7 +57,7 @@ def newSubmitJob():
     rescoure.testNew("half")
     #等待610秒,等高性能配置生效
     time.sleep(610)
-    url = "ws://11.2.77.3:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
+    url = "ws://10.8.14.181:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
     casjc_log_task.logging.info(newSubmitJob.__doc__ + " 登录webshell: " + url)
     jobname = str(time.strftime('%d%H%M',time.localtime()))
     try:
@@ -105,7 +105,7 @@ def renewSubmitJob():
     rescoure.testRenew()
     #等待610秒,等高性能配置生效
     time.sleep(610)
-    url = "ws://11.2.77.3:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
+    url = "ws://10.8.14.181:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
     casjc_log_task.logging.info(newSubmitJob.__doc__ + " 登录webshell: " + url)
     jobname = str(time.strftime('%d%H%M',time.localtime()))
     try:
@@ -156,7 +156,7 @@ def entNewSubmitJob():
     userinfo = casjc_login.login(luser, casjc_config.cpasswd, 0)
     #等待610秒,等高性能配置生效
     time.sleep(610)
-    url = "ws://11.2.77.3:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
+    url = "ws://10.8.14.181:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
     casjc_log_task.logging.info(newSubmitJob.__doc__ + " 登录webshell: " + url)
     jobname = str(time.strftime('%d%H%M',time.localtime()))
     try:
@@ -207,7 +207,7 @@ def entRenewSubmitJob():
     userinfo = casjc_login.login(luser, casjc_config.cpasswd, 0)
     #等待610秒,等高性能配置生效
     time.sleep(610)
-    url = "ws://11.2.77.3:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
+    url = "ws://10.8.14.181:11014/webshell?uid=" + str(userinfo[1]) + "&id=42&queueName=" + casjc_config.queuename + "&token=" + userinfo[0] + "&cols=132&rows=15&width=1870&height=510"
     casjc_log_task.logging.info(newSubmitJob.__doc__ + " 登录webshell: " + url)
     jobname = str(time.strftime('%d%H%M',time.localtime()))
     try:
@@ -243,10 +243,10 @@ if __name__ == "__main__":
     env = "test"
     res = {}
     start_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
-    #submitJob()
+    submitJob()
     #newSubmitJob()
     #renewSubmitJob()
     #entNewSubmitJob()
-    entRenewSubmitJob()
+    #entRenewSubmitJob()
     end_time = time.strftime("%m-%d %H:%M:%S",time.localtime())
     casjc_mode_task.Run_result(("task",start_time,end_time,json.dumps(res,ensure_ascii=False),env))

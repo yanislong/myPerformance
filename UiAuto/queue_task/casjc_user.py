@@ -19,7 +19,7 @@ class auser():
         """[管理后台通过account查询企业用户]"""
 
         #通过account查寻企业用户
-        url2 = "http://11.2.77.3:30089/portal-test/user/account/enterprise/list"
+        url2 = casjc_config.global_url + "/portal-test/user/account/enterprise/list"
         data = {}
         data['account'] = cname
         data['pageNum'] = 1
@@ -41,7 +41,7 @@ class auser():
         """[添加企业管理员用户,并修改密码]"""
 
         #添加新的企业用户
-        url = "http://11.2.77.3:30089/portal-test/user/account/enterprise/add"
+        url = casjc_config.global_url + "/portal-test/user/account/enterprise/add"
         cname = "job" + str(time.strftime("%m%d%H%M",time.localtime()))
         data = {}
         data['account'] = cname
@@ -62,7 +62,7 @@ class auser():
         userid = self._selectUser_(cname)
 
         #修改企业用户密码
-        url3 = "http://11.2.77.3:30089/portal-test/user/updateUserPassword?password=" + casjc_config.cpasswd + "&userId=" + str(userid)
+        url3 = casjc_config.global_url + "/portal-test/user/updateUserPassword?password=" + casjc_config.cpasswd + "&userId=" + str(userid)
         r3 = requests.get(url3, headers=self.header)
         #print(r3.json())
         if r3.json()['code'] == 200 and r3.json()['data'] == None:
@@ -85,7 +85,7 @@ class auser():
         for i in mm:
             mi += i
         #修改企业用户密码
-        url3 = "http://11.2.77.3:30089/portal-test/user/updateUserPassword?password=" + mi + "&userId=" + str(userid)
+        url3 = casjc_config.global_url + "/portal-test/user/updateUserPassword?password=" + mi + "&userId=" + str(userid)
         r3 = requests.get(url3, headers=self.header)
         #print(r3.json())
         if r3.json()['code'] == 200 and r3.json()['data'] == None:
@@ -114,7 +114,7 @@ class cuser():
         """[控制台通过account查询企业用户]"""
 
         #通过account查寻企业用户
-        url2 = "http://11.2.77.3:30089/portal-test/user/getUserLdap?pageNum=1&pageSize=10&userId=" + str(self.shenfen[1]) + "&account=" + cname
+        url2 = casjc_config.global_url + "/portal-test/user/getUserLdap?pageNum=1&pageSize=10&userId=" + str(self.shenfen[1]) + "&account=" + cname
         r2 = requests.get(url2, headers=self.header)
         #print(r2.json())
         if r2.json()['code'] == 200 and r2.json()['data']['total'] >= 1:
@@ -133,7 +133,7 @@ class cuser():
         """[企业管理员添加普通用户,并修改密码]"""
 
         #控制台添加新的企业普通用户
-        url = "http://11.2.77.3:30089/portal-test/user/insertUser?"
+        url = casjc_config.global_url + "/portal-test/user/insertUser?"
         cname = "cont" + str(time.strftime("%m%d%H%M",time.localtime()))
         data = {}
         data['account'] = cname
@@ -158,7 +158,7 @@ class cuser():
         userid = self._selectUser_(cname)
 
         #修复企业用户密码
-        url3 = "http://11.2.77.3:30089/portal-test/user/updateUserPassword?password=" + casjc_config.cpasswd + "&userId=" + str(userid)
+        url3 = casjc_config.global_url + "/portal-test/user/updateUserPassword?password=" + casjc_config.cpasswd + "&userId=" + str(userid)
         r3 = requests.get(url3, headers=self.header)
         #print(r3.json())
         if r3.json()['code'] == 200 and r3.json()['data'] == None:
@@ -182,7 +182,7 @@ class cuser():
         for i in mm:
             mi += i
         #修改企业用户密码
-        url3 = "http://11.2.77.3:30089/portal-test/user/updateUserPassword?password=" + mi + "&userId=" + str(userid)
+        url3 = casjc_config.global_url + "/portal-test/user/updateUserPassword?password=" + mi + "&userId=" + str(userid)
         r3 = requests.get(url3, headers=self.header)
         #print(r3.json())
         if r3.json()['code'] == 200 and r3.json()['data'] == None:
@@ -201,7 +201,7 @@ class cuser():
         #控制台添加新的企业普通用户
         myuser = self.addEntUser()
 
-        url ="http://11.2.77.3:30089/portal-test/org/operationUserQueue"
+        url = casjc_config.global_url + "/portal-test/org/operationUserQueue"
         cname = "cont" + str(time.strftime("%m%d%H%M",time.localtime()))
         data = {}
         data["account"] = myuser[0]
@@ -226,7 +226,7 @@ class cuser():
         #控制台添加新的企业普通用户
         myuser = self.addEntUser()
 
-        url = "http://11.2.77.3:30089/portal-test/store/work/updateQuota"
+        url = casjc_config.global_url + "/portal-test/store/work/updateQuota"
         data = {}
         data["colonyId"] = 43
         data["groupLdapId"] = myuser[3]
@@ -251,7 +251,7 @@ class cuser():
         myuser = self.addEntUser()
 
         #分配队列
-        url ="http://11.2.77.3:30089/portal-test/org/operationUserQueue"
+        url = casjc_config.global_url + "/portal-test/org/operationUserQueue"
         cname = "cont" + str(time.strftime("%m%d%H%M",time.localtime()))
         data = {}
         data["account"] = myuser[0]
@@ -269,7 +269,7 @@ class cuser():
             return False
 
         #分配文件存储
-        url = "http://11.2.77.3:30089/portal-test/store/work/updateQuota"
+        url = casjc_config.global_url + "/portal-test/store/work/updateQuota"
         data = {}
         data["colonyId"] = 43
         data["groupLdapId"] = myuser[3]
@@ -288,15 +288,15 @@ class cuser():
 
 if __name__ == "__main__":
     #管理后台操作
-    #atest = auser()
+    atest = auser()
     #默认值参数企业id
-    #atest.addControlUser()
+    atest.addControlUser()
     #atest.changePasswd('test210125')
 
     #控制台操作,初始值参数企业管理员Id
-    ctest = cuser()
+    #ctest = cuser()
     #ctest.addEntUser()
     #ctest.addQueueUser()
     #ctest.addStoreUser()
     #ctest.addQueueStoreUser()
-    ctest.changePasswd('yan1819')
+    #ctest.changePasswd('yan1819')

@@ -12,7 +12,7 @@
 #consoleUrl
 
 #test测试环境
-testPerson = {"admin": {"adminUrl": "http://11.2.77.3:30088", "user1": "Casjc001", "user2": "lihaifeng", "user3": "wangnan", "user4": "kongshuishui", "user5": "liukaimin", "user6": "daijiwei", "user7": "tangdebing", "passwd1": "Woaini~520", "passwd2": "Casjc@123"}, "console": {"consoleUrl": "http://11.2.77.3:30086", "entuser1": "aa123", "entuser2": "yao", "entpasswd": "123456aA~"}}
+testPerson = {"admin": {"adminUrl": "http://10.8.14.181:10088", "user1": "Casjc001", "user2": "lihaifeng", "user3": "wangnan", "user4": "kongshuishui", "user5": "liukaimin", "user6": "daijiwei", "user7": "tangdebing", "passwd1": "Woaini~520", "passwd2": "Casjc@123"}, "console": {"consoleUrl": "http://10.8.14.14:10086", "entuser1": "aa123", "entuser2": "yao", "entpasswd": "123456aA~"}}
 
 #dev开发环境
 devPerson = {"admin": {"adminUrl": "http://11.2.77.1:10088", "user1": "duliadmin", "user2": "duliadmin", "user3": "duliadmin", "user4": "duliadmin", "user5": "duliadmin", "user6": "duliadmin", "user7": "tangdebing", "passwd1": "Test1234!", "passwd2": "Test1234!"}, "console": {"consoleUrl": "http://11.2.77.1:10086", "entuser1": "uireg0525105000", "entuser2": "uireg0525105000", "entpasswd": "123456aA~"}}
@@ -22,6 +22,8 @@ stdPerson = {"admin": {"adminUrl": "http://11.2.77.2:10080", "username": "Casjc0
 
 
 """全局参数"""
+#url地址
+global_url = "http://10.8.14.181"
 
 #全局获取元素等待时间
 wait_time = 20

@@ -12,7 +12,7 @@ class resource():
 
     def __init__(self, account="gktest", userId=20650, entId=10066):
         self.header = {}
-        self.url = "http://11.2.77.3:30089"
+        self.url = casjc_config.global_url
         #申请，生成合同，确认参数销售经理账号
         self.saleraccount = "lihaifeng"
         self.header['Content-Type'] = "application/json"
@@ -407,7 +407,7 @@ class resource():
             return False
 
         #销售经理确认参数
-        url9 = "http://11.2.77.3:30089/portal-test/order/deploy/updateOrderRes"
+        url9 = casjc_config.global_url + "/portal-test/order/deploy/updateOrderRes"
         data9 = {"totalPrice": self.totalprice,"discountPrice": self.totalprice,"orderId": self.orderId}
         resjob = {"orderResId": orderResId_job,"resProdSrvId":1,"resTypeId":2,"resId":62,"number": self.corenumber,"validDays":10,"validUnit":"天","discount":1,"price":0.12,"unitPrice":0.12,"technicalNorms":"AMD EPYC 7742 64-Core Processor","resourceName":"双路计算节点","typeName":"共享型","productName":"高性能计算","compuResource": None,"chargeUnitCode":"2","chargeUnitDesc":"核心","chargeCycleCode":"6","chargeCycleDesc":"时","technicalId": None,"startTime": time.strftime("20%y-%m-%d",time.localtime()),"endTime": time.strftime("20%y-%m-%d",time.localtime()),"deployStatus":1,"queueName": None,"updateTime": uptime,"updateStatus":0,"defMemPerCpu": None,"deployAccount": None,"discountUnitPrice":0.12,"usedNumber": None,"leaveNumber": None,"colonyId": None,"leaveCount": None,"resCloudList": None,"areaId":1,"areaInfo":"太原一区","isInit":1,"renewOrderResId": None,"resInitId": None,"usedCount":0,"freeUsedCount":0,"freeBeingCount":0}
         resstore = {"orderResId": orderResId_file,"resProdSrvId":3,"resTypeId":4,"resId":141,"number": self.storeday / self.tmpnumber,"validDays": self.storeday,"validUnit":"天","discount":1,"price":1000 / self.tmpnumber,"unitPrice":100,"technicalNorms":"高性能并行存储（160GB/s聚合带宽、360TB SSD、18PB SAS/SATA），以TB天为单位","resourceName":"资源名称093307","typeName":"文件存储","productName":"数据存储","compuResource": None,"chargeUnitCode":"10","chargeUnitDesc":"TB","chargeCycleCode":"5","chargeCycleDesc":"天","technicalId": None,"startTime": time.strftime("20%y-%m-%d",time.localtime()),"endTime": time.strftime("20%y-%m-%d",time.localtime()),"deployStatus":1,"queueName": None,"updateTime": uptime,"updateStatus":0,"defMemPerCpu": None,"deployAccount": None,"discountUnitPrice":100,"usedNumber": None,"leaveNumber": None,"colonyId": None,"leaveCount": None,"resCloudList": None,"areaId":1,"areaInfo":"太原一区","isInit":1,"renewOrderResId": None,"resInitId": None,"usedCount":0,"freeUsedCount":0,"freeBeingCount":0}
@@ -576,8 +576,8 @@ if __name__ == "__main__":
     #mytest.testTry()
 
     #新购
-    #mytest.testNew()
+    mytest.testNew()
     #mytest.testNew("half")
 
     #续期
-    mytest.testRenew()
+    #mytest.testRenew()
