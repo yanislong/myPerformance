@@ -25,6 +25,7 @@ stdPerson = {"admin": {"adminUrl": "http://11.2.77.2:10080", "username": "Casjc0
 #url地址
 global_url = "http://10.8.14.181"
 ws_url = "ws://10.8.14.181:11014"
+#ws_url = "ws://10.8.14.181:11014"
 
 #全局获取元素等待时间
 wait_time = 20
