@@ -19,12 +19,12 @@ def login(username=casjc_config.ausername,passwd=casjc_config.apasswd, loginType
     header = {}
     header['Content-Type'] = "application/json"
     r = requests.post(url, headers=header, data=json.dumps(data))
-    #print(r.json())
+    print(r.json())
     url2 = casjc_config.global_url + "/portal-test/user/person/get"
     header2 = {}
     header2['Token'] = r.json()['data']
     r2 = requests.get(url2, headers=header2)
-    #print(r2.json())
+    print(r2.json())
     if loginType == 0:
         ltype = "控制台登录"
     elif loginType == 1:
