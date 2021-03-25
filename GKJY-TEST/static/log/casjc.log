@@ -22,3 +22,8 @@
 2021-03-11 09:38:57 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "871791ce-261e-46eb-89c2-d4bb78bf4d12"}
 2021-03-11 09:38:58 Thu - INFO - casjc_resource.py - confirmAll - line: 477 - [配置新购资源,全部配置] 高性能资源配置完成, 配置人:daijiwei
 2021-03-11 09:38:59 Thu - INFO - casjc_resource.py - confirmAll - line: 508 - [配置新购资源,全部配置] 文件存储资源配置完成, 配置人:daijiwei
+2021-03-25 10:14:49 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "f8252764-2887-4cd3-b14f-f7d25a39572e"}
+2021-03-25 10:16:15 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "f037fe54-349a-44e8-bcae-cb6440a88b96"}
+2021-03-25 10:16:53 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "f67c0cf6-8692-4943-a75f-1a6067535906"}
+2021-03-25 10:17:18 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "4c46cb3b-cd58-4aab-9b95-d69aa99f838a"}
+2021-03-25 10:17:50 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "9e847c9e-1c82-4ddb-b4b2-1e521ce742e7"}

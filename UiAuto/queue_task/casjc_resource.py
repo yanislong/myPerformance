@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import json, time, random, datetime
+import json, time, random, datetime, sys
 import requests
 
 import casjc_login
@@ -276,7 +276,7 @@ class resource():
         curl4 = self.url + "/portal-test/file/uploadFile/group1"
         tmpheader = {}
         tmpheader['Token'] = self.saleser[0]
-        with open('运维-世纪互联网络运维实践-李信满-世纪互联-下载版.pdf','rb') as f:
+        with open('/home/yanislong/myPerformance/UiAuto/queue_task/运维-世纪互联网络运维实践-李信满-世纪互联-下载版.pdf','rb') as f:
             myfile = {'file': f.read()}
         cr4 = requests.post(curl4, headers=tmpheader, files=myfile)
         #print(cr4.json())
@@ -572,11 +572,19 @@ class resource():
 if __name__ == "__main__":
     mytest = resource()
 
+    try:
+        if sys.argv[1] == "1":
+            mytest.testNew()
+        elif sys.argv[1] == "0":
+            mytest.testTry()
+    except IndexError:
+        print('not have parames')
+        
     #试用
     #mytest.testTry()
 
     #新购
-    mytest.testNew()
+    #mytest.testNew()
     #mytest.testNew("half")
 
     #续期
