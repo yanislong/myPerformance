@@ -580,6 +580,7 @@ if __name__ == "__main__":
     except IndexError:
         print('not have parames')
         
+
     #试用
     #mytest.testTry()
 
