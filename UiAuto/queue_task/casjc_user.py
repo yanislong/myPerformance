@@ -42,14 +42,14 @@ class auser():
 
         #添加新的企业用户
         url = casjc_config.global_url + "/portal-test/user/account/enterprise/add"
-        cname = "job" + str(time.strftime("%m%d%H%M",time.localtime()))
+        cname = "man_" + str(time.strftime("%m%d%H%M",time.localtime()))
         data = {}
         data['account'] = cname
         data['companyAdminId'] = 0
         data['companyId'] = entid
         data['email'] = cname + "@qq.com"
         data['id'] = ""
-        data['name'] = "测试作业用户"
+        data['name'] = "我不要晴天"
         data['roleId'] = 3
         data['vnc'] = 0
         r = requests.post(url, headers=self.header, data=json.dumps(data))

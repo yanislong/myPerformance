@@ -6,7 +6,6 @@ import requests
 import casjc_login
 import casjc_config
 import casjc_log_task
-import casjc_user
 
 
 class resource():
@@ -36,109 +35,36 @@ class resource():
         self.totalprice = 1000.24
         self.jobday = 1
         self.storeday = 10
-        self.preDeploy = 0  #是否提前配置 0否1是
-        self.deployWay = 0  #资源配置方式，0固定参数1灵活配置
-        self.payWay = 0 #付费方式 0预付费1后付费
 
-    def applyOrder(self):
+    def applyTryOrder(self):
 
         """[申请试用资源(共享高性能和文件存储)]"""
 
         url = self.url + "/portal-test/order/order/addOrder"
-        data = {}
-        data["orderId"] = "" 
-        data["applyParty"] = 1  #提交申请方 0甲方,1销售经理
-        data["entExist"] = 0  #甲方账号是否存在 0存在1不存在
-        data[ "salesUserId"] = self.salesuserid
-        data["projectName"] = self.pname
-        data["entMail"] =  self.email
-        data["entCompanyId"] =  self.entId
-        data["entMobilePhone"] =  self.phone
-        data["entUserId"] =  self.userId
-        data["entPhoneWay"] = 1  #甲方联系电话方式0固定电话1手机
-        data["entPhone"] = ""  #甲方联系电话 0固定电话时填写
-        data["userRemark"] = ""  #用户账号不存在时备注
-        data["orderType"] = 0  # 订单类型 0试用1新购2续购3退订
-        if data['orderType'] == 0:
-            data["preDeploy"] = 0  #是否提前配置 0否1是
-            data["deployWay"] = 0  #资源配置方式，0固定参数1灵活配置
-            data["payWay"] = 0  #付费方式 0预付费1后付费
-        else:
-            data["preDeploy"] = self.preDeploy  #是否提前配置 0否1是
-            data["deployWay"] = self.deployWay  #资源配置方式，0固定参数1灵活配置
-            data["payWay"] = self.payWay  #付费方式 0预付费1后付费
-        data["areaId"] = "1"  #服务区
-        data["avgDiscount"] = 1  #平均折扣/最低折扣\n配置方式\n0固定参数：平均折扣\n1灵活配置：最低折扣
-        data["discountPrice"] = 0  #优惠总额，单位：元
-        data["productType"] = "2,1"  #产品类型 1 标准型 2共享型
-        data["resType"] = "3,6"  #资源类型：前端暂存使用
-        data["status"] = 1  #状态 1:待审批 2:乙方盖章 3:待邮寄 4:甲方盖章 5:待寄回 6:已寄回 7:已过期 8:作废待审批 9:已作废 10:待归档 11:已归档	
-        data["totalPrice"] = 0  #成交总额，单位：元
-        data["giftPrice"] = "5.12"  #赠送金额，单位：元
-        data["originalPrice"] = 5.12  #标准总价
-        data["costPrice"] = 5.12  #成本总价，单位：元
-        data["profitPrice"] = -5.12  #利润总价，单位：元
-        data['contractInfoVO'] = {} 
-        data["resVOList"] = []
-        resinfo = {}  #文件存储
-        resinfo["areaId"] = 1  #服务区ID
-        resinfo["discount"] = 1  #折扣
-        resinfo["number"] = 1  #申请数量
-        resinfo["price"] = 5  #成交总价
-        resinfo["resId"] = 28  #资源表ID
-        resinfo["resTypeId"] = 4  #资源类型ID
-        resinfo["resProdSrvId"] = 1  #资源产品服务ID
-        resinfo["validDays"] = 1  #有效期
-        resinfo["validUnit"] = "天"  #有效期单位
-        resinfo["unitPrice"] = "5.00"  #标准单价
-        resinfo["discountUnitPrice"] = "5.00"  #成交单价
-        resinfo["costAccounting"] = 1  #成本核算
-        resinfo["costUnit"] = ""  #成本核算单位
-        resinfo["costPrice"] = 5  #成本总价
-        resinfo["profitPrice"] = 0  #利润总价
-        resinfo["originalPrice"] = 5  #标准总价
-        resinfo2 = {}  #共享计算
-        resinfo2["areaId"] = 1  #服务区ID
-        resinfo2["discount"] = 1  #折扣
-        resinfo2["number"] = 1  #申请数量
-        resinfo2["price"] = 0.12  #成交总价
-        resinfo2["resId"] = 194  #资源表ID
-        resinfo2["resTypeId"] = 2  #资源类型ID
-        resinfo2["resProdSrvId"] = 2  #资源产品服务ID
-        resinfo2["validDays"] = 1  #有效期
-        resinfo2["validUnit"] = "天"  #有效期单位
-        resinfo2["unitPrice"] = "0.12"  #标准单价
-        resinfo2["discountUnitPrice"] = "0.12"  #成交单价
-        resinfo2["costAccounting"] = 1  #成本核算
-        resinfo2["costUnit"] = ""  #成本核算单位
-        resinfo2["costPrice"] = 0.12  #成本总价
-        resinfo2["profitPrice"] = 0  #利润总价
-        resinfo2["originalPrice"] = 0.12  #标准总价
-        data['resVOList'].append(resinfo)
-        data['resVOList'].append(resinfo2)
+        data = {"orderId":"","applyParty":1,"areaId":"1","avgDiscount":0,"deployWay":0,"discountPrice":0,"entCompanyId": self.entId,"entExist":0,"entMail": self.email,"entPhoneWay":1,"entPhone":"","entMobilePhone": self.phone,"entUserId": self.userId,"userRemark":"","productType":"1,3","projectName": self.pname, "salesUserId": self.salesuserid,"orderType":0,"status":1,"totalPrice":0,"giftPrice":5.12}
+        data["resVOList"] = [{"areaId":1,"discount":0,"number":"1","orderResId":1,"price":0,"resId":62,"resTypeId":2,"resProdSrvId":1,"validDays":1,"validUnit":"天","unitPrice":0.12,"discountUnitPrice":0},{"areaId":1,"discount":0,"number":"1","orderResId":3,"price":0,"resId":106,"resTypeId":4,"resProdSrvId":3,"validDays":1,"validUnit":"天","unitPrice":5,"discountUnitPrice":0}]
         r = requests.post(url, headers=self.header, data=json.dumps(data))
         #print(r.json())
         self.tryOrderId = str(r.json()['data'])
         if r.json()['code'] == 200:
-            casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 订单号ID:" + self.tryOrderId)
+            casjc_log_task.logging.info(self.applyTryOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 订单号ID:" + self.tryOrderId)
             return True
         else:
-            casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 提交资源申请异常")
+            casjc_log_task.logging.info(self.applyTryOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 提交资源申请异常")
             return False
 
     def applyTryPrice(self):
 
         """[审批试用订单(共享高性能和文件存储)]"""
 
-        time.sleep(5)
         #王楠审批试用
         url1 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.tryOrderId + "&flowIds=1,2,3"
         header = {}
         header['Token'] = casjc_login.login(casjc_config.avpuser1, casjc_config.avppasswd, 1)[0]
         r1 = requests.get(url1, headers=header)
-        #print(r1.json())
+        #print(r.json())
         taskId = r1.json()['data'][0]['taskId']
-        url2 = self.url + "/portal-test/order/approve/apvOrder"
+        url2 = self.url + "/portal-test/order/order/apvOrder"
         header['Content-Type'] = "application/json"
         data2 = {}
         data2['opinion'] = "test"
@@ -152,14 +78,13 @@ class resource():
             casjc_log_task.logging.info(self.applyTryPrice.__doc__ + " 审批账号:" + casjc_config.avpuser1 + " 审批异常")
             return False
 
-        time.sleep(5)
         #戴吉伟审批试用
         url3 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.tryOrderId + "&flowIds=1,2,3"
         header['Token'] = casjc_login.login(casjc_config.avpuser2, casjc_config.avppasswd, 1)[0]
         r3 = requests.get(url3, headers=header)
         #print(r3.json())
         taskId = r3.json()['data'][0]['taskId']
-        url4 = self.url + "/portal-test/order/approve/apvOrder"
+        url4 = self.url + "/portal-test/order/order/apvOrder"
         data3 = {}
         data3['opinion'] = "test"
         data3['status'] = 0
@@ -178,7 +103,6 @@ class resource():
 
         """[配置试用订单(共享高性能和文件存储)]"""
 
-        time.sleep(5)
         #戴吉伟配置资源,获取必要参数
         url5 = self.url + "/portal-test/order/order/getOrder?times=1610011814514&orderId=" + self.tryOrderId
         header = {}
@@ -186,8 +110,8 @@ class resource():
         header['Token'] = casjc_login.login(casjc_config.avpuser2, casjc_config.avppasswd, 1)[0]
         r5 = requests.get(url5, headers=header)
         #print(r5.json())
-        #resInitId_file = r5.json()['data']['resInitVOList'][1]['resInitId']
-        #orderResId_file = r5.json()['data']['resVOList'][1]['orderResId']
+        resInitId_file = r5.json()['data']['resInitVOList'][1]['resInitId']
+        orderResId_file = r5.json()['data']['resVOList'][1]['orderResId']
         resInitId_job = r5.json()['data']['resInitVOList'][0]['resInitId']
         orderResId_job = r5.json()['data']['resVOList'][0]['orderResId']
         uptime = r5.json()['data']['resVOList'][0]['updateTime']
@@ -195,44 +119,35 @@ class resource():
         #配置高性能计算
         url6 = self.url + "/portal-test/order/deploy/deployOrderRes"
         data = {}
-        data["colonyId"] = 43
+        data["colonyId"] = 42
         data["defMemPerCpu"] = ""
         data["deployStatus"] = 3
         data["deployWay"] = 0
         data["endTime"] = time.strftime("20%y-%m-%d",time.localtime())
         data["entId"] = self.entId
-        data["nodeList"] = []
-        data["number"] = 0
+        data["nodeList"] = ['low']
+        data["number"] = 1
         data["orderId"] = self.tryOrderId
         data["orderResId"] = orderResId_job
+        data["path"] = ""
+        data["price"] = 0
         data["queueName"] = ""
         data["queueType"] = 0
-        data['qosName'] = "normal"
         data["resInitId"] = resInitId_job
         data["resProdSrvId"] = 1
+        data["resTypeId"] = 2
         data["startTime"] = time.strftime("20%y-%m-%d",time.localtime())
         data["updateTime"] = uptime
-        data['resBandowidthList'] = [{"networkName":"","bandwidth":1,"gateway":"","publicIp":"","subnetMask":""}]
-        data['resPrivateNetworkList'] = [{"networkName":"","bandwidth":1,"gateway":"","networkSegment":"","subnetMask":""}]
-        data['resVpnList'] = [] 
-        data['resProdSrvId'] = 1
-        data['resTypeId'] = 4
-        data['discountUnitPrice'] = 5
-        data['unitPrice'] = 5
-        data['originalPrice'] = 5
-        data['price'] = 5
-        data['Path'] = "/public1/home/" + self.account + "/" + self.account
         ldata = []
         ldata.append(data)
         r6 = requests.post(url6, headers=header, data=json.dumps(ldata))
-        print(r6.json())
+        #print(r6.json())
         if r6.json()['code'] == 200 and r6.json()['message'] == None and r6.json()['data'] == None:
             casjc_log_task.logging.info(self.confirmOrder.__doc__ + " 高性能资源配置完成, 配置人:" + casjc_config.avpuser2)
         else:
             casjc_log_task.logging.info(self.confirmOrder.__doc__ + " 高性能资源配置异常, 配置人:" + casjc_config.avpuser2)
             return False
 
-        '''
         #配置文件存储
         data = {}
         data["colonyId"] = 43
@@ -264,9 +179,8 @@ class resource():
         else:
             casjc_log_task.logging.info(self.confirmOrder.__doc__ + " 文件存储资源配置异常, 配置人:" + casjc_config.avpuser2)
             return False
-        '''
 
-    def applyOrder2(self):
+    def applyOrder(self):
 
         """[申请新购资源 (共享高性能和文件存储)]"""
 
@@ -632,9 +546,9 @@ class resource():
             return False
 
     def testTry(self):
-        self.applyOrder()
+        self.applyTryOrder()
         self.applyTryPrice()
-        #self.confirmOrder()
+        self.confirmOrder()
 
     def testNew(self, mytype="All"):
         self.applyOrder()
@@ -656,13 +570,8 @@ class resource():
         self.renewResource()
 
 if __name__ == "__main__":
-    #mytest = resource('crazy03231701','100905','10831')
-    tmp = casjc_user.auser()
-    a,b,c = tmp.addControlUser()
-    mytest = resource(a,b,c)
-    #mytest = resource()
+    mytest = resource()
 
-    '''
     try:
         if sys.argv[1] == "1":
             mytest.testNew()
@@ -670,11 +579,10 @@ if __name__ == "__main__":
             mytest.testTry()
     except IndexError:
         print('not have parames')
-    '''
         
 
     #试用
-    mytest.testTry()
+    #mytest.testTry()
 
     #新购
     #mytest.testNew()

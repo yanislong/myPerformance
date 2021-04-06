@@ -27,3 +27,127 @@
 2021-03-25 10:16:53 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "f67c0cf6-8692-4943-a75f-1a6067535906"}
 2021-03-25 10:17:18 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "4c46cb3b-cd58-4aab-9b95-d69aa99f838a"}
 2021-03-25 10:17:50 Thu - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "9e847c9e-1c82-4ddb-b4b2-1e521ce742e7"}
+2021-04-02 10:37:04 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:Casjc001 登录结果: {"code": 200, "message": null, "data": "32c55f40-7f5d-4fd2-9142-25c74ba4ec52"}
+2021-04-02 10:37:04 Fri - INFO - casjc_user.py - addControlUser - line: 58 - [添加企业管理员用户,并修改密码] 添加新的企业用户完成, 账号: man_04021037
+2021-04-02 10:37:04 Fri - INFO - casjc_user.py - _selectUser_ - line: 32 - [管理后台通过account查询企业用户] 查询企业用户完成, 账号: man_04021037
+2021-04-02 10:37:05 Fri - INFO - casjc_user.py - addControlUser - line: 69 - [添加企业管理员用户,并修改密码] 修改企业用户密码完成, 账号: man_04021037
+2021-04-02 10:55:24 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "560aa406-94fc-4413-82e9-34215688c179"}
+2021-04-02 10:55:24 Fri - INFO - casjc_resource.py - applyOrder - line: 244 - [申请新购资源 (共享高性能和文件存储)] 企业用户ID:20650 提交资源申请异常
+2021-04-02 10:58:31 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "4eb9a45c-1162-47fe-ba59-563f07dd5196"}
+2021-04-02 10:58:47 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "623e3676-e11c-48d9-9131-32066b69a66d"}
+2021-04-02 11:08:48 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "3d2f0404-2e2a-46e1-8de0-5753664dd2b5"}
+2021-04-02 11:09:06 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3281
+2021-04-02 11:09:06 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "666f4a0f-e3f8-4efe-b74f-2fd35de56431"}
+2021-04-02 11:17:00 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "61a1ed0f-4212-468b-a348-afb405242b3c"}
+2021-04-02 11:17:01 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3282
+2021-04-02 11:17:01 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "0de6e469-93f0-4cf6-b68f-badd9dd80551"}
+2021-04-02 11:17:01 Fri - INFO - casjc_resource.py - applyTryPrice - line: 127 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 11:17:02 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "a9dc6a2a-c721-4d52-a093-77449e383897"}
+2021-04-02 11:17:02 Fri - INFO - casjc_resource.py - applyTryPrice - line: 146 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 11:18:14 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "09b95de8-89c2-4cdc-a4cd-6c7a9dd4e707"}
+2021-04-02 11:18:34 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3283
+2021-04-02 11:18:39 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "23eb775e-7dc6-45c7-947d-b9f976ee3e02"}
+2021-04-02 11:18:40 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 11:18:45 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "ef9a7728-85df-43fa-899b-774b5a7b9980"}
+2021-04-02 11:19:05 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 14:26:14 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "03ae2198-4a78-4275-86a9-eb2bd328ee3b"}
+2021-04-02 14:26:33 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3284
+2021-04-02 14:26:38 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "67e6c772-16dd-4f27-9646-457a1d5356ee"}
+2021-04-02 14:26:39 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 14:26:44 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "a00f81f6-9fce-4de7-94a8-0231e63d890d"}
+2021-04-02 14:26:44 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 14:27:32 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 10402, "message": "\u5bc6\u7801\u9519\u8bef,Authentication failed for token submission [com.casjc.user.shiro.token.MyUsernamePasswordToken - lihaifeng, rememberMe=false].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).", "data": null}
+2021-04-02 14:27:50 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "c362bdac-dcb1-40b1-b6ae-4f0e187e5a32"}
+2021-04-02 14:28:06 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3285
+2021-04-02 14:28:11 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "f66736fb-8251-4268-9cfa-5e52ba6e9ddb"}
+2021-04-02 14:28:12 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 14:28:17 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "6068a1cb-b580-4200-b7de-475d9c7b6322"}
+2021-04-02 14:28:17 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 14:28:22 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "363bb4d7-ae95-4ac3-b267-cb6cba998e18"}
+2021-04-02 14:38:11 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "04f2b911-a5b5-420c-bf05-2dad16e9a387"}
+2021-04-02 14:38:29 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3286
+2021-04-02 14:38:34 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "3b57ab73-b274-44e8-8d4e-9fe4472402ce"}
+2021-04-02 14:38:34 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 14:38:40 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "1b6abba7-d9a9-401e-8e25-0c7cdcf244c9"}
+2021-04-02 14:38:40 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 14:38:45 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "df762a0a-be42-43da-945a-cb405ea3a51a"}
+2021-04-02 14:38:46 Fri - INFO - casjc_resource.py - confirmOrder - line: 210 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置异常, 配置人:daijiwei
+2021-04-02 14:42:22 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "89e73e68-512f-48b6-94dc-354423949728"}
+2021-04-02 14:42:40 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3287
+2021-04-02 14:42:45 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "9658fc36-bbf5-46f9-afa8-0a95eb4d8be7"}
+2021-04-02 14:42:46 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 14:42:51 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "9be1d15b-621b-4bad-98ac-580e9824fcc3"}
+2021-04-02 14:42:51 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 14:42:57 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "727d4fb9-3679-4172-bb0c-6398cb5977e5"}
+2021-04-02 14:42:57 Fri - INFO - casjc_resource.py - confirmOrder - line: 210 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置异常, 配置人:daijiwei
+2021-04-02 14:48:49 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "47bcc08c-f63d-492c-a64d-d76c320f74b3"}
+2021-04-02 14:48:55 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3288
+2021-04-02 14:49:00 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "cdaff4fd-929d-4575-b605-03c664fe6113"}
+2021-04-02 14:49:01 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 14:49:06 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "e04eb64d-38a3-4af6-8b07-917469b19db9"}
+2021-04-02 14:49:26 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 14:49:31 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "5c8488a2-5b09-45ac-8874-7d51e933a82d"}
+2021-04-02 14:49:32 Fri - INFO - casjc_resource.py - confirmOrder - line: 210 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置异常, 配置人:daijiwei
+2021-04-02 15:10:35 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "cc50ed53-f2bd-41e9-a223-ed4fa182bed3"}
+2021-04-02 15:10:42 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3290
+2021-04-02 15:10:47 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "1792a000-8464-468c-85e4-d63d1c85319b"}
+2021-04-02 15:10:48 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 15:10:53 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "586ac434-4bb0-4917-a04a-05276f1db37c"}
+2021-04-02 15:11:13 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 15:11:18 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "00bf83e2-2a33-4250-8c0c-59cf66b8fb63"}
+2021-04-02 15:11:19 Fri - INFO - casjc_resource.py - confirmOrder - line: 210 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置异常, 配置人:daijiwei
+2021-04-02 15:11:50 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "638fd651-5ef2-4185-880b-00f9d85d4022"}
+2021-04-02 15:11:50 Fri - INFO - casjc_resource.py - applyOrder - line: 101 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3291
+2021-04-02 15:11:56 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "911b61ba-17f3-4da8-a1b2-64fae5b7f7e9"}
+2021-04-02 15:11:56 Fri - INFO - casjc_resource.py - applyTryPrice - line: 128 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 15:12:01 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "ada3856b-87e9-44da-96be-1f59e805890b"}
+2021-04-02 15:12:18 Fri - INFO - casjc_resource.py - applyTryPrice - line: 148 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 15:12:23 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "861c36bb-01c7-4345-a669-a7e1b93f1dac"}
+2021-04-02 15:12:24 Fri - INFO - casjc_resource.py - confirmOrder - line: 208 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置完成, 配置人:daijiwei
+2021-04-02 15:46:03 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "d176a1e4-3b65-4861-909c-85da2b0054a0"}
+2021-04-02 15:46:03 Fri - INFO - casjc_resource.py - applyOrder - line: 125 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 提交资源申请异常
+2021-04-02 15:46:08 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "5052d3ef-5453-4d7a-bc3b-4a8f72c8a70f"}
+2021-04-02 15:46:46 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "d76c09c5-31f8-41f9-b2d2-f79cc740c310"}
+2021-04-02 15:46:46 Fri - INFO - casjc_resource.py - applyOrder - line: 125 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 提交资源申请异常
+2021-04-02 15:46:51 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "1d17fc0c-39b4-456c-86da-b3e83980732c"}
+2021-04-02 15:47:56 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "a78ae7b6-7afc-4b7c-b06a-086fe782ffd8"}
+2021-04-02 15:47:56 Fri - INFO - casjc_resource.py - applyOrder - line: 125 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 提交资源申请异常
+2021-04-02 15:48:01 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "8b0e43fc-48ce-4421-8c4c-1a54150fe09d"}
+2021-04-02 15:48:56 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "9f0fa526-da7e-4329-b954-f22a5019fff2"}
+2021-04-02 15:48:56 Fri - INFO - casjc_resource.py - applyOrder - line: 122 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3293
+2021-04-02 15:49:01 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "3b1ad5f3-3fc0-4b06-b567-721b39c3eb1b"}
+2021-04-02 15:49:50 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 10402, "message": "\u5bc6\u7801\u9519\u8bef,Authentication failed for token submission [com.casjc.user.shiro.token.MyUsernamePasswordToken - lihaifeng, rememberMe=false].  Possible unexpected error? (Typical or expected login exceptions should extend from AuthenticationException).", "data": null}
+2021-04-02 15:52:18 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "23024fbf-ada3-4f35-9b13-0d87e9498843"}
+2021-04-02 15:52:27 Fri - INFO - casjc_resource.py - applyOrder - line: 122 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:20650 订单号ID:3294
+2021-04-02 15:52:33 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "c5b56cc7-1f8b-4dee-a0cc-e16366258a33"}
+2021-04-02 15:52:33 Fri - INFO - casjc_resource.py - applyTryPrice - line: 149 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 15:52:38 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "d963d242-81ca-4383-8dcf-7be1d648a111"}
+2021-04-02 15:52:58 Fri - INFO - casjc_resource.py - applyTryPrice - line: 169 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 15:53:03 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "aacfd03b-827d-47f0-b7fa-99b507b82972"}
+2021-04-02 15:53:04 Fri - INFO - casjc_resource.py - confirmOrder - line: 229 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置完成, 配置人:daijiwei
+2021-04-02 15:56:46 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:Casjc001 登录结果: {"code": 200, "message": null, "data": "2a7f2a1d-5fbd-4385-8f31-6322cb826ed8"}
+2021-04-02 15:56:47 Fri - INFO - casjc_user.py - addControlUser - line: 58 - [添加企业管理员用户,并修改密码] 添加新的企业用户完成, 账号: man_04021556
+2021-04-02 15:56:47 Fri - INFO - casjc_user.py - _selectUser_ - line: 32 - [管理后台通过account查询企业用户] 查询企业用户完成, 账号: man_04021556
+2021-04-02 15:57:06 Fri - INFO - casjc_user.py - addControlUser - line: 69 - [添加企业管理员用户,并修改密码] 修改企业用户密码完成, 账号: man_04021556
+2021-04-02 15:57:07 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "1f6a63ec-5b03-42dd-add9-9632634853fb"}
+2021-04-02 15:57:08 Fri - INFO - casjc_resource.py - applyOrder - line: 123 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:100929 订单号ID:3295
+2021-04-02 15:57:13 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "47cbb892-eec8-4bb1-ac7f-6e5690e3f071"}
+2021-04-02 15:57:13 Fri - INFO - casjc_resource.py - applyTryPrice - line: 150 - [审批试用订单(共享高性能和文件存储)] 审批账号:wangnan 审批成功
+2021-04-02 15:57:18 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "d27d7033-9d63-4a6d-a661-89dacc0a39e4"}
+2021-04-02 15:57:19 Fri - INFO - casjc_resource.py - applyTryPrice - line: 170 - [审批试用订单(共享高性能和文件存储)] 审批账号:daijiwei 审批成功
+2021-04-02 15:57:24 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:daijiwei 登录结果: {"code": 200, "message": null, "data": "5c83e18c-19ac-4c4d-9264-fd2ff7df486a"}
+2021-04-02 15:57:37 Fri - INFO - casjc_resource.py - confirmOrder - line: 230 - [配置试用订单(共享高性能和文件存储)] 高性能资源配置完成, 配置人:daijiwei
+2021-04-02 17:14:06 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:Casjc001 登录结果: {"code": 200, "message": null, "data": "2c3a2073-4975-4600-9d5b-e95541d0d473"}
+2021-04-02 17:14:18 Fri - INFO - casjc_user.py - addControlUser - line: 60 - [添加企业管理员用户,并修改密码] 添加新的企业用户异常, 账号: man_04021714
+2021-04-02 17:14:18 Fri - INFO - casjc_user.py - _selectUser_ - line: 36 - [管理后台通过account查询企业用户] 查询企业用户异常, 账号: man_04021714
+2021-04-02 17:14:18 Fri - INFO - casjc_user.py - addControlUser - line: 71 - [添加企业管理员用户,并修改密码] 修改企业用户密码异常, 账号: man_04021714
+2021-04-02 17:14:20 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "566e80ba-1701-4982-a73d-6d2fffd43357"}
+2021-04-02 17:14:20 Fri - INFO - casjc_resource.py - applyOrder - line: 126 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:False 提交资源申请异常
+2021-04-02 17:14:25 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "a50e3512-f317-41f8-a539-4ec4d73d2e92"}
+2021-04-02 17:14:33 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:Casjc001 登录结果: {"code": 200, "message": null, "data": "55436232-1d12-4a7b-8e2e-cfa5aa762d28"}
+2021-04-02 17:14:49 Fri - INFO - casjc_user.py - addControlUser - line: 60 - [添加企业管理员用户,并修改密码] 添加新的企业用户异常, 账号: man_04021714
+2021-04-02 17:14:49 Fri - INFO - casjc_user.py - _selectUser_ - line: 36 - [管理后台通过account查询企业用户] 查询企业用户异常, 账号: man_04021714
+2021-04-02 17:14:49 Fri - INFO - casjc_user.py - addControlUser - line: 71 - [添加企业管理员用户,并修改密码] 修改企业用户密码异常, 账号: man_04021714
+2021-04-02 17:14:50 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:lihaifeng 登录结果: {"code": 200, "message": null, "data": "e5cb1fdb-26b8-4e6d-9322-b5646ddeebd7"}
+2021-04-02 17:14:50 Fri - INFO - casjc_resource.py - applyOrder - line: 126 - [申请试用资源(共享高性能和文件存储)] 企业用户ID:False 提交资源申请异常
+2021-04-02 17:14:56 Fri - INFO - casjc_login.py - login - line: 32 - 太原先计算云平台用户登录, 管理后台登录 登录账号:wangnan 登录结果: {"code": 200, "message": null, "data": "26af2ee2-ce6c-405c-a9e3-244ea366734b"}
