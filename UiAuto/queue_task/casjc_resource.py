@@ -15,7 +15,8 @@ class resource():
         self.header = {}
         self.url = casjc_config.global_url
         #申请，生成合同，确认参数销售经理账号
-        self.saleraccount = "lihaifeng"
+        #self.saleraccount = "lihaifeng"
+        self.saleraccount = "baishi"
         self.header['Content-Type'] = "application/json"
         self.saleser = casjc_login.login(self.saleraccount,"Casjc@123",1)
         self.header['Token'] = self.saleser[0]
@@ -27,23 +28,27 @@ class resource():
         self.account = account
         self.userId = userId
         self.entId = entId
+        self.entName = "国科北京分部"
         #申请配置资源值
         self.pname = "斗罗大陆9层魂环理论" + str(random.randint(1,1000))
         self.phone = "18210462798"
         self.email = "18210462798@163.com"
         self.tmpnumber = 1
         self.corenumber = 2
-        self.totalprice = 1000.24
+        self.tprice = 5.12
         self.jobday = 1
         self.storeday = 10
-        self.preDeploy = 0  #是否提前配置 0否1是
+        self.preDeploy = 1  #是否提前配置 0否1是
         self.deployWay = 0  #资源配置方式，0固定参数1灵活配置
         self.payWay = 0 #付费方式 0预付费1后付费
 
-    def applyOrder(self):
+    def applyOrder(self, orderType):
 
         """[申请试用资源(共享高性能和文件存储)]"""
 
+        if orderType not in (0,1,4):
+            print("参数必须为0,1,4")
+            return None
         url = self.url + "/portal-test/order/order/addOrder"
         data = {}
         data["orderId"] = "" 
@@ -58,27 +63,7 @@ class resource():
         data["entPhoneWay"] = 1  #甲方联系电话方式0固定电话1手机
         data["entPhone"] = ""  #甲方联系电话 0固定电话时填写
         data["userRemark"] = ""  #用户账号不存在时备注
-        data["orderType"] = 0  # 订单类型 0试用1新购2续购3退订
-        if data['orderType'] == 0:
-            data["preDeploy"] = 0  #是否提前配置 0否1是
-            data["deployWay"] = 0  #资源配置方式，0固定参数1灵活配置
-            data["payWay"] = 0  #付费方式 0预付费1后付费
-        else:
-            data["preDeploy"] = self.preDeploy  #是否提前配置 0否1是
-            data["deployWay"] = self.deployWay  #资源配置方式，0固定参数1灵活配置
-            data["payWay"] = self.payWay  #付费方式 0预付费1后付费
-        data["areaId"] = "1"  #服务区
-        data["avgDiscount"] = 1  #平均折扣/最低折扣\n配置方式\n0固定参数：平均折扣\n1灵活配置：最低折扣
-        data["discountPrice"] = 0  #优惠总额，单位：元
-        data["productType"] = "2,1"  #产品类型 1 标准型 2共享型
-        data["resType"] = "3,6"  #资源类型：前端暂存使用
-        data["status"] = 1  #状态 1:待审批 2:乙方盖章 3:待邮寄 4:甲方盖章 5:待寄回 6:已寄回 7:已过期 8:作废待审批 9:已作废 10:待归档 11:已归档	
-        data["totalPrice"] = 0  #成交总额，单位：元
-        data["giftPrice"] = "5.12"  #赠送金额，单位：元
-        data["originalPrice"] = 5.12  #标准总价
-        data["costPrice"] = 5.12  #成本总价，单位：元
-        data["profitPrice"] = -5.12  #利润总价，单位：元
-        data['contractInfoVO'] = {} 
+        data["orderType"] = orderType  # 订单类型 0试用1新购2续购3退订
         data["resVOList"] = []
         resinfo = {}  #文件存储
         resinfo["areaId"] = 1  #服务区ID
@@ -114,11 +99,163 @@ class resource():
         resinfo2["costPrice"] = 0.12  #成本总价
         resinfo2["profitPrice"] = 0  #利润总价
         resinfo2["originalPrice"] = 0.12  #标准总价
-        data['resVOList'].append(resinfo)
-        data['resVOList'].append(resinfo2)
+        data["areaId"] = "1"  #服务区
+        data["avgDiscount"] = 1  #平均折扣/最低折扣\n配置方式\n0固定参数：平均折扣\n1灵活配置：最低折扣
+        data["discountPrice"] = 0  #优惠总额，单位：元
+        data["productType"] = "1,2"  #产品类型 1 标准型 2共享型
+        data["resType"] = "3,6"  #资源类型：前端暂存使用
+        data["status"] = 1  #状态 1:待审批 2:乙方盖章 3:待邮寄 4:甲方盖章 5:待寄回 6:已寄回 7:已过期 8:作废待审批 9:已作废 10:待归档 11:已归档	
+        data["totalPrice"] = 0  #成交总额，单位：元
+        data["giftPrice"] = "5.12"  #赠送金额，单位：元
+        data["originalPrice"] = self.tprice  #标准总价
+        data["costPrice"] = 5.12  #成本总价，单位：元
+        data["profitPrice"] = -5.12  #利润总价，单位：元
+        data['contractInfoVO'] = {} 
+
+        if data['orderType'] == 0:
+            data["preDeploy"] = 0  #是否提前配置 0否1是
+            data["deployWay"] = 0  #资源配置方式，0固定参数1灵活配置
+            data["payWay"] = 0  #付费方式 0预付费1后付费
+            data['resVOList'].append(resinfo)
+            data['resVOList'].append(resinfo2)
+        elif data['orderType'] == 1:
+            data["preDeploy"] = self.preDeploy  #是否提前配置 0否1是
+            data["deployWay"] = self.deployWay  #资源配置方式，0固定参数1灵活配置
+            data["payWay"] = self.payWay  #付费方式 0预付费1后付费
+            data['resVOList'].append(resinfo)
+            data['resVOList'].append(resinfo2)
+
+            """[生成订单合同]"""
+            #2.获取盖章机构
+            curl2 = self.url + "/portal-test/contract/getContractSealUserAll"
+            cr2 = requests.post(curl2, headers=self.header)
+            #print(cr2.json())
+            sealId = cr2.json()['data'][0]['id']
+            if cr2.json()['code'] == 200:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号成功")
+            else:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号异常")
+                return False
+
+            #3.获取合同编号
+            curl3 = self.url + "/portal-test/contract/contractInfo/generateContractNumber?signTime="# + str(time.strftime("20%y-%m-%d",time.localtime()))
+            cr3 = requests.get(curl3, headers=self.header)
+            #print(cr3.json())
+            contractNo = cr3.json()['data']
+            if cr3.json()['code'] == 200:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号成功")
+            else:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号异常")
+                return False
+
+            #4.上传合同文件，获取合同附件信息
+            curl4 = self.url + "/portal-test/file/uploadFile/group1"
+            tmpheader = {}
+            tmpheader['Token'] = self.saleser[0]
+            with open('/root/运维-世纪互联网络运维实践-李信满-世纪互联-下载版.pdf','rb') as f:
+                myfile = {'file': f.read()}
+            cr4 = requests.post(curl4, headers=tmpheader, files=myfile)
+            #print(cr4.json())
+            fpath = cr4.json()['data']['filePath']
+            orginname = cr4.json()['data']['originalName']
+            upname = cr4.json()['data']['uploadName']
+            uptime = cr4.json()['data']['uploadDate']
+            vurl = cr4.json()['data']['viewUrl']
+            if cr4.json()['code'] == 200:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同附件成功")
+            else:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同附件异常")
+                return False
+            now_time = datetime.datetime.now()
+            cdata = {}
+            cdata["id"] = ""
+            cdata["entCompanyId"] = self.entId
+            cdata["entUserId"] = self.userId
+            cdata["entCompanyName"] = self.entName
+            cdata["sealId"] = sealId
+            cdata["signTime"] =  "" #time.strftime("20%y-%m-%d",time.localtime())
+            cdata["contractNo"] = contractNo
+            cdata["sendGoodsTime"] =  time.strftime("20%y-%m-%d",time.localtime())
+            cdata["serviceBeginTime"] =  time.strftime("20%y-%m-%d",time.localtime())
+            cdata["serviceFinishTime"] = (now_time+datetime.timedelta(days=+1)).strftime("%Y-%m-%d")
+            cdata["contractAmount"] = self.tprice
+            cdata["originalPrice"] = self.tprice
+            cdata["contractPro"] = 2
+            cdata["contractFileVOs"] = [{"fileName": orginname,"filePath": fpath,"fileUrl": vurl,"uploadBy": upname,"uploadTime": uptime}]
+            cdata["contractPayTermsVOs"] = [{"payPercentage":1,"payTerms":"1","termsType":"1","termsTypeName":"签署合同"}]
+            cdata['remark'] = "TEST"
+            data['contractInfoVO'] = cdata
+        elif data['orderType'] == 4:
+            data["productType"] = ""  #产品类型 1 标准型 2共享型
+            data["preDeploy"] = self.preDeploy  #是否提前配置 0否1是
+            data["deployWay"] = 1  #资源配置方式，0固定参数1灵活配置
+            data["payWay"] = 0  #付费方式 0预付费1后付费
+            data['resVOList'] = []
+
+            """[生成订单合同]"""
+            #2.获取盖章机构
+            curl2 = self.url + "/portal-test/contract/getContractSealUserAll"
+            cr2 = requests.post(curl2, headers=self.header)
+            #print(cr2.json())
+            sealId = cr2.json()['data'][0]['id']
+            if cr2.json()['code'] == 200:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号成功")
+            else:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号异常")
+                return False
+
+            #3.获取合同编号
+            curl3 = self.url + "/portal-test/contract/contractInfo/generateContractNumber?signTime="# + str(time.strftime("20%y-%m-%d",time.localtime()))
+            cr3 = requests.get(curl3, headers=self.header)
+            #print(cr3.json())
+            contractNo = cr3.json()['data']
+            if cr3.json()['code'] == 200:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号成功")
+            else:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号异常")
+                return False
+
+            #4.上传合同文件，获取合同附件信息
+            curl4 = self.url + "/portal-test/file/uploadFile/group1"
+            tmpheader = {}
+            tmpheader['Token'] = self.saleser[0]
+            with open('/root/运维-世纪互联网络运维实践-李信满-世纪互联-下载版.pdf','rb') as f:
+                myfile = {'file': f.read()}
+            cr4 = requests.post(curl4, headers=tmpheader, files=myfile)
+            #print(cr4.json())
+            fpath = cr4.json()['data']['filePath']
+            orginname = cr4.json()['data']['originalName']
+            upname = cr4.json()['data']['uploadName']
+            uptime = cr4.json()['data']['uploadDate']
+            vurl = cr4.json()['data']['viewUrl']
+            if cr4.json()['code'] == 200:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同附件成功")
+            else:
+                casjc_log_task.logging.info(self.applyOrder.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同附件异常")
+                return False
+            now_time = datetime.datetime.now()
+            cdata = {}
+            cdata["id"] = ""
+            cdata["entCompanyId"] = self.entId
+            cdata["entUserId"] = self.userId
+            cdata["entCompanyName"] = self.entName
+            cdata["sealId"] = sealId
+            cdata["signTime"] =  "" #time.strftime("20%y-%m-%d",time.localtime())
+            cdata["contractNo"] = contractNo
+            cdata["sendGoodsTime"] =  time.strftime("20%y-%m-%d",time.localtime())
+            cdata["serviceBeginTime"] =  time.strftime("20%y-%m-%d",time.localtime())
+            cdata["serviceFinishTime"] = (now_time+datetime.timedelta(days=+1)).strftime("%Y-%m-%d")
+            cdata["contractAmount"] = self.tprice
+            cdata["originalPrice"] = self.tprice
+            cdata["contractPro"] = 2
+            cdata["contractFileVOs"] = [{"fileName": orginname,"filePath": fpath,"fileUrl": vurl,"uploadBy": upname,"uploadTime": uptime}]
+            cdata["contractPayTermsVOs"] = [{"payPercentage":1,"payTerms":"1","termsType":"1","termsTypeName":"签署合同"}]
+            cdata['remark'] = "TEST"
+            data['contractInfoVO'] = cdata
+
         r = requests.post(url, headers=self.header, data=json.dumps(data))
-        #print(r.json())
-        self.tryOrderId = str(r.json()['data'])
+        print(r.json())
+        self.orderId = str(r.json()['data'])
         if r.json()['code'] == 200:
             casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 订单号ID:" + self.tryOrderId)
             return True
@@ -132,11 +269,11 @@ class resource():
 
         time.sleep(5)
         #王楠审批试用
-        url1 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.tryOrderId + "&flowIds=1,2,3"
+        url1 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3,8,9,10"
         header = {}
         header['Token'] = casjc_login.login(casjc_config.avpuser1, casjc_config.avppasswd, 1)[0]
         r1 = requests.get(url1, headers=header)
-        #print(r1.json())
+        print(r1.json())
         taskId = r1.json()['data'][0]['taskId']
         url2 = self.url + "/portal-test/order/approve/apvOrder"
         header['Content-Type'] = "application/json"
@@ -154,10 +291,10 @@ class resource():
 
         time.sleep(5)
         #戴吉伟审批试用
-        url3 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.tryOrderId + "&flowIds=1,2,3"
+        url3 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3,8,9,10"
         header['Token'] = casjc_login.login(casjc_config.avpuser2, casjc_config.avppasswd, 1)[0]
         r3 = requests.get(url3, headers=header)
-        #print(r3.json())
+        print(r3.json())
         taskId = r3.json()['data'][0]['taskId']
         url4 = self.url + "/portal-test/order/approve/apvOrder"
         data3 = {}
@@ -232,76 +369,28 @@ class resource():
             casjc_log_task.logging.info(self.confirmOrder.__doc__ + " 高性能资源配置异常, 配置人:" + casjc_config.avpuser2)
             return False
 
-        '''
-        #配置文件存储
-        data = {}
-        data["colonyId"] = 43
-        data["defMemPerCpu"] = ""
-        data["deployStatus"] = 3
-        data["deployWay"] = 0
-        data["endTime"] = time.strftime("20%y-%m-%d",time.localtime())
-        data["entId"] = self.entId
-        data["nodeList"] = ['']
-        data["number"] = 1
-        data["orderId"] = self.tryOrderId
-        data["orderResId"] = orderResId_file
-        data["path"] = "/public1/home/" + self.account + "/" + self.account
-        data["price"] = 0
-        data["queueName"] = ""
-        data["queueType"] = 0
-        data["resInitId"] = resInitId_file
-        data["resProdSrvId"] = 3
-        data["resTypeId"] = 4
-        data["startTime"] = time.strftime("20%y-%m-%d",time.localtime())
-        data["updateTime"] = uptime
-        ldata = []
-        ldata.append(data)
-        r7 = requests.post(url6, headers=header, data=json.dumps(ldata))
-        #print(r7.json())
-        if r7.json()['code'] == 200 and r7.json()['message'] == None and r7.json()['data'] == None:
-            casjc_log_task.logging.info(self.confirmOrder.__doc__ + " 文件存储资源配置完成, 配置人:" + casjc_config.avpuser2)
-            return True
-        else:
-            casjc_log_task.logging.info(self.confirmOrder.__doc__ + " 文件存储资源配置异常, 配置人:" + casjc_config.avpuser2)
-            return False
-        '''
-
-    def applyOrder2(self):
-
-        """[申请新购资源 (共享高性能和文件存储)]"""
-
-        url = self.url + "/portal-test/order/order/addOrder"
-        data = {"orderId":"","applyParty":1,"areaId":"1","avgDiscount":1,"deployWay":1,"discountPrice":0,"entCompanyId": self.entId,"entExist":0,"entMail": self.email,"entPhoneWay":1,"entPhone":"","entMobilePhone": self.phone,"entUserId": self.userId,"userRemark":"","productType":"1,3","projectName": self.pname,"resVOList":[{"areaId":1,"discount":1,"number":1,"orderResId":1,"price":0.12,"resId":62,"resTypeId":2,"resProdSrvId":1,"validDays":10,"validUnit":"天","unitPrice":0.12,"discountUnitPrice":0.12},{"areaId":1,"discount":1,"number":1,"orderResId":3,"price":1000,"resId":141,"resTypeId":4,"resProdSrvId":3,"validDays": self.storeday,"validUnit":"天","unitPrice":100,"discountUnitPrice":100}],"salesUserId": self.salesuserid,"orderType":1,"status":1,"totalPrice": self.totalprice,"giftPrice":0}
-        r = requests.post(url, headers=self.header, data=json.dumps(data))
-        #print(r.json())
-        self.orderId = str(r.json()['data'])
-        if r.json()['code'] == 200:
-            casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 订单号ID:" + self.orderId)
-            return True
-        else:
-            casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 提交资源申请异常")
-            return False
 
     def applyPrice(self):
 
-        """[审批新购订单价格 (共享高性能和文件存储)]"""
+        """[审批新购订单价格 ]"""
 
-        #王楠价格审批新购订单
-        url1 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3"
+        time.sleep(5)
+        #唐德兵价格审批新购订单
+        url1 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3,8,9,10"
         header = {}
         header['Content-Type'] = "application/json"
-        header['Token'] = casjc_login.login(casjc_config.avpuser1, casjc_config.avppasswd, 1)[0]
+        header['Token'] = casjc_login.login(casjc_config.avpuser3, casjc_config.avppasswd, 1)[0]
         r1 = requests.get(url1, headers=header)
         #print(r1.json())
         taskId = r1.json()['data'][0]['taskId']
-        url2 = self.url + "/portal-test/order/order/apvOrder"
+        url2 = self.url + "/portal-test/order/approve/apvOrder"
         header['Content-Type'] = "application/json"
         data2 = {}
-        data2['opinion'] = "test"
+        data2['opinion'] = "test88"
         data2['status'] = 0
         data2['taskId'] = taskId - 1
         r2 = requests.post(url2, headers=header, data=json.dumps(data2))
-        #print(r2.json())
+        print(r2.json())
         if r2.json()['code'] == 200 and r2.json()['message'] == None and r2.json()['data'] == None:
             casjc_log_task.logging.info(self.applyPrice.__doc__ + " 审批账号:" + casjc_config.avpuser1 + " 审批成功")
             return True
@@ -309,160 +398,67 @@ class resource():
             casjc_log_task.logging.info(self.applyPrice.__doc__ + " 审批账号:" + casjc_config.avpuser1 + " 审批异常")
             return False
 
-    def generateContract(self):
-
-        """[销售经理生成新购订单合同]"""
-
-        #提单销售经理生成合同
-        #1.获取生成合同的必要参数
-        curl1 = self.url + "/portal-test/order/order/getOrder?orderId=" + self.orderId
-        cr1 = requests.get(curl1, headers=self.header)
-        #print(cr1.json())
-        orderNo = cr1.json()['data']['orderNumber']
-        suserid = cr1.json()['data']['salesUserId']
-        eid = cr1.json()['data']['entCompanyId']
-        ename = cr1.json()['data']['entCompanyName']
-        euserid = cr1.json()['data']['entUserId']
-        tprice = cr1.json()['data']['totalPrice']
-        if cr1.json()['code'] == 200:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数成功")
-        else:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数异常")
-            return False
-
-        #2.获取订单taskid
-        curl2 = self.url + "/portal-test/order/order/apvOrderList"
-        data2 = {}
-        data2['pageNum'] = 1
-        data2['pageSize'] = 20
-        taskid = None
-        cr2 = requests.post(curl2, headers=self.header, data=json.dumps(data2))
-        for i in cr2.json()['data']['list']:
-            if str(i['orderId']) == str(self.orderId):
-                taskid = i['taskId']
-                break
-        if cr2.json()['code'] == 200 and taskid:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数taskid成功: " + str(taskid))
-        else:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数taskid异常")
-            return False
-
-        #3.获取合同编号
-        curl3 = self.url + "/portal-test/contract/contractInfo/generateContractNumber?signTime="# + str(time.strftime("20%y-%m-%d",time.localtime()))
-        cr3 = requests.get(curl3, headers=self.header)
-        #print(cr3.json())
-        contractNo = cr3.json()['data']
-        if cr3.json()['code'] == 200:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号成功")
-        else:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同编号异常")
-            return False
-
-        #4.上传合同文件，获取合同附件信息
-        curl4 = self.url + "/portal-test/file/uploadFile/group1"
-        tmpheader = {}
-        tmpheader['Token'] = self.saleser[0]
-        with open('/home/yanislong/myPerformance/UiAuto/queue_task/运维-世纪互联网络运维实践-李信满-世纪互联-下载版.pdf','rb') as f:
-            myfile = {'file': f.read()}
-        cr4 = requests.post(curl4, headers=tmpheader, files=myfile)
-        #print(cr4.json())
-        fpath = cr4.json()['data']['filePath']
-        orginname = cr4.json()['data']['originalName']
-        upname = cr4.json()['data']['uploadName']
-        uptime = cr4.json()['data']['uploadDate']
-        vurl = cr4.json()['data']['viewUrl']
-        if cr4.json()['code'] == 200:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同附件成功")
-        else:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 获取生成合同必要参数合同附件异常")
-            return False
-
-        #5.提交生成合同
-        curl5 = self.url + "/portal-test/contract/contractInfo/save"
-        now_time = datetime.datetime.now()
-        cdata = {}
-        cdata["taskId"] = taskid
-        cdata["orderId"] = self.orderId
-        cdata["entCompanyId"] = eid
-        cdata["entUserId"] = euserid
-        cdata["orderNo"] = orderNo
-        cdata["entCompanyName"] = ename
-        cdata["sealId"] = 16
-        cdata["signTime"] =  time.strftime("20%y-%m-%d",time.localtime())
-        cdata["contractNo"] = contractNo
-        cdata["sendGoodsTime"] =  time.strftime("20%y-%m-%d",time.localtime())
-        cdata["serviceBeginTime"] =  time.strftime("20%y-%m-%d",time.localtime())
-        cdata["serviceFinishTime"] = (now_time+datetime.timedelta(days=+1)).strftime("%Y-%m-%d")
-        cdata["contractAmount"] = tprice
-        cdata["contractPro"] = "2"
-        cdata["contractFileVOs"] = [{"fileName": orginname,"filePath": fpath,"fileUrl": vurl,"uploadBy": upname,"uploadTime": uptime}]
-        cdata["contractPayTermsVOs"] = [{"payPercentage":1,"payTerms":"1","termsType":"1","termsTypeName":"签署合同"}]
-        cr5 = requests.post(curl5, headers=self.header, data=json.dumps(cdata))
-        #print(cr5.json())
-        if cr5.json()['code'] == 200:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 生成合同成功")
-            return True
-        else:
-            casjc_log_task.logging.info(self.generateContract.__doc__ + " 操作账号:" + self.saleraccount + " 生成合同异常")
-            return False
    
     def exaContract(self):
 
         """[审批新购订单合同]"""
 
+        time.sleep(5)
         #合同审批 王楠
-        url3 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3"
+        url3 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3,8,9,10"
         header = {}
         header['Content-Type'] = "application/json"
         header['Token'] = casjc_login.login(casjc_config.conuser1, casjc_config.avppasswd, 1)[0]
         r3 = requests.get(url3, headers=header)
         #print(r3.json())
-        taskId = r3.json()['data'][-1]['taskId']
-        url4 = self.url + "/portal-test/order/order/apvOrder"
+        taskId = r3.json()['data'][0]['taskId']
+        url4 = self.url + "/portal-test/order/approve/apvOrder"
         data3 = {}
         data3['opinion'] = "test"
         data3['status'] = 0
-        data3['taskId'] = taskId - 1
+        data3['taskId'] = taskId + 1
         r4 = requests.post(url4, headers=header, data=json.dumps(data3))
-        #print(r4.json())
+        print(r4.json())
         if r4.json()['code'] == 200 and r4.json()['message'] == None and r4.json()['data'] == None:
             casjc_log_task.logging.info(self.exaContract.__doc__ + " 审批账号:" + casjc_config.conuser1 + " 审批成功")
         else:
             casjc_log_task.logging.info(self.exaContract.__doc__ + " 审批账号:" + casjc_config.conuser1 + " 审批异常")
             return False
 
+        time.sleep(5)
         #合同审批 孔水水
-        url5 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3"
+        url5 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3,8,9,10"
         header['Token'] = casjc_login.login(casjc_config.conuser2, casjc_config.avppasswd, 1)[0]
         r5 = requests.get(url5, headers=header)
         #print(r5.json())
-        taskId = r5.json()['data'][2]['taskId']
-        url6 = self.url + "/portal-test/order/order/apvOrder"
+        taskId = r5.json()['data'][-1]['taskId']
+        url6 = self.url + "/portal-test/order/approve/apvOrder"
         data3 = {}
         data3['opinion'] = "test"
         data3['status'] = 0
-        data3['taskId'] = taskId + 1
+        data3['taskId'] = taskId + 2
         r6 = requests.post(url6, headers=header, data=json.dumps(data3))
-        #print(r6.json())
+        print(r6.json())
         if r6.json()['code'] == 200 and r6.json()['message'] == None and r6.json()['data'] == None:
             casjc_log_task.logging.info(self.exaContract.__doc__ + " 审批账号:" + casjc_config.conuser2 + " 审批成功")
         else:
             casjc_log_task.logging.info(self.exaContract.__doc__ + " 审批账号:" + casjc_config.conuser2 + " 审批异常")
             return False
 
+        time.sleep(5)
         #合同审批 刘凯敏
-        url7 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3"
+        url7 = self.url + "/portal-test/flow/task/apvList?businessId=" + self.orderId + "&flowIds=1,2,3,8,9,10"
         header['Token'] = casjc_login.login(casjc_config.conuser3, casjc_config.avppasswd, 1)[0]
         r7 = requests.get(url7, headers=header)
         #print(r7.json())
         taskId = r7.json()['data'][-1]['taskId']
-        url8 = self.url + "/portal-test/order/order/apvOrder"
+        url8 = self.url + "/portal-test/order/approve/apvOrder"
         data3 = {}
         data3['opinion'] = "test"
         data3['status'] = 0
         data3['taskId'] = taskId + 1
         r8 = requests.post(url8, headers=header, data=json.dumps(data3))
-        #print(r8.json())
+        print(r8.json())
         if r8.json()['code'] == 200 and r8.json()['message'] == None and r8.json()['data'] == None:
             casjc_log_task.logging.info(self.exaContract.__doc__ + " 审批账号:" + casjc_config.conuser3 + " 审批成功")
             return True
@@ -632,17 +628,16 @@ class resource():
             return False
 
     def testTry(self):
-        self.applyOrder()
+        self.applyOrder(0)
         self.applyTryPrice()
         #self.confirmOrder()
 
     def testNew(self, mytype="All"):
-        self.applyOrder()
+        self.applyOrder(1)
         self.applyPrice()
-        self.generateContract()
-        self.exaContract()
-        self.confirmParam(mytype)
-        self.confirmAll(mytype)
+        #self.exaContract()
+        #self.confirmParam(mytype)
+        #self.confirmAll(mytype)
 
     def testRenew(self, mytype="half"):
         self.applyOrder()
@@ -671,13 +666,12 @@ if __name__ == "__main__":
     except IndexError:
         print('not have parames')
     '''
-        
 
     #试用
-    mytest.testTry()
+    #mytest.testTry()
 
     #新购
-    #mytest.testNew()
+    mytest.testNew()
     #mytest.testNew("half")
 
     #续期

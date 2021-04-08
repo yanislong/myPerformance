@@ -24,16 +24,18 @@ class auser():
         data['account'] = cname
         data['pageNum'] = 1
         r2 = requests.post(url2, headers=self.header, data=json.dumps(data))
-        #print(r2.json())
-        if r2.json()['code'] == 200 and r2.json()['data']['total'] >= 1:
-            for i in r2.json()['data']['list']:
-                if i['account'] == cname:
-                    userid = i['id']
-                    casjc_log_task.logging.info(self._selectUser_.__doc__ + " 查询企业用户完成, 账号: " + cname)
-                    return userid
-            return False
+        if r2.status_code == 200:
+            if r2.json()['code'] == 200 and r2.json()['data']['total'] >= 1:
+                for i in r2.json()['data']['list']:
+                    if i['account'] == cname:
+                        userid = i['id']
+                        casjc_log_task.logging.info(self._selectUser_.__doc__ + " 查询企业用户完成, 账号: " + cname)
+                        return userid
+            else:
+                casjc_log_task.logging.info(self._selectUser_.__doc__ + " 查询企业用户异常, 账号: " + cname)
+                return False
         else:
-            casjc_log_task.logging.info(self._selectUser_.__doc__ + " 查询企业用户异常, 账号: " + cname)
+            casjc_log_task.logging.info(self._selectUser_.__doc__ + " 查询企业用户异常, 账号: " + cname + ", HTTP STATUS " + str(r2.status_code))
             return False
 
     def addControlUser(self, entid=10066):

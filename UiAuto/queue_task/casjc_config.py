@@ -78,6 +78,7 @@ apasswd = "Woaini~520"
 #资源审批账号密码
 avpuser1 = "wangnan"
 avpuser2 = "daijiwei"
+avpuser3 = "tangdebing"
 conuser1 = "wangnan"
 conuser2 = "kongshuishui"
 conuser3 = "liukaimin"
