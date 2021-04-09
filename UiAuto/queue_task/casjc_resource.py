@@ -38,7 +38,7 @@ class resource():
         self.tprice = 5.12
         self.jobday = 1
         self.storeday = 10
-        self.preDeploy = 1  #是否提前配置 0否1是
+        self.preDeploy = 0  #是否提前配置 0否1是
         self.deployWay = 0  #资源配置方式，0固定参数1灵活配置
         self.payWay = 0 #付费方式 0预付费1后付费
 
@@ -257,7 +257,7 @@ class resource():
         print(r.json())
         self.orderId = str(r.json()['data'])
         if r.json()['code'] == 200:
-            casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 订单号ID:" + self.tryOrderId)
+            casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 订单号ID:" + self.orderId)
             return True
         else:
             casjc_log_task.logging.info(self.applyOrder.__doc__ + " 企业用户ID:" + str(self.userId) + " 提交资源申请异常")
@@ -629,7 +629,7 @@ class resource():
 
     def testTry(self):
         self.applyOrder(0)
-        self.applyTryPrice()
+        #self.applyTryPrice()
         #self.confirmOrder()
 
     def testNew(self, mytype="All"):
@@ -655,6 +655,7 @@ if __name__ == "__main__":
     tmp = casjc_user.auser()
     a,b,c = tmp.addControlUser()
     mytest = resource(a,b,c)
+    print(a)
     #mytest = resource()
 
     '''
